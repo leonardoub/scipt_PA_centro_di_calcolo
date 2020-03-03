@@ -33,7 +33,8 @@ PA_labels = df_test.Histology
 #Train test split
 
 from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(public_data, public_labels, test_size=0.3, stratify=public_labels, random_state=1)
+X_train, X_test, y_train, y_test = train_test_split(public_data, public_labels, test_size=0.3, stratify=public_labels, 
+random_state=1)
 
 #Vettorizzare i label
 

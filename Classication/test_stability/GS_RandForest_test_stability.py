@@ -7,6 +7,7 @@ import scipy
 from sklearn.decomposition import PCA
 from sklearn.svm import SVC
 from sklearn.pipeline import Pipeline
+from sklearn.ensemble import RandomForestClassifier
 
 
 #load data
@@ -33,7 +34,8 @@ PA_labels = df_test.Histology
 #Train test split
 
 from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(public_data, public_labels, test_size=0.3, stratify=public_labels, random_state=1)
+X_train, X_test, y_train, y_test = train_test_split(public_data, public_labels, test_size=0.3, 
+                                                    stratify=public_labels, random_state=1)
 
 #Vettorizzare i label
 
@@ -46,29 +48,23 @@ test_labels_encoded = encoder.transform(y_test)
 #Scalers
 
 from sklearn.preprocessing import StandardScaler, RobustScaler, QuantileTransformer
-scalers_to_test = [StandardScaler(), RobustScaler()]
+scalers_to_test = [StandardScaler(), RobustScaler(), QuantileTransformer()]
 
-#SVM
+
+n_tree = np.arange(10, 120, 10)
+n_features_to_test = np.arange(1, 11)
+
+
+#RandomForestClassifier
 
 for i in range(1,11):
 
-    steps = [('scaler', StandardScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='poly'))]
+    steps = [('scaler', StandardScaler()), ('red_dim', PCA()), ('clf', RandomForestClassifier())]
 
     pipeline = Pipeline(steps)
 
-    np.random.seed(123)
-
-    # Designate distributions to sample hyperparameters from 
-    C_range = np.random.normal(0, 10, 50 ).astype(float)
-    g_range = np.random.uniform(0.0, 10, 50).astype(float)
-
-    # Check that gamma>0 and C>0 
-    C_range[C_range < 0] = 0.0001
-
-    n_features_to_test = np.arange(1, 11)
-
     parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test),
-                    'clf__C':list(C_range), 'clf__gamma':list(g_range), 'clf__degree':[2, 3]}]
+                    'clf__n_estimators':n_tree}]
 
     from sklearn.model_selection import GridSearchCV 
     from sklearn.model_selection import RandomizedSearchCV
@@ -81,7 +77,7 @@ for i in range(1,11):
     best_p = grid.best_params_
 
 
-    file_best_params = open(f'/home/users/ubaldi/TESI_PA/result_CV/GS_poly_svm_stability/best_params_{i}_acc_{score}.txt', 'w')
+    file_best_params = open(f'/home/users/ubaldi/TESI_PA/result_CV/GS_RandomForest_stability/best_params_{i}_acc_{score}.txt', 'w')
     file_best_params.write(f'{best_p}')
     file_best_params.close()
 
