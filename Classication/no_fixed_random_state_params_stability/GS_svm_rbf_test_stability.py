@@ -68,17 +68,17 @@ for i in range(1, 11):
                      'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']}]
 
 
-        grid = GridSearchCV(pipeline, param_grid=parameteres, cv=3, n_jobs=-1, verbose=1)
+       grid = GridSearchCV(pipeline, param_grid=parameteres, cv=3, n_jobs=-1, verbose=1)
 
-        grid.fit(X_train, y_train)
+       grid.fit(X_train, y_train)
 
-        score = grid.score(X_test, y_test)
-        best_p = grid.best_params_
+       score = grid.score(X_test, y_test)
+       best_p = grid.best_params_
 
 
-        file_best_params = open(f'/home/users/ubaldi/TESI_PA/result_CV/NO_fixed_rand_state/rbf_svm_stability/best_params_rs{i*1000}_acc_{score}.txt', 'w')
-        file_best_params.write(f'{best_p}')
-        file_best_params.close()
+       file_best_params = open(f'/home/users/ubaldi/TESI_PA/result_CV/NO_fixed_rand_state/rbf_svm_stability/best_params_rs{i*1000}_acc_{score}.txt', 'w')
+       file_best_params.write(f'{best_p}')
+       file_best_params.close()
 
 
 

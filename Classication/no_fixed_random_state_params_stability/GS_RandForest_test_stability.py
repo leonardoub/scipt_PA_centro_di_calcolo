@@ -11,6 +11,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import GridSearchCV 
 from sklearn.model_selection import RandomizedSearchCV
+from sklearn.ensemble import RandomForestClassifier
+
 
 #load data
 
@@ -49,36 +51,33 @@ n_features_to_test = np.arange(1, 11)
 
 for i in range(1, 11):
 
-       #Train test split
-       X_train, X_test, y_train, y_test = train_test_split(public_data, public_labels, test_size=0.3, 
-       stratify=public_labels, random_state=i*1000)
+    #Train test split
+    X_train, X_test, y_train, y_test = train_test_split(public_data, public_labels, test_size=0.3, 
+    stratify=public_labels, random_state=i*1000)
 
-       #Vettorizzare i label
-       train_labels_encoded = encoder.fit_transform(y_train)
-       test_labels_encoded = encoder.transform(y_test)
+    #Vettorizzare i label
+    train_labels_encoded = encoder.fit_transform(y_train)
+    test_labels_encoded = encoder.transform(y_test)
 
-       #RandomForestClassifier
-       steps = [('scaler', StandardScaler()), ('red_dim', PCA()), ('clf', RandomForestClassifier())]
+    #RandomForestClassifier
+    steps = [('scaler', StandardScaler()), ('red_dim', PCA()), ('clf', RandomForestClassifier())]
 
-       pipeline = Pipeline(steps)
+    pipeline = Pipeline(steps)
 
-       n_features_to_test = np.arange(1, 11)
-
-           parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test),
-                    'clf__n_estimators':list(n_tree)}]
+    parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 'clf__n_estimators':list(n_tree)}]
 
 
-        grid = GridSearchCV(pipeline, param_grid=parameteres, cv=3, n_jobs=-1, verbose=1)
+    grid = GridSearchCV(pipeline, param_grid=parameteres, cv=3, n_jobs=-1, verbose=1)
 
-        grid.fit(X_train, y_train)
+    grid.fit(X_train, y_train)
 
-        score = grid.score(X_test, y_test)
-        best_p = grid.best_params_
+    score = grid.score(X_test, y_test)
+    best_p = grid.best_params_
 
 
-        file_best_params = open(f'/home/users/ubaldi/TESI_PA/result_CV/NO_fixed_rand_state/RandomForest_stability/best_params_rs{i*1000}_acc_{score}.txt', 'w')
-        file_best_params.write(f'{best_p}')
-        file_best_params.close()
+    file_best_params = open(f'/home/users/ubaldi/TESI_PA/result_CV/NO_fixed_rand_state/RandomForest_stability/best_params_rs{i*1000}_acc_{score}.txt', 'w')
+    file_best_params.write(f'{best_p}')
+    file_best_params.close()
 
 
 
