@@ -36,8 +36,7 @@ PA_labels = df_test.Histology
 encoder = LabelEncoder()
 
 #Scalers
-
-from sklearn.preprocessing import StandardScaler, RobustScaler, QuantileTransformer
+from sklearn.preprocessing import StandardScaler, RobustScaler, QuantileTransformer, MinMaxScaler
 scalers_to_test = [StandardScaler(), RobustScaler()]
 
 
@@ -58,13 +57,13 @@ for i in range(1, 11):
        test_labels_encoded = encoder.transform(y_test)
 
        #SVM
-       steps = [('scaler', StandardScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='linear', max_iter=10000))]
+       steps = [('scaler', MinMaxScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='linear'))]
 
        pipeline = Pipeline(steps)
 
        n_features_to_test = np.arange(1, 11)
 
-       parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':n_features_to_test,
+       parameteres = [{'scaler':[MinMaxScaler()], 'red_dim':[PCA()], 'red_dim__n_components':n_features_to_test,
                      'clf__C':C_range}]
 
 
