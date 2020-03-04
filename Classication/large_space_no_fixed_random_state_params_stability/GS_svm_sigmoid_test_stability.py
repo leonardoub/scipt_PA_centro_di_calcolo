@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy
 from sklearn.decomposition import PCA
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.svm import SVC
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
@@ -37,7 +38,7 @@ encoder = LabelEncoder()
 
 #Scalers
 
-from sklearn.preprocessing import StandardScaler, RobustScaler, QuantileTransformer, MinMaxScaler
+from sklearn.preprocessing import StandardScaler, RobustScaler, QuantileTransformer
 scalers_to_test = [StandardScaler(), RobustScaler(), QuantileTransformer()]
 
 
@@ -58,14 +59,16 @@ for i in range(1, 21):
        test_labels_encoded = encoder.transform(y_test)
 
        #SVM
-       steps = [('scaler', MinMaxScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='rbf'))]
+       steps = [('scaler', StandardScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='sigmoid'))]
 
        pipeline = Pipeline(steps)
 
        n_features_to_test = np.arange(1, 11)
 
-       parameteres = [{'scaler':[MinMaxScaler()], 'red_dim':[PCA()], 'red_dim__n_components':n_features_to_test,
-                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale'], 'clf__degree':[2, 3]}]
+       parameteres = [{'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2],
+                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']}, 
+                     {'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':n_features_to_test,
+                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']}]
 
 
        grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)
@@ -76,8 +79,9 @@ for i in range(1, 21):
        best_p = grid.best_params_
 
 
-       file_best_params = open(f'/home/users/ubaldi/TESI_PA/result_CV/NO_fixed_rand_state/poly_svm_stability/best_params_rs{i*500}_acc_{score}.txt', 'w')
+       file_best_params = open(f'/home/users/ubaldi/TESI_PA/result_CV/large_space_NO_fixed_rand_state/sigmoid_svm_stability/best_params_rs{i*500}_acc_{score}.txt', 'w')
        file_best_params.write(f'{best_p}')
        file_best_params.close()
+
 
 

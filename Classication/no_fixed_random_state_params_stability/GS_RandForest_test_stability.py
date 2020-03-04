@@ -67,7 +67,7 @@ for i in range(1, 11):
     parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 'clf__n_estimators':list(n_tree)}]
 
 
-    grid = GridSearchCV(pipeline, param_grid=parameteres, cv=3, n_jobs=-1, verbose=1)
+    grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)
 
     grid.fit(X_train, y_train)
 

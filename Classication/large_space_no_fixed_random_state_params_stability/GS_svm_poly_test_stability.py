@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy
 from sklearn.decomposition import PCA
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.svm import SVC
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
@@ -64,7 +65,9 @@ for i in range(1, 21):
 
        n_features_to_test = np.arange(1, 11)
 
-       parameteres = [{'scaler':[MinMaxScaler()], 'red_dim':[PCA()], 'red_dim__n_components':n_features_to_test,
+       parameteres = [{'scaler':[MinMaxScaler()], 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test),
+                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale'], 'clf__degree':[2, 3]},
+                     {'scaler':[MinMaxScaler()], 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':2,
                      'clf__C': list(C_range), 'clf__gamma':['auto', 'scale'], 'clf__degree':[2, 3]}]
 
 
@@ -76,7 +79,7 @@ for i in range(1, 21):
        best_p = grid.best_params_
 
 
-       file_best_params = open(f'/home/users/ubaldi/TESI_PA/result_CV/NO_fixed_rand_state/poly_svm_stability/best_params_rs{i*500}_acc_{score}.txt', 'w')
+       file_best_params = open(f'/home/users/ubaldi/TESI_PA/result_CV/large_space_NO_fixed_rand_state/poly_svm_stability/best_params_rs{i*500}_acc_{score}.txt', 'w')
        file_best_params.write(f'{best_p}')
        file_best_params.close()
 

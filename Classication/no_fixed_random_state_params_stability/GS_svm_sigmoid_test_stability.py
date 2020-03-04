@@ -47,11 +47,11 @@ C_range = np.power(2, np.arange(-10, 11, dtype=float))
 n_features_to_test = np.arange(4,10)
 
 
-for i in range(1, 11):
+for i in range(1, 21):
 
        #Train test split
        X_train, X_test, y_train, y_test = train_test_split(public_data, public_labels, test_size=0.3, 
-       stratify=public_labels, random_state=i*1000)
+       stratify=public_labels, random_state=i*500)
 
        #Vettorizzare i label
        train_labels_encoded = encoder.fit_transform(y_train)
@@ -68,7 +68,7 @@ for i in range(1, 11):
                      'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']}]
 
 
-       grid = GridSearchCV(pipeline, param_grid=parameteres, cv=3, n_jobs=-1, verbose=1)
+       grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)
 
        grid.fit(X_train, y_train)
 
@@ -76,7 +76,7 @@ for i in range(1, 11):
        best_p = grid.best_params_
 
 
-       file_best_params = open(f'/home/users/ubaldi/TESI_PA/result_CV/NO_fixed_rand_state/sigmoid_svm_stability/best_params_rs{i*1000}_acc_{score}.txt', 'w')
+       file_best_params = open(f'/home/users/ubaldi/TESI_PA/result_CV/NO_fixed_rand_state/sigmoid_svm_stability/best_params_rs{i*500}_acc_{score}.txt', 'w')
        file_best_params.write(f'{best_p}')
        file_best_params.close()
 

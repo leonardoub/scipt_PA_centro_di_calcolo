@@ -67,7 +67,7 @@ for i in range(1, 21):
                      'clf__C':C_range}]
 
 
-       grid = GridSearchCV(pipeline, param_grid=parameteres, cv=3, n_jobs=-1, verbose=1)
+       grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)
 
        grid.fit(X_train, y_train)
 
