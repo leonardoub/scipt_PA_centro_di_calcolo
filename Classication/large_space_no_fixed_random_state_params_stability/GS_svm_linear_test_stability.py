@@ -83,10 +83,6 @@ for i in range(1, 21):
 
        df.append(bp, ignore_index=True)
 
-       file_best_params = open(f'/home/users/ubaldi/TESI_PA/result_CV/large_space_NO_fixed_rand_state/lin_svm_stability/best_params_rs{i*500}_acc_{score}.txt', 'w')
-       file_best_params.write(f'{best_p}')
-       file_best_params.close()
-
 df.to_csv('/home/users/ubaldi/TESI_PA/result_CV/large_space_NO_fixed_rand_state/lin_svm_stability/best_params_svm_lin.csv')
 
 
