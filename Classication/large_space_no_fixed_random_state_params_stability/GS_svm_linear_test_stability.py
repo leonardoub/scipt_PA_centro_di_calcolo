@@ -37,7 +37,7 @@ PA_labels = df_test.Histology
 encoder = LabelEncoder()
 
 #Scalers
-from sklearn.preprocessing import StandardScaler, RobustScaler, QuantileTransformer, MinMaxScaler
+from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
 scalers_to_test = [StandardScaler(), RobustScaler()]
 
 

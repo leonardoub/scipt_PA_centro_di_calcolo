@@ -38,8 +38,8 @@ encoder = LabelEncoder()
 
 #Scalers
 
-from sklearn.preprocessing import StandardScaler, RobustScaler, QuantileTransformer
-scalers_to_test = [StandardScaler(), RobustScaler(), QuantileTransformer()]
+from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
+scalers_to_test = [StandardScaler(), RobustScaler(), MinMaxScaler()]
 
 
 
