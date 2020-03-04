@@ -37,7 +37,7 @@ encoder = LabelEncoder()
 
 #Scalers
 
-from sklearn.preprocessing import StandardScaler, RobustScaler, QuantileTransformer
+from sklearn.preprocessing import StandardScaler, RobustScaler, QuantileTransformer, MinMaxScaler
 scalers_to_test = [StandardScaler(), RobustScaler(), QuantileTransformer()]
 
 
@@ -47,24 +47,24 @@ C_range = np.power(2, np.arange(-10, 11, dtype=float))
 n_features_to_test = np.arange(4,10)
 
 
-for i in range(1, 11):
+for i in range(1, 21):
 
        #Train test split
        X_train, X_test, y_train, y_test = train_test_split(public_data, public_labels, test_size=0.3, 
-       stratify=public_labels, random_state=i*1000)
+       stratify=public_labels, random_state=i*500)
 
        #Vettorizzare i label
        train_labels_encoded = encoder.fit_transform(y_train)
        test_labels_encoded = encoder.transform(y_test)
 
        #SVM
-       steps = [('scaler', StandardScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='rbf'))]
+       steps = [('scaler', MinMaxScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='rbf'))]
 
        pipeline = Pipeline(steps)
 
        n_features_to_test = np.arange(1, 11)
 
-       parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':n_features_to_test,
+       parameteres = [{'scaler':[MinMaxScaler()], 'red_dim':[PCA()], 'red_dim__n_components':n_features_to_test,
                      'clf__C': list(C_range), 'clf__gamma':['auto', 'scale'], 'clf__degree':[2, 3]}]
 
 
@@ -76,7 +76,7 @@ for i in range(1, 11):
        best_p = grid.best_params_
 
 
-       file_best_params = open(f'/home/users/ubaldi/TESI_PA/result_CV/NO_fixed_rand_state/poly_svm_stability/best_params_rs{i*1000}_acc_{score}.txt', 'w')
+       file_best_params = open(f'/home/users/ubaldi/TESI_PA/result_CV/NO_fixed_rand_state/poly_svm_stability/best_params_rs{i*500}_acc_{score}.txt', 'w')
        file_best_params.write(f'{best_p}')
        file_best_params.close()
 
