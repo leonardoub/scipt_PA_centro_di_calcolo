@@ -41,7 +41,9 @@ PA_labels = df_test.Histology
 from sklearn.preprocessing import LabelEncoder
 encoder = LabelEncoder()
 
-tot_score = []
+tot_random_state = []
+tot_train_score = []
+tot_test_score = []
 tot_macro_ovo = []
 tot_weighted_ovo = []
 tot_macro_ovr = []
@@ -51,7 +53,9 @@ tot_weighted_ovr = []
 for i in range(1,31):
 
     #train test split 
-    X_train, X_test, y_train, y_test = train_test_split(public_data, public_labels, test_size=0.3, stratify=public_labels)
+    X_train, X_test, y_train, y_test = train_test_split(public_data, public_labels, test_size=0.3, stratify=public_labels, random_state=i*500)
+
+    tot_random_state.append(500*i)
 
     #vettorizzare i label
     train_labels_encoded = encoder.fit_transform(y_train)
@@ -70,8 +74,11 @@ for i in range(1,31):
 
     pipeline.fit(X_train, train_labels_encoded)
 
-    score = pipeline.score(X_test, test_labels_encoded)
-    tot_score.append(score)
+    score_train = pipeline.score(X_train, train_labels_encoded)
+    tot_train_score.append(score_train)
+
+    score_test = pipeline.score(X_test, test_labels_encoded)
+    tot_test_score.append(score_test)
 
     y_scores = pipeline.predict_proba(X_test)
 
@@ -98,10 +105,10 @@ for i in range(1,31):
 # pandas can convert a list of lists to a dataframe.
 # each list is a row thus after constructing the dataframe
 # transpose is applied to get to the user's desired output. 
-df = pd.DataFrame([tot_score, tot_macro_ovo, tot_weighted_ovo, tot_macro_ovr, tot_weighted_ovr])
+df = pd.DataFrame([tot_random_state, tot_train_score, tot_test_score, tot_macro_ovo, tot_weighted_ovo, tot_macro_ovr, tot_weighted_ovr])
 df = df.transpose() 
 
-fieldnames = ['score', 'roc_auc_score_macro_ovo', 'roc_auc_score_weighted_ovo', 
+fieldnames = ['random_state','train_accuracy','test_accuracy', 'roc_auc_score_macro_ovo', 'roc_auc_score_weighted_ovo', 
                   'roc_auc_score_macro_ovr', 'roc_auc_score_weighted_ovr']
 # write the data to the specified output path: "output"/+file_name
 # without adding the index of the dataframe to the output 

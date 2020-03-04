@@ -41,7 +41,7 @@ encoder = LabelEncoder()
 from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
 scalers_to_test = [StandardScaler(), RobustScaler(), MinMaxScaler()]
 
-
+df = pd.DataFrame()
 
 # Designate distributions to sample hyperparameters from 
 C_range = np.power(2, np.arange(-10, 11, dtype=float))
@@ -74,14 +74,16 @@ for i in range(1, 21):
        grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)
 
        grid.fit(X_train, y_train)
-
-       score = grid.score(X_test, y_test)
+       
+       score_train = grid.score(X_train, y_train)
+       score_test = grid.score(X_test, y_test)
        best_p = grid.best_params_
 
+       bp = pd.DataFrame(best_p, index=[i])
+       bp['accuracy_train'] = score_train
+       bp['accuracy_test'] = score_test
+       bp['random_state'] = i*500
 
-       file_best_params = open(f'/home/users/ubaldi/TESI_PA/result_CV/large_space_NO_fixed_rand_state/sigmoid_svm_stability/best_params_rs{i*500}_acc_{score}.txt', 'w')
-       file_best_params.write(f'{best_p}')
-       file_best_params.close()
+       df = df.append(bp, ignore_index=True)
 
-
-
+df.to_csv('/home/users/ubaldi/TESI_PA/result_CV/large_space_NO_fixed_rand_state/sigmoid_svm_stability/best_params_svm_sigmoid.csv')

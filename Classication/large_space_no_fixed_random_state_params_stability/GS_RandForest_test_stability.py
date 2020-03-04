@@ -43,7 +43,7 @@ encoder = LabelEncoder()
 from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
 scalers_to_test = [StandardScaler(), RobustScaler(), MinMaxScaler()]
 
-
+df = pd.DataFrame()
 
 # Designate distributions to sample hyperparameters from 
 n_tree = np.arange(10, 120, 10)
@@ -72,13 +72,33 @@ for i in range(1, 21):
 
     grid.fit(X_train, y_train)
 
-    score = grid.score(X_test, y_test)
+    score_train = grid.score(X_train, y_train)
+    score_test = grid.score(X_test, y_test)
     best_p = grid.best_params_
 
+    bp = pd.DataFrame(best_p, index=[i])
+    bp['accuracy_train'] = score_train
+    bp['accuracy_test'] = score_test
+    bp['random_state'] = i*500
 
-    file_best_params = open(f'/home/users/ubaldi/TESI_PA/result_CV/large_space_NO_fixed_rand_state/RandomForest_stability/best_params_rs{i*500}_acc_{score}.txt', 'w')
-    file_best_params.write(f'{best_p}')
-    file_best_params.close()
+    df = df.append(bp, ignore_index=True)
+
+df.to_csv('/home/users/ubaldi/TESI_PA/result_CV/large_space_NO_fixed_rand_state/RandomForest_stability/best_params_RandomForest.csv')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
