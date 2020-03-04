@@ -81,7 +81,7 @@ for i in range(1, 21):
        bp['accuracy_test'] = score_test
        bp['random_state'] = i*500
 
-       df.append(bp, ignore_index=True)
+       df = df.append(bp, ignore_index=True)
 
 df.to_csv('/home/users/ubaldi/TESI_PA/result_CV/large_space_NO_fixed_rand_state/lin_svm_stability/best_params_svm_lin.csv')
 
