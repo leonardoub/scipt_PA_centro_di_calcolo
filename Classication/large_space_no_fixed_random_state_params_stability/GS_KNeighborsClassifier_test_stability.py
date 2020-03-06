@@ -58,7 +58,7 @@ for i in range(1, 21):
        test_labels_encoded = encoder.transform(y_test)
 
        #KNeighborsClassifier
-       steps = [('scaler', MinMaxScaler()), ('red_dim', PCA()), ('clf', KNeighborsClassifier(kernel='rbf'))]
+       steps = [('scaler', MinMaxScaler()), ('red_dim', PCA()), ('clf', KNeighborsClassifier())]
 
        pipeline = Pipeline(steps)
 

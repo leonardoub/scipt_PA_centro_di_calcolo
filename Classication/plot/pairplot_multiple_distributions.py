@@ -26,6 +26,6 @@ public_labels = df_train.Histology
 PA_labels = df_test.Histology
 
 
-sns.pairplot(public_data, hue='Histology')
+sns_plot = sns.pairplot(public_data, hue='Histology')
 sns_plot.savefig("/home/users/ubaldi/TESI_PA/plot/pairplot_multiple_distribution.png")
 
