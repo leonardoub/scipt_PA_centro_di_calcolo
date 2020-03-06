@@ -46,7 +46,7 @@ df = pd.DataFrame()
 # Designate distributions to sample hyperparameters from 
 n_estimators = np.arange(20, 120, 10)
 n_features_to_test = np.arange(1, 11)
-lr = np.arange(0.2, 3, 0.2)
+lr = np.arange(0, 3, 0.5)
 
 
 
