@@ -39,7 +39,7 @@ encoder = LabelEncoder()
 #Scalers
 
 from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
-scalers_to_test = [StandardScaler(), RobustScaler(), MinMaxScaler()]
+scalers_to_test = [StandardScaler(), RobustScaler(), MinMaxScaler(), None]
 
 df = pd.DataFrame()
 
@@ -68,6 +68,8 @@ for i in range(1, 21):
        parameteres = [{'scaler':[MinMaxScaler()], 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test),
                      'clf__C': list(C_range), 'clf__gamma':['auto', 'scale'], 'clf__degree':[2, 3]},
                      {'scaler':[MinMaxScaler()], 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2],
+                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale'], 'clf__degree':[2, 3]},
+                     {'scaler':[MinMaxScaler()], 'red_dim':[None],
                      'clf__C': list(C_range), 'clf__gamma':['auto', 'scale'], 'clf__degree':[2, 3]}]
 
 

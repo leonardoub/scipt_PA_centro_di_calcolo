@@ -1,12 +1,10 @@
-#Cross Validation on SVM for classification
+#Cross Validation on QuadraticDiscriminantAnalysis for classification
 
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy
-from sklearn.decomposition import PCA
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from sklearn.svm import SVC
+from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
@@ -43,10 +41,6 @@ scalers_to_test = [StandardScaler(), RobustScaler(), MinMaxScaler(), None]
 
 df = pd.DataFrame()
 
-# Designate distributions to sample hyperparameters from 
-C_range = np.power(2, np.arange(-10, 11, dtype=float))
-n_features_to_test = np.arange(4,10)
-
 
 for i in range(1, 21):
 
@@ -58,20 +52,12 @@ for i in range(1, 21):
        train_labels_encoded = encoder.fit_transform(y_train)
        test_labels_encoded = encoder.transform(y_test)
 
-       #SVM
-       steps = [('scaler', StandardScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='rbf'))]
+       #QuadraticDiscriminantAnalysis
+       steps = [('scaler', MinMaxScaler()), ('clf', QuadraticDiscriminantAnalysis())]
 
        pipeline = Pipeline(steps)
 
-       n_features_to_test = np.arange(1, 11)
-
-       parameteres = [{'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2],
-                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']},
-                     {'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test),
-                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']},
-                     {'scaler':scalers_to_test, 'red_dim':[None],
-                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']}]
-
+       parameteres = [{'scaler':scalers_to_test}]
 
        grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)
 
@@ -88,7 +74,5 @@ for i in range(1, 21):
 
        df = df.append(bp, ignore_index=True)
 
-df.to_csv('/home/users/ubaldi/TESI_PA/result_CV/large_space_NO_fixed_rand_state/rbf_svm_stability/best_params_svm_rbf.csv')
-
-
+df.to_csv('/home/users/ubaldi/TESI_PA/result_CV/large_space_NO_fixed_rand_state/QDAClassifier_stability/best_params_QDAClassifier.csv')
 
