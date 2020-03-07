@@ -91,7 +91,7 @@ for i in range(1, 21):
 
        df = df.append(bp, ignore_index=True)
 
-df.to_csv('/home/users/ubaldi/TESI_PA/result_CV/large_space_NO_fixed_rand_state/rbf_svm_stability/best_params_svm_rbf.csv')
+#df.to_csv('/home/users/ubaldi/TESI_PA/result_CV/large_space_NO_fixed_rand_state/rbf_svm_stability/best_params_svm_rbf.csv')
 
 
 
