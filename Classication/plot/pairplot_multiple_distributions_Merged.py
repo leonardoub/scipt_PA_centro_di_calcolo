@@ -29,7 +29,10 @@ PA_data = df_test.drop(['OS', 'deadstatus.event','Overall_Stage'], axis=1)
 public_labels = df_train.Histology
 PA_labels = df_test.Histology
 
-public_data1 = public_data.drop('Histology', axis=1)
+tot_data = pd.concat([public_data, PA_data], axis=0)
+tot_label = pd.concat([public_labels, PA_labels], axis=0)
+
+tot_data1 = tot_data.drop('Histology', axis=1)
 
 
 def distplot_with_hue(data=None, x=None, hue=None, row=None, col=None, legend=True, **kwargs):
@@ -40,9 +43,9 @@ def distplot_with_hue(data=None, x=None, hue=None, row=None, col=None, legend=Tr
         g.add_legend(title=hue) 
     return g
 
-for column in public_data1.columns:
-    sns_plot = distplot_with_hue(data=public_data, x=column, hue='Histology', hist=True, kde=False, hist_kws={'alpha':1,'histtype':'step', 'linewidth':3})
-    sns_plot.savefig(f'/home/users/ubaldi/TESI_PA/plot/Public/pairplot_Public_multiple_distribution_features_{column}.png')
+for column in tot_data1.columns:
+    sns_plot = distplot_with_hue(data=tot_data, x=column, hue='Histology', hist=True, kde=False, hist_kws={'alpha':1,'histtype':'step', 'linewidth':3})
+    sns_plot.savefig(f'/home/users/ubaldi/TESI_PA/plot/Merged/pairplot_Merged_multiple_distribution_features_{column}.png')
 
 
 

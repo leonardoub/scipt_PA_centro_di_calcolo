@@ -41,8 +41,8 @@ def distplot_with_hue(data=None, x=None, hue=None, row=None, col=None, legend=Tr
     return g
 
 for column in public_data1.columns:
-    sns_plot = distplot_with_hue(data=public_data, x=column, hue='Histology', hist=True, kde=False, hist_kws={'alpha':1,'histtype':'step', 'linewidth':3})
-    sns_plot.savefig(f'/home/users/ubaldi/TESI_PA/plot/Public/pairplot_Public_multiple_distribution_features_{column}.png')
+    sns_plot = distplot_with_hue(data=PA_data, x=column, hue='Histology', hist=True, kde=False, hist_kws={'alpha':1,'histtype':'step', 'linewidth':3})
+    sns_plot.savefig(f'/home/users/ubaldi/TESI_PA/plot/PA/pairplot_PA_multiple_distribution_features_{column}.png')
 
 
 
