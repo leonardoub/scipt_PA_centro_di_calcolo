@@ -99,7 +99,7 @@ outname = 'best_params_svm_lin_merged_data.csv'
 
 outdir = '/home/users/ubaldi/TESI_PA/result_CV/Merged/large_space_NO_fixed_rand_state/lin_svm_stability'
 if not os.path.exists(outdir):
-    os.mkdir(outdir)
+    os.makedirs(outdir)
 
 fullname = os.path.join(outdir, outname)    
 
