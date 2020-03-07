@@ -29,10 +29,28 @@ PA_data = df_test.drop(['OS', 'deadstatus.event','Overall_Stage'], axis=1)
 public_labels = df_train.Histology
 PA_labels = df_test.Histology
 
-
-sns_plot = sns.pairplot(public_data, hue='Histology')
-sns_plot.savefig("/home/users/ubaldi/TESI_PA/plot/pairplot_multiple_distribution.png")
+public_data1 = public_data.drop('Histology', axis=1)
 
 
+def distplot_with_hue(data=None, x=None, hue=None, row=None, col=None, legend=True, **kwargs):
+    _, bins = np.histogram(data[x].dropna())
+    g = sns.FacetGrid(data, hue=hue, row=row, col=col)
+    g.map(sns.distplot, x, **kwargs)
+    if legend and (hue is not None) and (hue not in [x, row, col]):
+        g.add_legend(title=hue) 
+    return g
+
+for column in public_data1.columns:
+    sns_plot = distplot_with_hue(data=public_data, x=column, hue='Histology', hist=True, kde=False, hist_kws={'alpha':1,'histtype':'step', 'linewidth':3})
+    sns_plot.savefig(f'/home/users/ubaldi/TESI_PA/plot/pairplot_multiple_distribution_features_{column}.png')
 
 
+
+
+
+
+
+
+
+#sns_plot = sns.pairplot(public_data, hue='Histology')
+#sns_plot.savefig("/home/users/ubaldi/TESI_PA/plot/pairplot_multiple_distribution.png")
