@@ -35,16 +35,18 @@ tot_label = pd.concat([public_labels, PA_labels], axis=0)
 tot_data1 = tot_data.drop('Histology', axis=1)
 
 
-def distplot_with_hue(data=None, x=None, hue=None, row=None, col=None, legend=True, **kwargs):
+def distplot_with_hue(data=None, x=None, hue=None, row=None, col=None, legend=True, palette=None, **kwargs):
     _, bins = np.histogram(data[x].dropna())
-    g = sns.FacetGrid(data, hue=hue, row=row, col=col)
+    g = sns.FacetGrid(data, hue=hue, row=row, col=col, palette=palette)
     g.map(sns.distplot, x, **kwargs)
     if legend and (hue is not None) and (hue not in [x, row, col]):
         g.add_legend(title=hue) 
     return g
 
 for column in tot_data1.columns:
-    sns_plot = distplot_with_hue(data=tot_data, x=column, hue='Histology', hist=True, kde=False, hist_kws={'alpha':1,'histtype':'step', 'linewidth':3})
+    sns_plot = distplot_with_hue(data=tot_data, x=column, hue='Histology', hist=True, kde=False, 
+    hist_kws={'alpha':1,'histtype':'step', 'linewidth':3}, palette={'adenocarcinoma':'r', 'large cell':'g', 'squamous cell carcinoma':'b'})
+    
     sns_plot.savefig(f'/home/users/ubaldi/TESI_PA/plot/Merged/pairplot_Merged_multiple_distribution_features_{column}.png')
 
 
