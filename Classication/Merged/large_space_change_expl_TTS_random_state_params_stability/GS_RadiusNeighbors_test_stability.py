@@ -100,7 +100,7 @@ import os
 
 outname = 'best_params_RadiusNeighbors_merged_data.csv'
 
-outdir = '/home/users/ubaldi/TESI_PA/result_CV/Merged/large_space_NO_fixed_rand_state/RadiusNeighbors_stability'
+outdir = '/home/users/ubaldi/TESI_PA/result_CV/Merged/large_space_change_expl_TTS_rand_state/RadiusNeighbors_stability'
 if not os.path.exists(outdir):
     os.makedirs(outdir)
 

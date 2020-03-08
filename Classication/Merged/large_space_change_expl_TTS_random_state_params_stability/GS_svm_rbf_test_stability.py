@@ -101,7 +101,7 @@ import os
 
 outname = 'best_params_svm_rbf_merged_data.csv'
 
-outdir = '/home/users/ubaldi/TESI_PA/result_CV/Merged/large_space_NO_fixed_rand_state/rbf_svm_stability'
+outdir = '/home/users/ubaldi/TESI_PA/result_CV/Merged/large_space_change_expl_TTS_rand_state/rbf_svm_stability'
 if not os.path.exists(outdir):
     os.makedirs(outdir)
 
