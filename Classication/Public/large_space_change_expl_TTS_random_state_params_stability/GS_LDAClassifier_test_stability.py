@@ -75,5 +75,18 @@ for i in range(1, 21):
 
        df = df.append(bp, ignore_index=True)
 
-df.to_csv('/home/users/ubaldi/TESI_PA/result_CV/large_space_NO_fixed_rand_state/LDAClassifier_stability/best_params_LDAClassifier.csv')
+#df.to_csv('/home/users/ubaldi/TESI_PA/result_CV/large_space_NO_fixed_rand_state/LDAClassifier_stability/best_params_LDAClassifier.csv')
 
+#create folder and save
+
+import os
+
+outname = 'best_params_LDAClassifier.csv'
+
+outdir = '/home/users/ubaldi/TESI_PA/result_CV/Public/large_space_change_expl_TTS_rand_state/LDAClassifier_stability'
+if not os.path.exists(outdir):
+    os.makedirs(outdir)
+
+fullname = os.path.join(outdir, outname)    
+
+df.to_csv(fullname)

@@ -1,4 +1,4 @@
-#Cross Validation on RadiusNeighborsClassifier for classification
+#Cross Validation on KNeighborsClassifier for classification
 
 import pandas as pd
 import numpy as np
@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import scipy
 from sklearn.decomposition import PCA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from sklearn.neighbors import RadiusNeighborsClassifier
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
@@ -44,9 +44,8 @@ scalers_to_test = [StandardScaler(), RobustScaler(), MinMaxScaler(), None]
 df = pd.DataFrame()
 
 # Designate distributions to sample hyperparameters from 
-R = np.arange(0.1, 10, 0.2) 
-n_features_to_test = np.arange(1, 11)
-
+n_features_to_test = np.arange(1,11)
+k = np.arange(1,11)
 
 for i in range(1, 21):
 
@@ -58,18 +57,18 @@ for i in range(1, 21):
        train_labels_encoded = encoder.fit_transform(y_train)
        test_labels_encoded = encoder.transform(y_test)
 
-       #RadiusNeighbors
-       steps = [('scaler', MinMaxScaler()), ('red_dim', PCA()), ('clf', RadiusNeighborsClassifier(outlier_label='most_frequent'))]
+       #KNeighborsClassifier
+       steps = [('scaler', MinMaxScaler()), ('red_dim', PCA()), ('clf', KNeighborsClassifier())]
 
        pipeline = Pipeline(steps)
 
-
-       parameteres = [{'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 'clf__radius':R, 
+       parameteres = [{'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 'clf__n_neighbors':k, 
                        'clf__weights':['uniform', 'distance'], 'clf__algorithm':['auto', 'ball_tree', 'kd_tree', 'brute']},
-                      {'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':n_features_to_test, 'clf__radius':R, 
+                      {'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':n_features_to_test, 'clf__n_neighbors':k, 
                        'clf__weights':['uniform', 'distance'], 'clf__algorithm':['auto', 'ball_tree', 'kd_tree', 'brute']},
-                      {'scaler':scalers_to_test, 'red_dim':[None], 'clf__radius':R, 
+                       {'scaler':scalers_to_test, 'red_dim':[None], 'clf__n_neighbors':k, 
                        'clf__weights':['uniform', 'distance'], 'clf__algorithm':['auto', 'ball_tree', 'kd_tree', 'brute']}]
+
 
 
        grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)
@@ -87,5 +86,18 @@ for i in range(1, 21):
 
        df = df.append(bp, ignore_index=True)
 
-df.to_csv('/home/users/ubaldi/TESI_PA/result_CV/large_space_NO_fixed_rand_state/RadiusNeighbors_stability/best_params_RadiusNeighbors.csv')
+#df.to_csv('/home/users/ubaldi/TESI_PA/result_CV/large_space_NO_fixed_rand_state/KNeighbors_stability/best_params_KNeighbors.csv')
 
+#create folder and save
+
+import os
+
+outname = 'best_params_KNeighbors.csv'
+
+outdir = '/home/users/ubaldi/TESI_PA/result_CV/Public/large_space_change_expl_TTS_rand_state/KNeighbors_stability'
+if not os.path.exists(outdir):
+    os.makedirs(outdir)
+
+fullname = os.path.join(outdir, outname)    
+
+df.to_csv(fullname)

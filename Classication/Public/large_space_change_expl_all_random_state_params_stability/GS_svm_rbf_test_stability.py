@@ -59,18 +59,18 @@ for i in range(1, 21):
        test_labels_encoded = encoder.transform(y_test)
 
        #SVM
-       steps = [('scaler', MinMaxScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='rbf'))]
+       steps = [('scaler', StandardScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='rbf', random_state=i*503))]
 
        pipeline = Pipeline(steps)
 
        n_features_to_test = np.arange(1, 11)
 
-       parameteres = [{'scaler':[MinMaxScaler()], 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test),
-                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale'], 'clf__degree':[2, 3]},
-                     {'scaler':[MinMaxScaler()], 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2],
-                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale'], 'clf__degree':[2, 3]},
-                     {'scaler':[MinMaxScaler()], 'red_dim':[None],
-                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale'], 'clf__degree':[2, 3]}]
+       parameteres = [{'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2],
+                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']},
+                     {'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test),
+                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']},
+                     {'scaler':scalers_to_test, 'red_dim':[None],
+                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']}]
 
 
        grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)
@@ -85,8 +85,21 @@ for i in range(1, 21):
        bp['accuracy_train'] = score_train
        bp['accuracy_test'] = score_test
        bp['random_state'] = i*500
+       bp['random_state_clf'] = i*503
 
        df = df.append(bp, ignore_index=True)
 
-df.to_csv('/home/users/ubaldi/TESI_PA/result_CV/large_space_NO_fixed_rand_state/poly_svm_stability/best_params_svm_poly.csv')
+#df.to_csv('/home/users/ubaldi/TESI_PA/result_CV/large_space_NO_fixed_rand_state/rbf_svm_stability/best_params_svm_rbf.csv')
+
+import os
+
+outname = 'best_params_svm_rbf.csv'
+
+outdir = '/home/users/ubaldi/TESI_PA/result_CV/Public/large_space_change_expl_all_rand_state/rbf_svm_stability'
+if not os.path.exists(outdir):
+    os.makedirs(outdir)
+
+fullname = os.path.join(outdir, outname)    
+
+df.to_csv(fullname)
 
