@@ -135,7 +135,7 @@ import os
 
 outname = 'score_svm_linear_NO_NO.csv'
 
-    outdir = '/home/users/ubaldi/TESI_PA/result_score/Public/score_NOprep_NOfeatRed/'
+outdir = '/home/users/ubaldi/TESI_PA/result_score/Public/score_NOprep_NOfeatRed/'
 if not os.path.exists(outdir):
     os.makedirs(outdir)
 
