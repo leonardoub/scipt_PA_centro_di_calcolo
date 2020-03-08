@@ -41,7 +41,7 @@ encoder = LabelEncoder()
 
 #Scalers
 from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
-scalers_to_test = [StandardScaler(), RobustScaler()]
+scalers_to_test = [StandardScaler(), RobustScaler(), MinMaxScaler()]
 
 df = pd.DataFrame()
 
@@ -67,9 +67,9 @@ for i in range(1, 21):
 
        n_features_to_test = np.arange(1, 11)
 
-       parameteres = [{'scaler':[MinMaxScaler()], 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 'clf__C':list(C_range)},
-                      {'scaler':[MinMaxScaler()], 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 'clf__C':list(C_range)},
-                      {'scaler':[MinMaxScaler()], 'red_dim':[None], 'clf__C':list(C_range)}]
+       parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 'clf__C':list(C_range)},
+                      {'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 'clf__C':list(C_range)},
+                      {'scaler':scalers_to_test, 'red_dim':[None], 'clf__C':list(C_range)}]
 
 
        grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)
