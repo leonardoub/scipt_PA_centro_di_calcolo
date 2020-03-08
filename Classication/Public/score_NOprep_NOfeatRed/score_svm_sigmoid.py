@@ -16,6 +16,7 @@ from sklearn.metrics import roc_auc_score
 from sklearn.metrics import classification_report
 import os
 
+
 #load data
 
 train_dataset_path = '/home/users/ubaldi/TESI_PA/data/database_training2.csv'
@@ -54,19 +55,15 @@ tot_weighted_ovr = []
 for i in range(1,31):
 
     #train test split 
-    X_train, X_test, y_train, y_test = train_test_split(public_data, public_labels, test_size=0.3, stratify=public_labels)
+    X_train, X_test, y_train, y_test = train_test_split(public_data, public_labels, test_size=0.3, stratify=public_labels, random_state=i*500)
 
     tot_random_state.append(500*i)
-
 
     #vettorizzare i label
     train_labels_encoded = encoder.fit_transform(y_train)
     test_labels_encoded = encoder.transform(y_test)
 
-
-    scaler = StandardScaler()
-    pca = PCA(n_components=7)
-    svm = SVC(kernel='rbf', probability=True)
+    svm = SVC(kernel='linear', probability=True)
 
     steps = [('clf', svm)]    
 
@@ -99,12 +96,12 @@ for i in range(1,31):
     report = classification_report(test_labels_encoded, y_pred, output_dict=True)
     df_r = pd.DataFrame(report)
     df_r = df_r.transpose()
-
+    
     #create folder and save
 
     outname = 'report_{i}.csv'
 
-    outdir = '/home/users/ubaldi/TESI_PA/result_score/Public/score_NOprep_NOfeatRed/report_svm_rbf_NO_NO'
+    outdir = '/home/users/ubaldi/TESI_PA/result_score/Public/score_NOprep_NOfeatRed/report_svm_linear_NO_NO'
     if not os.path.exists(outdir):
         os.makedirs(outdir)
 
@@ -127,7 +124,8 @@ fieldnames = ['random_state','train_accuracy','test_accuracy', 'roc_auc_score_ma
 # without adding the index of the dataframe to the output 
 # and without adding a header to the output. 
 # => these parameters are added to be fit the desired output. 
-#df.to_csv('/home/users/ubaldi/TESI_PA/result_CV/score_svm_rbf.csv', index=False, header=fieldnames)
+#df.to_csv('/home/users/ubaldi/TESI_PA/result_CV/score_svm_linear.csv', index=False, header=fieldnames)
+
 
 
 
@@ -135,7 +133,7 @@ fieldnames = ['random_state','train_accuracy','test_accuracy', 'roc_auc_score_ma
 
 import os
 
-outname = 'score_svm_rbf_NO_NO.csv'
+outname = 'score_svm_linear_NO_NO.csv'
 
 outdir = '/home/users/ubaldi/TESI_PA/result_score/Public/score_NOprep_NOfeatRed/'
 if not os.path.exists(outdir):
@@ -144,5 +142,3 @@ if not os.path.exists(outdir):
 fullname = os.path.join(outdir, outname)    
 
 df.to_csv(fullname, index=False, header=fieldnames)
-
-
