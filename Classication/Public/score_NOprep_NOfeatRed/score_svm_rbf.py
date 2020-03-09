@@ -64,8 +64,6 @@ for i in range(1,31):
     test_labels_encoded = encoder.transform(y_test)
 
 
-    scaler = StandardScaler()
-    pca = PCA(n_components=7)
     svm = SVC(kernel='rbf', probability=True)
 
     steps = [('clf', svm)]    

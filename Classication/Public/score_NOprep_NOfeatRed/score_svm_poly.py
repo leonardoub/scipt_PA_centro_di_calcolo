@@ -63,7 +63,7 @@ for i in range(1,31):
     train_labels_encoded = encoder.fit_transform(y_train)
     test_labels_encoded = encoder.transform(y_test)
 
-    svm = SVC(kernel='linear', probability=True)
+    svm = SVC(kernel='poly', probability=True)
 
     steps = [('clf', svm)]    
 
@@ -101,7 +101,7 @@ for i in range(1,31):
 
     outname = 'report_{i}.csv'
 
-    outdir = '/home/users/ubaldi/TESI_PA/result_score/Public/score_NOprep_NOfeatRed/report_svm_linear_NO_NO'
+    outdir = '/home/users/ubaldi/TESI_PA/result_score/Public/score_NOprep_NOfeatRed/report_svm_poly_NO_NO'
     if not os.path.exists(outdir):
         os.makedirs(outdir)
 
@@ -133,7 +133,7 @@ fieldnames = ['random_state','train_accuracy','test_accuracy', 'roc_auc_score_ma
 
 import os
 
-outname = 'score_svm_linear_NO_NO.csv'
+outname = 'score_svm_poly_NO_NO.csv'
 
 outdir = '/home/users/ubaldi/TESI_PA/result_score/Public/score_NOprep_NOfeatRed/'
 if not os.path.exists(outdir):
