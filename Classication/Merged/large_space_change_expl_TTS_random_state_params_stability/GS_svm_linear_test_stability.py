@@ -41,7 +41,7 @@ encoder = LabelEncoder()
 
 #Scalers
 from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
-scalers_to_test = [StandardScaler(), RobustScaler(), MinMaxScaler()]
+scalers_to_test = [RobustScaler(), MinMaxScaler()]
 
 df = pd.DataFrame()
 
