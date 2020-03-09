@@ -100,7 +100,7 @@ for i in range(1,31):
     
     #create folder and save
 
-    outname = 'report_{i}.csv'
+    outname = f'report_{i}.csv'
 
     outdir = '/home/users/ubaldi/TESI_PA/result_score/Public/score_YESprep_NOfeatRed/report_svm_linear_YES_NO_RBTscaler'
     if not os.path.exists(outdir):
