@@ -45,6 +45,7 @@ df = pd.DataFrame()
 
 # Designate distributions to sample hyperparameters from 
 C_range = np.power(2, np.arange(-10, 11, dtype=float))
+gamma_range = np.power(2, np.arange(-10, 11, dtype=float))
 n_features_to_test = np.arange(4,10)
 
 
@@ -66,11 +67,11 @@ for i in range(1, 21):
        n_features_to_test = np.arange(1, 11)
 
        parameteres = [{'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2],
-                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']},
+                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range)},
                      {'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test),
-                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']},
+                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range)},
                      {'scaler':scalers_to_test, 'red_dim':[None],
-                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']}]
+                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range)}]
 
 
        grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)
