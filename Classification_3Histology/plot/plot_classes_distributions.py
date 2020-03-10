@@ -92,5 +92,20 @@ for i in np.arange(1,108):
     fig.set_figheight(6)
 
 
-    plt.savefig(f'/home/users/ubaldi/TESI_PA/plot/total_compare/compare_histogram_distribution_features_{tot_data.columns[i]}.png')
+    #create folder and save
+
+    outname = f'compare_histogram_distribution_features_{tot_data.columns[i]}.png'
+
+    outdir = '/home/users/ubaldi/TESI_PA/plot/total_compare'
+    if not os.path.exists(outdir):
+        os.makedirs(outdir)
+
+    fullname = os.path.join(outdir, outname)    
+
+    plt.savefig(fullname)
     plt.close(fig)
+
+
+
+    #plt.savefig(f'/home/users/ubaldi/TESI_PA/plot/total_compare/compare_histogram_distribution_features_{tot_data.columns[i]}.png')
+    #plt.close(fig)
