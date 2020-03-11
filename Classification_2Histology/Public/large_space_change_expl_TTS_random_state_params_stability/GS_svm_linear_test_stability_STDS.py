@@ -33,11 +33,11 @@ df_train_LS = df_train[df_train['Histology'] != 'adenocarcinoma']
 df_test_LS = df_test[df_test['Histology'] != 'adenocarcinoma']
 
 
-public_data = df_train.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event','Overall_Stage'], axis=1)
-PA_data = df_test.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event','Overall_Stage'], axis=1)
+public_data = df_train_LS.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event','Overall_Stage'], axis=1)
+PA_data = df_test_LS.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event','Overall_Stage'], axis=1)
 
-public_labels = df_train.Histology
-PA_labels = df_test.Histology
+public_labels = df_train_LS.Histology
+PA_labels = df_test_LS.Histology
 
 encoder = LabelEncoder()
 
