@@ -58,15 +58,15 @@ for i in range(1, 21):
        test_labels_encoded = encoder.transform(y_test)
 
        #SVM
-       steps = [('scaler', MinMaxScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='linear', random_state=i*503))]
+       steps = [('scaler', StandardScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='linear', random_state=i*503))]
 
        pipeline = Pipeline(steps)
 
        n_features_to_test = np.arange(1, 11)
 
-       parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 'clf__C':list(C_range)},
-                      {'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 'clf__C':list(C_range)},
-                      {'scaler':scalers_to_test, 'red_dim':[None], 'clf__C':list(C_range)}]
+       parameteres = [{'scaler':StandardScaler(), 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 'clf__C':list(C_range)},
+                      {'scaler':StandardScaler(), 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 'clf__C':list(C_range)},
+                      {'scaler':StandardScaler(), 'red_dim':[None], 'clf__C':list(C_range)}]
 
 
        grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)
@@ -91,7 +91,7 @@ for i in range(1, 21):
 
 import os
 
-outname = 'best_params_svm_lin.csv'
+outname = 'best_params_svm_lin_STDS.csv'
 
 outdir = '/home/users/ubaldi/TESI_PA/result_CV/Public/large_space_change_expl_all_rand_state/lin_svm_stability'
 if not os.path.exists(outdir):
