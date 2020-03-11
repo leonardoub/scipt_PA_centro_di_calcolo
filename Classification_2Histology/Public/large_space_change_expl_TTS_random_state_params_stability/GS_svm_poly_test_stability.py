@@ -24,9 +24,14 @@ df_test = pd.read_csv(test_dataset_path)
 df_train.rename(columns={'Survival.time (months)':'Surv_time_months'}, inplace=True)
 df_test.rename(columns={'Survival.time (months)':'Surv_time_months'}, inplace=True)
 
-
 df_train.rename(columns={'Overall.Stage':'Overall_Stage'}, inplace=True)
 df_test.rename(columns={'Overall.Stage':'Overall_Stage'}, inplace=True)
+
+
+#select histologies
+df_train_LS = df_train[df_train['Histology'] != 'adenocarcinoma']
+df_test_LS = df_test[df_test['Histology'] != 'adenocarcinoma']
+
 
 public_data = df_train.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event','Overall_Stage'], axis=1)
 PA_data = df_test.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event','Overall_Stage'], axis=1)
@@ -46,7 +51,7 @@ df = pd.DataFrame()
 # Designate distributions to sample hyperparameters from 
 C_range = np.power(2, np.arange(-10, 11, dtype=float))
 gamma_range = np.power(2, np.arange(-10, 11, dtype=float))
-n_features_to_test = np.arange(4,10)
+n_features_to_test = np.arange(2,10)
 
 
 for i in range(1, 21):
@@ -96,9 +101,9 @@ for i in range(1, 21):
 
 import os
 
-outname = 'best_params_svm_poly.csv'
+outname = 'best_params_svm_poly_2_classes.csv'
 
-outdir = '/home/users/ubaldi/TESI_PA/result_CV/Public/large_space_change_expl_TTS_rand_state/poly_svm_stability'
+outdir = '/home/users/ubaldi/TESI_PA/result_CV/2_classes_H/Public/large_space_change_expl_TTS_rand_state/poly_svm_stability'
 if not os.path.exists(outdir):
     os.makedirs(outdir)
 
