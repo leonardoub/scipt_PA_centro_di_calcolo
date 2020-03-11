@@ -99,9 +99,9 @@ for i in range(1, 21):
 
 import os
 
-outname = 'best_params_RadiusNeighbors.csv'
+outname = 'best_params_RadiusNeighbors_2_classes.csv'
 
-outdir = '/home/users/ubaldi/TESI_PA/result_CV/2_classes_H/Public/large_space_NO_fixed_rand_state/RadiusNeighbors_stability_2_classes'
+outdir = '/home/users/ubaldi/TESI_PA/result_CV/2_classes_H/Public/large_space_NO_fixed_rand_state/RadiusNeighbors_stability'
 if not os.path.exists(outdir):
     os.makedirs(outdir)
 

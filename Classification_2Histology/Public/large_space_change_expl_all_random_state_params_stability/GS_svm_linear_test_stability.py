@@ -96,9 +96,9 @@ for i in range(1, 21):
 
 import os
 
-outname = 'best_params_svm_lin.csv'
+outname = 'best_params_svm_lin_2_classes.csv'
 
-outdir = '/home/users/ubaldi/TESI_PA/result_CV/2_classes_H/Public/large_space_change_expl_all_rand_state/lin_svm_stability_2_classes'
+outdir = '/home/users/ubaldi/TESI_PA/result_CV/2_classes_H/Public/large_space_change_expl_all_rand_state/lin_svm_stability'
 if not os.path.exists(outdir):
     os.makedirs(outdir)
 
