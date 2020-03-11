@@ -70,7 +70,6 @@ for i in range(1, 21):
        n_features_to_test = np.arange(1, 11)
 
        parameteres = [{'scaler':StandardScaler(), 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 'clf__C':list(C_range)},
-                      {'scaler':StandardScaler(), 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 'clf__C':list(C_range)},
                       {'scaler':StandardScaler(), 'red_dim':[None], 'clf__C':list(C_range)}]
 
 
