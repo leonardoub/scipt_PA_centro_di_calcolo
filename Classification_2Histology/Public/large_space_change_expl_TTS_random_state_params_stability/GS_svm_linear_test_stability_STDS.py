@@ -24,9 +24,14 @@ df_test = pd.read_csv(test_dataset_path)
 df_train.rename(columns={'Survival.time (months)':'Surv_time_months'}, inplace=True)
 df_test.rename(columns={'Survival.time (months)':'Surv_time_months'}, inplace=True)
 
-
 df_train.rename(columns={'Overall.Stage':'Overall_Stage'}, inplace=True)
 df_test.rename(columns={'Overall.Stage':'Overall_Stage'}, inplace=True)
+
+
+#select histologies
+df_train_LS = df_train[df_train['Histology'] != 'adenocarcinoma']
+df_test_LS = df_test[df_test['Histology'] != 'adenocarcinoma']
+
 
 public_data = df_train.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event','Overall_Stage'], axis=1)
 PA_data = df_test.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event','Overall_Stage'], axis=1)
@@ -34,48 +39,39 @@ PA_data = df_test.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event
 public_labels = df_train.Histology
 PA_labels = df_test.Histology
 
-tot_data = pd.concat([public_data, PA_data], axis=0)
-tot_label = pd.concat([public_labels, PA_labels], axis=0)
-
-
 encoder = LabelEncoder()
 
 #Scalers
-
 from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
-scalers_to_test = [StandardScaler(), RobustScaler(), MinMaxScaler(), None]
+scalers_to_test = [RobustScaler(), MinMaxScaler()]
 
 df = pd.DataFrame()
 
-# Designate distributions to sample hyperparameters from 
+#Designate distributions to sample hyperparameters from 
 C_range = np.power(2, np.arange(-10, 11, dtype=float))
-gamma_range = np.power(2, np.arange(-10, 11, dtype=float))
 n_features_to_test = np.arange(4,10)
 
 
 for i in range(1, 21):
 
        #Train test split
-       X_train, X_test, y_train, y_test = train_test_split(tot_data, tot_label, test_size=0.3, 
-       stratify=tot_label, random_state=i*500)
+       X_train, X_test, y_train, y_test = train_test_split(public_data, public_labels, test_size=0.3, 
+       stratify=public_labels, random_state=i*500)
 
        #Vettorizzare i label
        train_labels_encoded = encoder.fit_transform(y_train)
        test_labels_encoded = encoder.transform(y_test)
 
        #SVM
-       steps = [('scaler', MinMaxScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='rbf'))]
+       steps = [('scaler', StandardScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='linear'))]
 
        pipeline = Pipeline(steps)
 
        n_features_to_test = np.arange(1, 11)
 
-       parameteres = [{'scaler':[MinMaxScaler()], 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test),
-                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range), 'clf__degree':[2, 3]},
-                     {'scaler':[MinMaxScaler()], 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2],
-                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range), 'clf__degree':[2, 3]},
-                     {'scaler':[MinMaxScaler()], 'red_dim':[None],
-                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range), 'clf__degree':[2, 3]}]
+       parameteres = [{'scaler':StandardScaler(), 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 'clf__C':list(C_range)},
+                      {'scaler':StandardScaler(), 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 'clf__C':list(C_range)},
+                      {'scaler':StandardScaler(), 'red_dim':[None], 'clf__C':list(C_range)}]
 
 
        grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)
@@ -93,24 +89,19 @@ for i in range(1, 21):
 
        df = df.append(bp, ignore_index=True)
 
-#df.to_csv('/home/users/ubaldi/TESI_PA/result_CV/large_space_NO_fixed_rand_state/poly_svm_stability/best_params_svm_poly.csv')
-
+#df.to_csv('/home/users/ubaldi/TESI_PA/result_CV/large_space_NO_fixed_rand_state/lin_svm_stability/best_params_svm_lin.csv')
 
 #create folder and save
 
 import os
 
-outname = 'best_params_svm_poly_merged_data.csv'
+outname = 'best_params_svm_STDS_lin_2_classes.csv'
 
-outdir = '/home/users/ubaldi/TESI_PA/result_CV/Merged/large_space_change_expl_TTS_rand_state/poly_svm_stability'
+outdir = '/home/users/ubaldi/TESI_PA/result_CV/2_classes_H/Public/large_space_change_expl_TTS_rand_state/lin_svm_stability'
 if not os.path.exists(outdir):
     os.makedirs(outdir)
 
 fullname = os.path.join(outdir, outname)    
 
 df.to_csv(fullname)
-
-
-
-
 
