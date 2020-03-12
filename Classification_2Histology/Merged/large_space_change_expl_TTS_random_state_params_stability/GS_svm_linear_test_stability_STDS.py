@@ -59,8 +59,8 @@ n_features_to_test = np.arange(4,10)
 for i in range(1, 21):
 
        #Train test split
-       X_train, X_test, y_train, y_test = train_test_split(public_data, public_labels, test_size=0.3, 
-       stratify=public_labels, random_state=i*500)
+       X_train, X_test, y_train, y_test = train_test_split(tot_data, tot_label, test_size=0.3, 
+       stratify=tot_label, random_state=i*500)
 
        #Vettorizzare i label
        train_labels_encoded = encoder.fit_transform(y_train)
@@ -98,7 +98,7 @@ for i in range(1, 21):
 
 import os
 
-outname = 'best_params_svm_STDS_lin_2_classes_merged.csv'
+outname = 'best_params_svm_lin_STDS_2_classes_merged.csv'
 
 outdir = '/home/users/ubaldi/TESI_PA/result_CV/2_classes_H/Merged/large_space_change_expl_TTS_rand_state/lin_svm_stability'
 if not os.path.exists(outdir):

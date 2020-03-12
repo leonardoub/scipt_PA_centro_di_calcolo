@@ -61,8 +61,8 @@ n_features_to_test = np.arange(2,10)
 for i in range(1, 21):
 
        #Train test split
-       X_train, X_test, y_train, y_test = train_test_split(public_data, public_labels, test_size=0.3, 
-       stratify=public_labels, random_state=i*500)
+       X_train, X_test, y_train, y_test = train_test_split(tot_data, tot_label, test_size=0.3, 
+       stratify=tot_label, random_state=i*500)
 
        #Vettorizzare i label
        train_labels_encoded = encoder.fit_transform(y_train)

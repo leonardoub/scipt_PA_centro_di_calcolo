@@ -90,7 +90,7 @@ for i in range(1, 21):
 
 import os
 
-outname = 'best_params_QDAClassifier_2_classes.csv'
+outname = 'best_params_QDAClassifier_2_classes_merged.csv'
 
 outdir = '/home/users/ubaldi/TESI_PA/result_CV/2_classes_H/Merged/large_space_change_expl_TTS_rand_state/QDAClassifier_stability'
 if not os.path.exists(outdir):
