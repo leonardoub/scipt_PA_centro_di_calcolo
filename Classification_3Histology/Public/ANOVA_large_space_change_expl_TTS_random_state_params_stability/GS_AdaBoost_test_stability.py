@@ -74,7 +74,7 @@ for i in range(1, 21):
                        'clf__n_estimators':n_estimators, 'clf__learning_rate':lr, 'clf__algorithm':['SAMME', 'SAMME.R']},
                       {'scaler':scalers_to_test, 'red_dim':[None], 
                        'clf__n_estimators':n_estimators, 'clf__learning_rate':lr, 'clf__algorithm':['SAMME', 'SAMME.R']},
-                      {'scaler':scalers_to_test, 'red_dim':[SelectKBest(f_classif, k='all')], 
+                      {'scaler':scalers_to_test, 'red_dim':[SelectKBest(f_classif)], 'red_dim__k':n_features_to_test,
                        'clf__n_estimators':n_estimators, 'clf__learning_rate':lr, 'clf__algorithm':['SAMME', 'SAMME.R']}]
 
        grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)

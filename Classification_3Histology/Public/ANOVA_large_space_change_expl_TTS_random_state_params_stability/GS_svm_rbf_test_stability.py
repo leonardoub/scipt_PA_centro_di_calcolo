@@ -74,7 +74,7 @@ for i in range(1, 21):
                      'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range)},
                      {'scaler':scalers_to_test, 'red_dim':[None],
                      'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range)},
-                      {'scaler':scalers_to_test, 'red_dim':[SelectKBest(f_classif, k='all')],
+                      {'scaler':scalers_to_test, 'red_dim':[SelectKBest(f_classif)], 'red_dim__k':n_features_to_test,
                      'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range)}]
 
 
