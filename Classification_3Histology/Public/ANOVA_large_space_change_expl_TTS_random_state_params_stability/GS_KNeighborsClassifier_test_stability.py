@@ -12,6 +12,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import GridSearchCV 
 from sklearn.model_selection import RandomizedSearchCV
+from sklearn.feature_selection import SelectKBest
+from sklearn.feature_selection import f_classif
+
 
 #load data
 
@@ -66,7 +69,9 @@ for i in range(1, 21):
                        'clf__weights':['uniform', 'distance'], 'clf__algorithm':['auto', 'ball_tree', 'kd_tree', 'brute']},
                       {'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':n_features_to_test, 'clf__n_neighbors':k, 
                        'clf__weights':['uniform', 'distance'], 'clf__algorithm':['auto', 'ball_tree', 'kd_tree', 'brute']},
-                       {'scaler':scalers_to_test, 'red_dim':[None], 'clf__n_neighbors':k, 
+                      {'scaler':scalers_to_test, 'red_dim':[None], 'clf__n_neighbors':k, 
+                       'clf__weights':['uniform', 'distance'], 'clf__algorithm':['auto', 'ball_tree', 'kd_tree', 'brute']}
+                      {'scaler':scalers_to_test, 'red_dim':[SelectKBest(f_classif)], 'clf__n_neighbors':k, 
                        'clf__weights':['uniform', 'distance'], 'clf__algorithm':['auto', 'ball_tree', 'kd_tree', 'brute']}]
 
 
@@ -92,9 +97,9 @@ for i in range(1, 21):
 
 import os
 
-outname = 'best_params_KNeighbors.csv'
+outname = 'best_params_KNeighbors_ANOVA.csv'
 
-outdir = '/home/users/ubaldi/TESI_PA/result_CV/Public/large_space_change_expl_TTS_rand_state/KNeighbors_stability'
+outdir = '/home/users/ubaldi/TESI_PA/result_CV/3_classes_H/Public/ANOVA_large_space_change_expl_TTS_rand_state/KNeighbors_stability'
 if not os.path.exists(outdir):
     os.makedirs(outdir)
 
