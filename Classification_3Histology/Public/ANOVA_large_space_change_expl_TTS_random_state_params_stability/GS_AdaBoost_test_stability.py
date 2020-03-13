@@ -73,8 +73,8 @@ for i in range(1, 21):
                       {'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':n_features_to_test, 
                        'clf__n_estimators':n_estimators, 'clf__learning_rate':lr, 'clf__algorithm':['SAMME', 'SAMME.R']},
                       {'scaler':scalers_to_test, 'red_dim':[None], 
-                       'clf__n_estimators':n_estimators, 'clf__learning_rate':lr, 'clf__algorithm':['SAMME', 'SAMME.R']}
-                      {'scaler':scalers_to_test, 'red_dim':[SelectKBest(f_classif)], 
+                       'clf__n_estimators':n_estimators, 'clf__learning_rate':lr, 'clf__algorithm':['SAMME', 'SAMME.R']},
+                      {'scaler':scalers_to_test, 'red_dim':[SelectKBest(f_classif, k='all')], 
                        'clf__n_estimators':n_estimators, 'clf__learning_rate':lr, 'clf__algorithm':['SAMME', 'SAMME.R']}]
 
        grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)

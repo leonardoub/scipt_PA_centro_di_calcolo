@@ -71,7 +71,7 @@ for i in range(1, 21):
                        'clf__weights':['uniform', 'distance'], 'clf__algorithm':['auto', 'ball_tree', 'kd_tree', 'brute']},
                       {'scaler':scalers_to_test, 'red_dim':[None], 'clf__n_neighbors':k, 
                        'clf__weights':['uniform', 'distance'], 'clf__algorithm':['auto', 'ball_tree', 'kd_tree', 'brute']},
-                      {'scaler':scalers_to_test, 'red_dim':[SelectKBest(f_classif)], 'clf__n_neighbors':k, 
+                      {'scaler':scalers_to_test, 'red_dim':[SelectKBest(f_classif, k='all')], 'clf__n_neighbors':k, 
                        'clf__weights':['uniform', 'distance'], 'clf__algorithm':['auto', 'ball_tree', 'kd_tree', 'brute']}]
 
 

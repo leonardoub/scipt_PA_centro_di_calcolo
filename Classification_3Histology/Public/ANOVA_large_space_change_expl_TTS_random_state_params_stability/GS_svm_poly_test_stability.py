@@ -12,6 +12,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import GridSearchCV 
 from sklearn.model_selection import RandomizedSearchCV
+from sklearn.feature_selection import SelectKBest
+from sklearn.feature_selection import f_classif
 
 #load data
 
@@ -71,6 +73,8 @@ for i in range(1, 21):
                      {'scaler':[MinMaxScaler()], 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2],
                      'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range), 'clf__degree':[2, 3]},
                      {'scaler':[MinMaxScaler()], 'red_dim':[None],
+                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range), 'clf__degree':[2, 3]},
+                     {'scaler':[MinMaxScaler()], 'red_dim':[SelectKBest(f_classif, k='all')],
                      'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range), 'clf__degree':[2, 3]}]
 
 
@@ -96,9 +100,9 @@ for i in range(1, 21):
 
 import os
 
-outname = 'best_params_svm_poly.csv'
+outname = 'best_params_svm_poly_ANOVA.csv'
 
-outdir = '/home/users/ubaldi/TESI_PA/result_CV/Public/large_space_change_expl_TTS_rand_state/poly_svm_stability'
+outdir = '/home/users/ubaldi/TESI_PA/result_CV/3_classes_H/Public/ANOVA_large_space_change_expl_TTS_rand_state/poly_svm_stability'
 if not os.path.exists(outdir):
     os.makedirs(outdir)
 
