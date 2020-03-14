@@ -90,7 +90,7 @@ import os
 
 outname = 'best_params_QDAClassifier.csv'
 
-outdir = '/home/users/ubaldi/TESI_PA/result_CV/Public/only_ANOVA_f_red_change_expl_TTS_rand_state/QDAClassifier_stability'
+outdir = '/home/users/ubaldi/TESI_PA/result_CV/3_classes_H/Public/only_ANOVA_f_red_change_expl_TTS_rand_state/QDAClassifier_stability'
 if not os.path.exists(outdir):
     os.makedirs(outdir)
 
