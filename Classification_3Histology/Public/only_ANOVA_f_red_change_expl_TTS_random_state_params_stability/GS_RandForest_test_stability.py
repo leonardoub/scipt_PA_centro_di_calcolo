@@ -73,7 +73,7 @@ for i in range(1, 21):
 
     pipeline = Pipeline(steps)
 
-    parameteres = [{'scaler':scalers_to_test, clf__n_estimators':list(n_tree)}]
+    parameteres = [{'scaler':scalers_to_test, 'clf__n_estimators':list(n_tree)}]
 
     grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)
 
