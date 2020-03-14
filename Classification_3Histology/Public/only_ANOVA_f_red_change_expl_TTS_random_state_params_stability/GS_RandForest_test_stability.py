@@ -15,7 +15,7 @@ from sklearn.model_selection import RandomizedSearchCV
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import f_classif
-
+import ANOVA_features_selection
 
 #load data
 
@@ -28,9 +28,10 @@ df_test = pd.read_csv(test_dataset_path)
 df_train.rename(columns={'Survival.time (months)':'Surv_time_months'}, inplace=True)
 df_test.rename(columns={'Survival.time (months)':'Surv_time_months'}, inplace=True)
 
-
 df_train.rename(columns={'Overall.Stage':'Overall_Stage'}, inplace=True)
 df_test.rename(columns={'Overall.Stage':'Overall_Stage'}, inplace=True)
+
+public_data_1 = df_train.drop(['Surv_time_months', 'OS', 'deadstatus.event','Overall_Stage'], axis=1)
 
 public_data = df_train.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event','Overall_Stage'], axis=1)
 PA_data = df_test.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event','Overall_Stage'], axis=1)
@@ -38,7 +39,12 @@ PA_data = df_test.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event
 public_labels = df_train.Histology
 PA_labels = df_test.Histology
 
+features_selected_ANOVA = ANOVA_features_selection.f_select_ANOVA(public_data_1, 0.05)
+
+public_data = public_data[features_selected_ANOVA]
+
 encoder = LabelEncoder()
+
 
 #Scalers
 
@@ -95,13 +101,20 @@ import os
 
 outname = 'best_params_RandomForest_ANOVA.csv'
 
-outdir = '/home/users/ubaldi/TESI_PA/result_CV/3_classes_H/Public/ANOVA_large_space_change_expl_TTS_rand_state/RandomForest_stability'
+outdir = '/home/users/ubaldi/TESI_PA/result_CV/3_classes_H/Public/only_ANOVA_f_red_change_expl_TTS_rand_state/RandomForest_stability'
 if not os.path.exists(outdir):
     os.makedirs(outdir)
 
 fullname = os.path.join(outdir, outname)    
 
 df.to_csv(fullname)
+
+
+
+os.chdir(outdir)
+file_features = open('features_selected.txt', 'w')
+file_features.write(str(features_selected_ANOVA))
+file_features.close()
 
 
 
