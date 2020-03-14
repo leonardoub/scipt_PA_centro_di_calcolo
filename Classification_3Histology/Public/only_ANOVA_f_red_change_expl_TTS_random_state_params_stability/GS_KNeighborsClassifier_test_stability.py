@@ -108,5 +108,5 @@ df.to_csv(fullname)
 
 os.chdir(outdir)
 file_features = open('features_selected.txt', 'w')
-file_features.write(features_selected_ANOVA)
+file_features.write(str(features_selected_ANOVA))
 file_features.close()
