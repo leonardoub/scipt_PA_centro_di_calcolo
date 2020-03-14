@@ -106,7 +106,7 @@ fullname = os.path.join(outdir, outname)
 
 df.to_csv(fullname)
 
-
-file_features = open(outdir + '/features_selected.txt', 'w')
+os.chdir(outdir)
+file_features = open('features_selected.txt', 'w')
 file_features.write(features_selected_ANOVA)
 file_features.close()
