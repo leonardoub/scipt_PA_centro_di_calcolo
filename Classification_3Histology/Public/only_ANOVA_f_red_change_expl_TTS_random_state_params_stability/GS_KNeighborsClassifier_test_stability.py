@@ -105,3 +105,8 @@ if not os.path.exists(outdir):
 fullname = os.path.join(outdir, outname)    
 
 df.to_csv(fullname)
+
+
+file_features = open(outdir + '/features_selected.txt')
+file_features.write(features_selected_ANOVA)
+file_features.close()
