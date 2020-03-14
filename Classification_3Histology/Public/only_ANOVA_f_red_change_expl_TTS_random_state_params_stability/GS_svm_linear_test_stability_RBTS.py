@@ -67,16 +67,13 @@ for i in range(1, 21):
        test_labels_encoded = encoder.transform(y_test)
 
        #SVM
-       steps = [('scaler', RobustScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='linear'))]
+       steps = [('scaler', RobustScaler()), ('clf', SVC(kernel='linear'))]
 
        pipeline = Pipeline(steps)
 
        n_features_to_test = np.arange(1, 11)
 
-       parameteres = [{'scaler':RobustScaler(), 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 'clf__C':list(C_range)},
-                      {'scaler':RobustScaler(), 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 'clf__C':list(C_range)},
-                      {'scaler':RobustScaler(), 'red_dim':[None], 'clf__C':list(C_range)},
-                      {'scaler':RobustScaler(), 'red_dim':[SelectKBest(f_classif)],'red_dim__k':n_features_to_test, 'clf__C':list(C_range)}]
+       parameteres = [{'scaler':RobustScaler(), clf__C':list(C_range)}]
 
 
        grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)

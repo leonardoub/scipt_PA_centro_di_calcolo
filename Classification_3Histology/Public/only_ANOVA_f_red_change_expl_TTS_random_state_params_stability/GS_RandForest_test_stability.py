@@ -69,14 +69,11 @@ for i in range(1, 21):
     test_labels_encoded = encoder.transform(y_test)
 
     #RandomForestClassifier
-    steps = [('scaler', StandardScaler()), ('red_dim', PCA()), ('clf', RandomForestClassifier())]
+    steps = [('scaler', StandardScaler()), ('clf', RandomForestClassifier())]
 
     pipeline = Pipeline(steps)
 
-    parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 'clf__n_estimators':list(n_tree)},
-                   {'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 'clf__n_estimators':list(n_tree)},
-                   {'scaler':scalers_to_test, 'red_dim':[None], 'clf__n_estimators':list(n_tree)},
-                   {'scaler':scalers_to_test, 'red_dim':[SelectKBest(f_classif)], 'red_dim__k':n_features_to_test, 'clf__n_estimators':list(n_tree)}]
+    parameteres = [{'scaler':scalers_to_test, clf__n_estimators':list(n_tree)}]
 
     grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)
 

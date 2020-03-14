@@ -69,12 +69,12 @@ for i in range(1, 21):
        test_labels_encoded = encoder.transform(y_test)
 
        #RadiusNeighbors
-       steps = [('scaler', MinMaxScaler()), ('red_dim', PCA()), ('clf', AdaBoostClassifier())]
+       steps = [('scaler', MinMaxScaler()), ('clf', AdaBoostClassifier())]
 
        pipeline = Pipeline(steps)
 
 
-       parameteres = [{'scaler':scalers_to_test, 'red_dim':[None], 
+       parameteres = [{'scaler':scalers_to_test, 
                        'clf__n_estimators':n_estimators, 'clf__learning_rate':lr, 'clf__algorithm':['SAMME', 'SAMME.R']}]
 
        grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)
