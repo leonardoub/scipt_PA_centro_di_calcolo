@@ -76,7 +76,7 @@ for i in range(1, 21):
        n_features_to_test = np.arange(1, 11)
 
        parameteres = [{'scaler':[MinMaxScaler()],
-                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range), 'clf__degree':[2, 3]},
+                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range), 'clf__degree':[2, 3]}]
           
 
 
