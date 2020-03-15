@@ -96,7 +96,7 @@ for column in pu_A.columns:
 
     fig.suptitle(f'{column}', horizontalalignment='center', fontsize=16)
     fig.legend()
-    fig.set_figwidth(15)
+    fig.set_figwidth(6)
     fig.set_figheight(6)
 
 
