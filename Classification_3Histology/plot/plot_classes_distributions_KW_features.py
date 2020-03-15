@@ -43,7 +43,7 @@ pu_A = public_data[public_data['Histology'] == 'adenocarcinoma']
 pu_L = public_data[public_data['Histology'] == 'large cell']
 pu_S = public_data[public_data['Histology'] == 'squamous cell carcinoma']
 
-features_selected_KW = K_W_features_selection.f_select_KW(public_data_1, 0.05)
+features_selected_KW = K_W_features_selection.f_select_KW(public_data, 0.05)
 
 pu_A = pu_A[features_selected_KW]
 pu_L = pu_L[features_selected_KW]
