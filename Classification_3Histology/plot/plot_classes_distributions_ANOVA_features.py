@@ -97,7 +97,7 @@ for column in pu_A.columns:
     fig.suptitle(f'{column}', horizontalalignment='center', fontsize=16)
     fig.legend(prop={'size':6}, loc='lower center')
     fig.set_figwidth(6)
-    fig.set_figheight(6)
+    fig.set_figheight(8)
 
 
     #create folder and save
