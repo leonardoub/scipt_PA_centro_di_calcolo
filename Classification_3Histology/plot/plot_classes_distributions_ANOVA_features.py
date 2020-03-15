@@ -94,8 +94,8 @@ for column in pu_A.columns:
     #ax3.set_title('Merged dataset')
 
 
-    fig.suptitle(f'{column}', horizontalalignment='right', fontsize=12)
-    fig.legend()
+    fig.suptitle(f'{column}', horizontalalignment='center', fontsize=16)
+    fig.legend(prop={'size':8})
     fig.set_figwidth(6)
     fig.set_figheight(6)
 
