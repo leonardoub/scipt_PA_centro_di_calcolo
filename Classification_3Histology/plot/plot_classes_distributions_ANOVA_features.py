@@ -33,10 +33,6 @@ PA_data = df_test.drop(['OS', 'deadstatus.event','Overall_Stage'], axis=1)
 #tot_data = pd.concat([public_data, PA_data], axis=0)
 #tot_label = pd.concat([public_labels, PA_labels], axis=0)
 
-features_selected_ANOVA = ANOVA_features_selection.f_select_ANOVA(public_data, 0.05)
-public_data = public_data[features_selected_ANOVA]
-
-
 n_bins = 15
 
 #tot_A = tot_data[tot_data['Histology'] == 'adenocarcinoma']
@@ -47,11 +43,17 @@ pu_A = public_data[public_data['Histology'] == 'adenocarcinoma']
 pu_L = public_data[public_data['Histology'] == 'large cell']
 pu_S = public_data[public_data['Histology'] == 'squamous cell carcinoma']
 
+features_selected_ANOVA = ANOVA_features_selection.f_select_ANOVA(public_data, 0.05)
+
+pu_A = pu_A[features_selected_ANOVA]
+pu_L = pu_L[features_selected_ANOVA]
+pu_S = pu_S[features_selected_ANOVA]
+
 #pa_A = PA_data[PA_data['Histology'] == 'adenocarcinoma']
 #pa_L = PA_data[PA_data['Histology'] == 'large cell']
 #pa_S = PA_data[PA_data['Histology'] == 'squamous cell carcinoma']
 
-for column in public_data.columns:
+for column in pu_A.columns:
 
     #feat_tot = tot_data.iloc[:, i]
     #feat_tot_A = tot_A.iloc[:, i]
