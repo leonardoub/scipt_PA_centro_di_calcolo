@@ -79,7 +79,7 @@ for column in pu_A.columns:
     ax1.hist(feat_pu_A, bins=bin_edges, histtype='step', alpha=0.8, linewidth=3, label='adenocarcinoma')
     ax1.hist(feat_pu_L, bins=bin_edges, histtype='step', alpha=0.8, linewidth=3, label='large cell')
     ax1.hist(feat_pu_S, bins=bin_edges, histtype='step', alpha=0.8, linewidth=3, label='squamous cell carcinoma')
-    ax1.set_title('Public dataset', loc='right')
+    ax1.set_title('Public dataset')
 
 
     #ax2.hist(feat_pa_A, bins=bin_edges, histtype='step', alpha=0.8, linewidth=3)
@@ -94,8 +94,8 @@ for column in pu_A.columns:
     #ax3.set_title('Merged dataset')
 
 
-    fig.suptitle(f'{column}', horizontalalignment='right', fontsize=14)
-    fig.legend(prop={'size':8})
+    fig.suptitle(f'{column}', horizontalalignment='center', fontsize=16)
+    fig.legend(prop={'size':8}, loc='best')
     fig.set_figwidth(6)
     fig.set_figheight(6)
 
