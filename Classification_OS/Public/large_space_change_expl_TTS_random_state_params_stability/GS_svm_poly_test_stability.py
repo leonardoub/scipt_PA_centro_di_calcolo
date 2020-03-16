@@ -27,8 +27,8 @@ df_test.rename(columns={'Survival.time (months)':'Surv_time_months'}, inplace=Tr
 df_train.rename(columns={'Overall.Stage':'Overall_Stage'}, inplace=True)
 df_test.rename(columns={'Overall.Stage':'Overall_Stage'}, inplace=True)
 
-public_data = df_train.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event'], axis=1)
-PA_data = df_test.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event'], axis=1)
+public_data = df_train.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event','Overall_Stage'], axis=1)
+PA_data = df_test.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event','Overall_Stage'], axis=1)
 
 public_labels = df_train.Overall_Stage
 PA_labels = df_test.Overall_Stage
