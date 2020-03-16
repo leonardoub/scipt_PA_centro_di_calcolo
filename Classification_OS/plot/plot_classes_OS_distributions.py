@@ -53,7 +53,7 @@ pa_IIIb = PA_data[PA_data['Overall_Stage'] == 'IIIb']
 
 for column in tot_data.column:
 
-    if column != 'Overall_Stage'
+    if column != 'Overall_Stage':
 
         feat_tot = tot_data[column]
         feat_tot_I = tot_I[column]
