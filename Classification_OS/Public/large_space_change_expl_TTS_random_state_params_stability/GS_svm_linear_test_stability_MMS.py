@@ -35,6 +35,10 @@ PA_labels = df_test.Overall_Stage
 
 encoder = LabelEncoder()
 
+#Vettorizzare i label
+train_labels_encoded = encoder.fit_transform(public_labels)
+test_labels_encoded = encoder.transform(PA_labels)
+
 #Scalers
 from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
 scalers_to_test = [RobustScaler(), MinMaxScaler()]
@@ -51,10 +55,6 @@ for i in range(1, 21):
        #Train test split
        X_train, X_test, y_train, y_test = train_test_split(public_data, public_labels, test_size=0.3, 
        stratify=public_labels, random_state=i*500)
-
-       #Vettorizzare i label
-       train_labels_encoded = encoder.fit_transform(y_train)
-       test_labels_encoded = encoder.transform(y_test)
 
        #SVM
        steps = [('scaler', MinMaxScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='linear'))]
