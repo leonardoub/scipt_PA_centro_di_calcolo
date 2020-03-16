@@ -51,7 +51,7 @@ pa_IIIa = PA_data[PA_data['Overall_Stage'] == 'IIIa']
 pa_IIIb = PA_data[PA_data['Overall_Stage'] == 'IIIb']
 
 
-for column in tot_data.column:
+for column in tot_data.columns:
 
     if column != 'Overall_Stage':
 
