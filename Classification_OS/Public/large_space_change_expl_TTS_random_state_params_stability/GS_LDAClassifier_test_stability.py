@@ -13,7 +13,7 @@ from sklearn.model_selection import RandomizedSearchCV
 
 #load data
 
-train_dataset_path = '/home/users/ubaldi/TESI_PA/data/database_training2.csv'
+train_dataset_path = '/home/users/ubaldi/TESI_PA/data/database_training2_without_nan_OS.csv'
 test_dataset_path = '/home/users/ubaldi/TESI_PA/data/database_nostro.csv'
 
 df_train = pd.read_csv(train_dataset_path)
