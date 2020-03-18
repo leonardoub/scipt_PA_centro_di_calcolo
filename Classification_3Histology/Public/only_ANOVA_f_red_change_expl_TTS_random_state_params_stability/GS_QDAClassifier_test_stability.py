@@ -88,7 +88,7 @@ for i in range(1, 21):
 
 import os
 
-outname = 'best_params_QDAClassifier.csv'
+outname = 'best_params_QDAClassifier_ANOVA.csv'
 
 outdir = '/home/users/ubaldi/TESI_PA/result_CV/3_classes_H/Public/only_ANOVA_f_red_change_expl_TTS_rand_state/QDAClassifier_stability'
 if not os.path.exists(outdir):
