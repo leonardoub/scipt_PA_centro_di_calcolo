@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import scipy
 from sklearn.decomposition import PCA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
->>> from sklearn.svm import SVR
+from sklearn.svm import SVR
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
@@ -70,9 +70,9 @@ for i in range(1, 21):
 
     pipeline = Pipeline(steps)
 
-       parameteres = [{'scaler':[StandardScaler()], 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 'clf__C':list(C_range)},
-                      {'scaler':[StandardScaler()], 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 'clf__C':list(C_range)},
-                      {'scaler':[StandardScaler()], 'red_dim':[None], 'clf__C':list(C_range)}]
+    parameteres = [{'scaler':[StandardScaler()], 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 'clf__C':list(C_range)},
+                    {'scaler':[StandardScaler()], 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 'clf__C':list(C_range)},
+                    {'scaler':[StandardScaler()], 'red_dim':[None], 'clf__C':list(C_range)}]
 
     grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1, scoring='neg_mean_absolute_error')
     grid.fit(X_train, y_train)
