@@ -69,7 +69,7 @@ for i in range(1, 21):
        test_labels_encoded = encoder.transform(y_test)
 
        #SVM
-       steps = [('scaler', MinMaxScaler()), ('clf', SVC(kernel='rbf'))]
+       steps = [('scaler', MinMaxScaler()), ('clf', SVC(kernel='poly'))]
 
        pipeline = Pipeline(steps)
 

@@ -1,4 +1,4 @@
-#Cross Validation on LinearRegression for regression
+#Cross Validation on SVM for regression
 
 import pandas as pd
 import numpy as np
@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import scipy
 from sklearn.decomposition import PCA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from sklearn.svm import SVC
+from sklearn.svm import SVR
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
@@ -16,7 +16,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.compose import TransformedTargetRegressor
 from sklearn.linear_model import LinearRegression
 
-name = 'LinearRegression'
+name = 'svmR_sigmoid'
 
 #load data
 
@@ -51,8 +51,8 @@ scalers_to_test = [StandardScaler(), RobustScaler(), MinMaxScaler(), None]
 df = pd.DataFrame()
 
 # Designate distributions to sample hyperparameters from 
-n_tree = np.arange(10, 120, 10)
-n_features_to_test = np.arange(1, 11)
+C_range = np.power(2, np.arange(-10, 11, dtype=float))
+gamma_range = np.power(2, np.arange(-10, 11, dtype=float))
 
 
 for i in range(1, 21):
@@ -61,7 +61,7 @@ for i in range(1, 21):
     X_train, X_test, y_train, y_test = train_test_split(public_data, public_labels, test_size=0.3, 
     stratify=public_labels, random_state=i*500)
 
-    clf = TransformedTargetRegressor(regressor=LinearRegression(),
+    clf = TransformedTargetRegressor(regressor=SVR(kernel='sigmoid'),
                                      transformer=MinMaxScaler())
 
 
@@ -69,10 +69,14 @@ for i in range(1, 21):
     steps = [('scaler', StandardScaler()), ('red_dim', PCA()), ('clf', clf)]
 
     pipeline = Pipeline(steps)
+    n_features_to_test = np.arange(1, 11)
 
-    parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test)},
-                   {'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2]},
-                   {'scaler':scalers_to_test, 'red_dim':[None]}]
+    parameteres = [{'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2],
+                    'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range)}, 
+                    {'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':n_features_to_test,
+                    'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range)},
+                    {'scaler':scalers_to_test, 'red_dim':[None],
+                    'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range)}]
 
     grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1, scoring='neg_mean_absolute_error')
     grid.fit(X_train, y_train)

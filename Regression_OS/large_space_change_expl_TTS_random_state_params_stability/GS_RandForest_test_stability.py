@@ -1,4 +1,4 @@
-#Cross Validation on RandomForestClassifier for classification
+#Cross Validation on RandomForestClassifier for regression
 
 import pandas as pd
 import numpy as np
@@ -12,7 +12,10 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import GridSearchCV 
 from sklearn.model_selection import RandomizedSearchCV
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.compose import TransformedTargetRegressor
+from sklearn.ensemble import RandomForestRegressor
+
+name = 'RandomForestRegressor'
 
 
 #load data
@@ -29,13 +32,16 @@ df_test.rename(columns={'Survival.time (months)':'Surv_time_months'}, inplace=Tr
 df_train.rename(columns={'Overall.Stage':'Overall_Stage'}, inplace=True)
 df_test.rename(columns={'Overall.Stage':'Overall_Stage'}, inplace=True)
 
+df_train.loc[df_train['Overall_Stage'] == 'I', 'Overall_Stage'] = 1
+df_train.loc[df_train['Overall_Stage'] == 'II', 'Overall_Stage'] = 2
+df_train.loc[df_train['Overall_Stage'] == 'IIIa', 'Overall_Stage'] = 3
+df_train.loc[df_train['Overall_Stage'] == 'IIIb', 'Overall_Stage'] = 4
+
 public_data = df_train.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event','Overall_Stage'], axis=1)
 PA_data = df_test.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event','Overall_Stage'], axis=1)
 
 public_labels = df_train.Overall_Stage
 PA_labels = df_test.Overall_Stage
-
-encoder = LabelEncoder()
 
 #Scalers
 
@@ -45,7 +51,7 @@ scalers_to_test = [StandardScaler(), RobustScaler(), MinMaxScaler(), None]
 df = pd.DataFrame()
 
 # Designate distributions to sample hyperparameters from 
-n_tree = np.arange(10, 120, 10)
+n_tree = np.arange(5, 120, 5)
 n_features_to_test = np.arange(1, 11)
 
 
@@ -55,20 +61,19 @@ for i in range(1, 21):
     X_train, X_test, y_train, y_test = train_test_split(public_data, public_labels, test_size=0.3, 
     stratify=public_labels, random_state=i*500)
 
-    #Vettorizzare i label
-    train_labels_encoded = encoder.fit_transform(y_train)
-    test_labels_encoded = encoder.transform(y_test)
+    clf = TransformedTargetRegressor(RandomForestRegressor(criterion='mae'),
+                                     transformer=MinMaxScaler())
 
     #RandomForestClassifier
-    steps = [('scaler', StandardScaler()), ('red_dim', PCA()), ('clf', RandomForestClassifier())]
+    steps = [('scaler', StandardScaler()), ('red_dim', PCA()), ('clf', clf)]
 
     pipeline = Pipeline(steps)
 
-    parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 'clf__n_estimators':list(n_tree)},
-                   {'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 'clf__n_estimators':list(n_tree)},
-                   {'scaler':scalers_to_test, 'red_dim':[None], 'clf__n_estimators':list(n_tree)}]
+    parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 'clf__n_estimators':list(n_tree), 'clf__bootstrap':[True, False]},
+                   {'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 'clf__n_estimators':list(n_tree), 'clf__bootstrap':[True, False]},
+                   {'scaler':scalers_to_test, 'red_dim':[None], 'clf__n_estimators':list(n_tree), 'clf__bootstrap':[True, False]}]
 
-    grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)
+    grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1, scoring='neg_mean_absolute_error')
 
     grid.fit(X_train, y_train)
 
@@ -77,8 +82,8 @@ for i in range(1, 21):
     best_p = grid.best_params_
 
     bp = pd.DataFrame(best_p, index=[i])
-    bp['accuracy_train'] = score_train
-    bp['accuracy_test'] = score_test
+    bp['MAE_train'] = -score_train
+    bp['MAE_test'] = -score_test
     bp['random_state'] = i*500
 
     df = df.append(bp, ignore_index=True)
@@ -89,9 +94,9 @@ for i in range(1, 21):
 
 import os
 
-outname = 'best_params_RandomForest_OS_4_classes.csv'
+outname = f'best_params_{name}_OS_regression.csv'
 
-outdir = '/home/users/ubaldi/TESI_PA/result_CV/4_classes_OS/Public/large_space_change_expl_TTS_rand_state/RandomForest_stability_OS_4'
+outdir = f'/home/users/ubaldi/TESI_PA/result_CV/regression_OS/Public/large_space_change_expl_TTS_rand_state/{name}_stability_OS_regression'
 if not os.path.exists(outdir):
     os.makedirs(outdir)
 
