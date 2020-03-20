@@ -71,12 +71,12 @@ for i in range(1, 21):
     pipeline = Pipeline(steps)
     n_features_to_test = np.arange(1, 11)
 
-    parameteres = [{'scaler':[MinMaxScaler()], 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test),
-                    'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range), 'clf__degree':[2, 3]},
-                    {'scaler':[MinMaxScaler()], 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2],
-                    'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range), 'clf__degree':[2, 3]},
-                    {'scaler':[MinMaxScaler()], 'red_dim':[None],
-                    'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range), 'clf__degree':[2, 3]}]
+    parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test),
+                    'clf__regressor__C': list(C_range), 'clf__regressor__gamma':['auto', 'scale']+list(gamma_range), 'clf__degree':[2, 3]},
+                    {'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2],
+                    'clf__regressor__C': list(C_range), 'clf__regressor__gamma':['auto', 'scale']+list(gamma_range), 'clf__degree':[2, 3]},
+                    {'scaler':scalers_to_test, 'red_dim':[None],
+                    'clf__regressor__C': list(C_range), 'clf__regressor__gamma':['auto', 'scale']+list(gamma_range), 'clf__degree':[2, 3]}]
 
     grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1, scoring='neg_mean_absolute_error')
     grid.fit(X_train, y_train)
