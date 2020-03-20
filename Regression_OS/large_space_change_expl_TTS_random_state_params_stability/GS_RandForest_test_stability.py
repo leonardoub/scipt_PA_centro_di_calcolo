@@ -61,7 +61,7 @@ for i in range(1, 21):
     X_train, X_test, y_train, y_test = train_test_split(public_data, public_labels, test_size=0.3, 
     stratify=public_labels, random_state=i*500)
 
-    clf = TransformedTargetRegressor(RandomForestRegressor(criterion='mae'),
+    clf = TransformedTargetRegressor(regressor=RandomForestRegressor(criterion='mae'),
                                      transformer=MinMaxScaler())
 
     #RandomForestClassifier
@@ -69,9 +69,9 @@ for i in range(1, 21):
 
     pipeline = Pipeline(steps)
 
-    parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 'clf__n_estimators':list(n_tree), 'clf__bootstrap':[True, False]},
-                   {'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 'clf__n_estimators':list(n_tree), 'clf__bootstrap':[True, False]},
-                   {'scaler':scalers_to_test, 'red_dim':[None], 'clf__n_estimators':list(n_tree), 'clf__bootstrap':[True, False]}]
+    parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 'clf__regressor__n_estimators':list(n_tree), 'clf__regressor__bootstrap':[True, False]},
+                   {'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 'clf__regressor__n_estimators':list(n_tree), 'clf__regressor__bootstrap':[True, False]},
+                   {'scaler':scalers_to_test, 'red_dim':[None], 'clf__regressor__n_estimators':list(n_tree), 'clf__regressor__bootstrap':[True, False]}]
 
     grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1, scoring='neg_mean_absolute_error')
 
