@@ -41,10 +41,10 @@ public_data = df_train.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.
 PA_data = df_test.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event','Overall_Stage'], axis=1)
 
 public_labels = df_train.Overall_Stage
-PA_labels = df_test.Overall_Stage
+#PA_labels = df_test.Overall_Stage
 
 public_labels = public_labels.astype('int')
-PA_labels = PA_labels.astype('int')
+#PA_labels = PA_labels.astype('int')
 
 #Scalers
 
