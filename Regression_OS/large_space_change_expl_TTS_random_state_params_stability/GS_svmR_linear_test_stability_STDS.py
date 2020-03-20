@@ -43,6 +43,9 @@ PA_data = df_test.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event
 public_labels = df_train.Overall_Stage
 PA_labels = df_test.Overall_Stage
 
+public_labels = public_labels.astype('int')
+PA_labels = PA_labels.astype('int')
+
 #Scalers
 
 from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
