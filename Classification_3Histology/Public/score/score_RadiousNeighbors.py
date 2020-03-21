@@ -51,9 +51,9 @@ tot_test_score = []
 #tot_macro_ovr = []
 tot_weighted_ovr = []
 
-n_comp_pca = 6
-algorithm_ = 'auto'
-radius_ = 1.3
+n_comp_pca = 7
+algorithm_ 'auto'
+radius_ = 8.5
 weights_ = 'uniform'
 
 for i in range(1,31):
