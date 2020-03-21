@@ -52,7 +52,7 @@ tot_test_score = []
 tot_weighted_ovr = []
 
 n_comp_pca = 7
-algorithm_ 'auto'
+algorithm_ = 'auto'
 radius_ = 8.5
 weights_ = 'uniform'
 
