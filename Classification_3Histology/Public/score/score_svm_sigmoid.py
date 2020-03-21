@@ -15,7 +15,7 @@ from sklearn.model_selection import cross_validate
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import classification_report
 
-name = 'svm_rbf'
+name = 'svm_sigmoid'
 
 #load data
 
@@ -51,9 +51,9 @@ tot_test_score = []
 #tot_macro_ovr = []
 tot_weighted_ovr = []
 
-n_comp_pca = 4
-C_value = 2
-gamma_value = 0.004
+n_comp_pca = 2
+C_value = 0.25
+gamma_value = 'scale'
 
 for i in range(1,31):
 
@@ -69,7 +69,7 @@ for i in range(1,31):
 
     scaler = StandardScaler()
     pca = PCA(n_components=n_comp_pca)
-    svm = SVC(kernel='rbf', C=C_value, gamma=gamma_value, probability=True)
+    svm = SVC(kernel='sigmoid', C=C_value, gamma=gamma_value, probability=True)
 
     steps = [('scaler', scaler), ('red_dim', pca), ('clf', svm)]    
 

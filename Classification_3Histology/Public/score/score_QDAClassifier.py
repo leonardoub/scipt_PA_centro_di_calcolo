@@ -3,10 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy
 from sklearn.decomposition import PCA
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 from sklearn.preprocessing import StandardScaler, RobustScaler, QuantileTransformer, MinMaxScaler
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.svm import SVC
+from sklearn.ensemble import AdaBoostClassifier
 from sklearn.model_selection import train_test_split
 import os
 from sklearn.pipeline import Pipeline
@@ -15,7 +15,7 @@ from sklearn.model_selection import cross_validate
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import classification_report
 
-name = 'svm_rbf'
+name = 'QDAClassifier'
 
 #load data
 
@@ -51,10 +51,6 @@ tot_test_score = []
 #tot_macro_ovr = []
 tot_weighted_ovr = []
 
-n_comp_pca = 4
-C_value = 2
-gamma_value = 0.004
-
 for i in range(1,31):
 
     #train test split 
@@ -67,11 +63,10 @@ for i in range(1,31):
     test_labels_encoded = encoder.transform(y_test)
 
 
-    scaler = StandardScaler()
-    pca = PCA(n_components=n_comp_pca)
-    svm = SVC(kernel='rbf', C=C_value, gamma=gamma_value, probability=True)
+    scaler = RobustScaler()
+    clf = QuadraticDiscriminantAnalysis(probability=True)
 
-    steps = [('scaler', scaler), ('red_dim', pca), ('clf', svm)]    
+    steps = [('scaler', scaler), ('red_dim', None), ('clf', clf)]    
 
     pipeline = Pipeline(steps)
 
@@ -132,13 +127,13 @@ std_weighted_ovr = np.std(tot_weighted_ovr)
 df = pd.DataFrame([tot_train_score, [mean_train_score], [std_train_score], 
                    tot_test_score, [mean_test_score], [std_test_score], 
                    tot_weighted_ovr, [mean_weighted_ovr], [std_weighted_ovr],
-                   [scaler], [n_comp_pca], [C_value], [gamma_value]])
+                   [scaler]])
 df = df.transpose() 
 
 fieldnames = ['train_accuracy', 'train_accuracy_MEAN', 'train_accuracy_STD',
               'test_accuracy', 'test_accuracy_MEAN', 'test_accuracy_STD',
               'roc_auc_score_weighted_ovr', 'roc_auc_score_weighted_ovr_MEAN', 'roc_auc_score_weighted_ovr_STD',
-              'SCALER', 'PCA__n_components', 'CLF__C', 'CLF__gamma']
+              'SCALER']
 
 
 ## write the data to the specified output path: "output"/+file_name

@@ -131,13 +131,13 @@ std_weighted_ovr = np.std(tot_weighted_ovr)
 df = pd.DataFrame([tot_train_score, [mean_train_score], [std_train_score], 
                    tot_test_score, [mean_test_score], [std_test_score], 
                    tot_weighted_ovr, [mean_weighted_ovr], [std_weighted_ovr],
-                   [scaler], [C_value], [n_comp_pca]])
+                   [scaler], [n_comp_pca], [C_value]])
 df = df.transpose() 
 
 fieldnames = ['train_accuracy', 'train_accuracy_MEAN', 'train_accuracy_STD',
               'test_accuracy', 'test_accuracy_MEAN', 'test_accuracy_STD',
               'roc_auc_score_weighted_ovr', 'roc_auc_score_weighted_ovr_MEAN', 'roc_auc_score_weighted_ovr_STD',
-              'scaler', 'SVM__C', 'PCA__n_components']
+              'SCALER', 'PCA__n_components', 'SVM__C']
 ## write the data to the specified output path: "output"/+file_name
 ## without adding the index of the dataframe to the output 
 ## and without adding a header to the output. 
