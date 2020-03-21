@@ -102,7 +102,7 @@ for i in range(1, 21):
 
 import os
 
-outname = 'best_params_svm_poly_ANOVA.csv'
+outname = 'best_params_svm_poly_MMS_ANOVA.csv'
 
 outdir = '/home/users/ubaldi/TESI_PA/result_CV/3_classes_H/Public/only_ANOVA_f_red_change_expl_TTS_rand_state/poly_svm_stability'
 if not os.path.exists(outdir):
