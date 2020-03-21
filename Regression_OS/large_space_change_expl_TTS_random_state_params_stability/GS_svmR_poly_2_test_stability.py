@@ -16,7 +16,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.compose import TransformedTargetRegressor
 from sklearn.linear_model import LinearRegression
 
-name = 'svmR_poly'
+name = 'svmR_poly_2'
 
 #load data
 
@@ -75,11 +75,11 @@ for i in range(1, 21):
     n_features_to_test = np.arange(1, 11)
 
     parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test),
-                    'clf__regressor__C': list(C_range), 'clf__regressor__gamma':['auto', 'scale']+list(gamma_range), 'clf__regressor__degree':[3]},
+                    'clf__regressor__C': list(C_range), 'clf__regressor__gamma':['auto', 'scale']+list(gamma_range), 'clf__regressor__degree':[2]},
                     {'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2],
-                    'clf__regressor__C': list(C_range), 'clf__regressor__gamma':['auto', 'scale']+list(gamma_range), 'clf__regressor__degree':[3]},
+                    'clf__regressor__C': list(C_range), 'clf__regressor__gamma':['auto', 'scale']+list(gamma_range), 'clf__regressor__degree':[2]},
                     {'scaler':scalers_to_test, 'red_dim':[None],
-                    'clf__regressor__C': list(C_range), 'clf__regressor__gamma':['auto', 'scale']+list(gamma_range), 'clf__regressor__degree':[3]}]
+                    'clf__regressor__C': list(C_range), 'clf__regressor__gamma':['auto', 'scale']+list(gamma_range), 'clf__regressor__degree':[2]}]
 
     grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1, scoring='neg_mean_absolute_error')
     grid.fit(X_train, y_train)
