@@ -51,6 +51,8 @@ tot_test_score = []
 #tot_macro_ovr = []
 tot_weighted_ovr = []
 
+n_comp_pca = 7
+C_value = 0.1875
 
 for i in range(1,31):
 
@@ -65,8 +67,8 @@ for i in range(1,31):
 
 
     scaler = MinMaxScaler()
-    pca = PCA(n_components=7)
-    svm = SVC(kernel='linear', C=0.1875, probability=True)
+    pca = PCA(n_components=n_comp_pca)
+    svm = SVC(kernel='linear', C=C_value, probability=True)
 
     steps = [('scaler', scaler), ('red_dim', pca), ('clf', svm)]    
 
@@ -128,12 +130,14 @@ std_weighted_ovr = np.std(tot_weighted_ovr)
 # transpose is applied to get to the user's desired output. 
 df = pd.DataFrame([tot_train_score, [mean_train_score], [std_train_score], 
                    tot_test_score, [mean_test_score], [std_test_score], 
-                   tot_weighted_ovr, [mean_weighted_ovr], [std_weighted_ovr]])
+                   tot_weighted_ovr, [mean_weighted_ovr], [std_weighted_ovr],
+                   [scaler], [C_value], [n_comp_pca]])
 df = df.transpose() 
 
 fieldnames = ['train_accuracy', 'train_accuracy_MEAN', 'train_accuracy_STD',
               'test_accuracy', 'test_accuracy_MEAN', 'test_accuracy_STD',
-              'roc_auc_score_weighted_ovr', 'roc_auc_score_weighted_ovr_MEAN', 'roc_auc_score_weighted_ovr_STD']
+              'roc_auc_score_weighted_ovr', 'roc_auc_score_weighted_ovr_MEAN', 'roc_auc_score_weighted_ovr_STD',
+              'scaler', 'SVM__C', 'PCA__n_components']
 ## write the data to the specified output path: "output"/+file_name
 ## without adding the index of the dataframe to the output 
 ## and without adding a header to the output. 
