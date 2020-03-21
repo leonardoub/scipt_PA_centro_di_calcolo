@@ -70,7 +70,7 @@ for i in range(1,31):
 
     scaler = MinMaxScaler()
     pca = PCA(n_components=n_comp_pca)
-    clf = AdaBoostClassifier(algorithm=algorithm_, n_estimators = n_estimators_, learning_rate=lr, probability=True)
+    clf = AdaBoostClassifier(algorithm=algorithm_, n_estimators = n_estimators_, learning_rate=lr)
 
     steps = [('scaler', scaler), ('red_dim', pca), ('clf', clf)]    
 
