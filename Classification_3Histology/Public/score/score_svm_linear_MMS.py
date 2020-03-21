@@ -126,9 +126,9 @@ std_weighted_ovr = np.std(tot_weighted_ovr)
 # pandas can convert a list of lists to a dataframe.
 # each list is a row thus after constructing the dataframe
 # transpose is applied to get to the user's desired output. 
-df = pd.DataFrame([tot_train_score, mean_train_score, std_train_score, 
-                   tot_test_score, mean_test_score, std_test_score, 
-                   tot_weighted_ovr, mean_weighted_ovr, std_weighted_ovr])
+df = pd.DataFrame([tot_train_score, [mean_train_score], [std_train_score], 
+                   tot_test_score, [mean_test_score], [std_test_score], 
+                   tot_weighted_ovr, [mean_weighted_ovr], [std_weighted_ovr]])
 df = df.transpose() 
 
 fieldnames = ['train_accuracy', 'train_accuracy_MEAN', 'train_accuracy_STD',
