@@ -70,7 +70,7 @@ for i in range(1,31):
 
     scaler = StandardScaler()
     pca = PCA(n_components=n_comp_pca)
-    clf = KNeighborsClassifier(algorithm=algorithm_, n_neighbors = n_neighbors_, weights=weights_, probability=True)
+    clf = KNeighborsClassifier(algorithm=algorithm_, n_neighbors = n_neighbors_, weights=weights_)
 
     steps = [('scaler', scaler), ('red_dim', pca), ('clf', clf)]    
 

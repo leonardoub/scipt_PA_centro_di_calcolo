@@ -69,7 +69,7 @@ for i in range(1,31):
 
     scaler = StandardScaler()
     pca = PCA(n_components=n_comp_pca)
-    clf = RandomForestClassifier(n_estimators = n_estimators_, criterion= criterion_, bootstrap=bootstrap_, probability=True)
+    clf = RandomForestClassifier(n_estimators = n_estimators_, criterion= criterion_, bootstrap=bootstrap_)
 
     steps = [('scaler', scaler), ('red_dim', pca), ('clf', clf)]    
 

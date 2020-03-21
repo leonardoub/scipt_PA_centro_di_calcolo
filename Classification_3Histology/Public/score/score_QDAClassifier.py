@@ -64,7 +64,7 @@ for i in range(1,31):
 
 
     scaler = RobustScaler()
-    clf = QuadraticDiscriminantAnalysis(probability=True)
+    clf = QuadraticDiscriminantAnalysis()
 
     steps = [('scaler', scaler), ('red_dim', None), ('clf', clf)]    
 
