@@ -55,8 +55,10 @@ tot_test_score = []
 #tot_macro_ovr = []
 tot_weighted_ovr = []
 
-n_comp_pca = 5
-n_estimators_ = 10
+n_comp_pca = 6
+n_estimators_ = 20
+criterion_ = 'gini'
+bootstrap_ = True
 
 for i in range(1,31):
 
@@ -72,7 +74,7 @@ for i in range(1,31):
 
     scaler = StandardScaler()
     pca = PCA(n_components=n_comp_pca)
-    clf = RandomForestClassifier(n_estimators = n_estimators_, probability=True)
+    clf = RandomForestClassifier(n_estimators = n_estimators_, criterion= criterion_, bootstrap=bootstrap_, probability=True)
 
     steps = [('scaler', scaler), ('red_dim', pca), ('clf', clf)]    
 
@@ -135,13 +137,13 @@ std_weighted_ovr = np.std(tot_weighted_ovr)
 df = pd.DataFrame([tot_train_score, [mean_train_score], [std_train_score], 
                    tot_test_score, [mean_test_score], [std_test_score], 
                    tot_weighted_ovr, [mean_weighted_ovr], [std_weighted_ovr],
-                   [scaler], [n_comp_pca], [n_estimators_]])
+                   [scaler], [n_comp_pca], [n_estimators_], [criterion_], [bootstrap_]])
 df = df.transpose() 
 
 fieldnames = ['train_accuracy', 'train_accuracy_MEAN', 'train_accuracy_STD',
               'test_accuracy', 'test_accuracy_MEAN', 'test_accuracy_STD',
               'roc_auc_score_weighted_ovr', 'roc_auc_score_weighted_ovr_MEAN', 'roc_auc_score_weighted_ovr_STD',
-              'SCALER', 'PCA__n_components', 'CLF__n_estimators']
+              'SCALER', 'PCA__n_components', 'CLF__n_estimators', 'CLF__criterion', 'CLF__bootstrap']
 
 
 ## write the data to the specified output path: "output"/+file_name
