@@ -32,8 +32,8 @@ df_test.rename(columns={'Survival.time (months)':'Surv_time_months'}, inplace=Tr
 df_train.rename(columns={'Overall.Stage':'Overall_Stage'}, inplace=True)
 df_test.rename(columns={'Overall.Stage':'Overall_Stage'}, inplace=True)
 
-public_data = df_train.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event','Overall_Stage'], axis=1)
-PA_data = df_test.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event','Overall_Stage'], axis=1)
+public_data = df_train.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event', 'Overall_Stage'], axis=1)
+PA_data = df_test.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event', 'Overall_Stage'], axis=1)
 
 public_labels = df_train.Histology
 PA_labels = df_test.Histology
@@ -131,8 +131,8 @@ df = pd.DataFrame([tot_train_score, mean_train_score, std_train_score,
                    tot_weighted_ovr, mean_weighted_ovr, std_weighted_ovr])
 df = df.transpose() 
 
-fieldnames = ['train_accuracy', 'train_accuracy_MEAN', 'train_accuracy_STD'
-              'test_accuracy', 'test_accuracy_MEAN', 'test_accuracy_STD'
+fieldnames = ['train_accuracy', 'train_accuracy_MEAN', 'train_accuracy_STD',
+              'test_accuracy', 'test_accuracy_MEAN', 'test_accuracy_STD',
               'roc_auc_score_weighted_ovr', 'roc_auc_score_weighted_ovr_MEAN', 'roc_auc_score_weighted_ovr_STD']
 ## write the data to the specified output path: "output"/+file_name
 ## without adding the index of the dataframe to the output 
