@@ -74,7 +74,7 @@ for i in range(1,31):
 
     scaler = StandardScaler()
     pca = PCA(n_components=n_comp_pca)
-    clf = RadiusNeighborsClassifier(algorithm=algorithm_, radius = radius_, weights=weights_, probability=True)
+    clf = RadiusNeighborsClassifier(algorithm=algorithm_, radius = radius_, weights=weights_)
 
     steps = [('scaler', scaler), ('red_dim', pca), ('clf', clf)]    
 

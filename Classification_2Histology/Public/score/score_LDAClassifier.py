@@ -72,7 +72,7 @@ for i in range(1,31):
 
 
     scaler = StandardScaler()
-    clf = LinearDiscriminantAnalysis(solver=solver_, shrinkage = shrinkage_, probability=True)
+    clf = LinearDiscriminantAnalysis(solver=solver_, shrinkage = shrinkage_)
 
     steps = [('scaler', scaler), ('red_dim', None), ('clf', clf)]    
 
