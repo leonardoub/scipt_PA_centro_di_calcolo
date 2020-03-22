@@ -91,7 +91,7 @@ for i in range(1,31):
 
     y_scores = pipeline.predict_proba(X_test)
 
-    macro = roc_auc_score(test_labels_encoded, y_scores, average='weighted')
+    macro = roc_auc_score(test_labels_encoded, y_scores, average='macro')
     weighted = roc_auc_score(test_labels_encoded, y_scores, average='weighted')
 
     tot_macro.append(macro)
