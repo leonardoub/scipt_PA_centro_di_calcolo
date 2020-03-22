@@ -114,14 +114,12 @@ for i in range(1,31):
 
 mean_train_score = np.mean(tot_train_score)
 mean_test_score = np.mean(tot_test_score)
-mean_weighted = np.mean(tot_weighted)
-mean_macro = np.mean(tot_macro)
+mean_auc = np.mean(tot_auc)
 
 
 std_train_score = np.std(tot_train_score)
 std_test_score = np.std(tot_test_score)
-std_weighted = np.std(tot_weighted)
-std_macro = np.std(tot_macro)
+std_auc = np.std(tot_auc)
 
 
 
