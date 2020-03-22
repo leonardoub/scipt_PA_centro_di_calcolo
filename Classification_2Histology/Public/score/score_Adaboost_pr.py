@@ -15,7 +15,7 @@ from sklearn.model_selection import cross_validate
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import classification_report
 
-name = 'Adaboost'
+name = 'Adaboost_pr'
 folder = '2_histologies'
 
 #load data
