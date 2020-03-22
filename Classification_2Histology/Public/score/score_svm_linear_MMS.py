@@ -16,6 +16,7 @@ from sklearn.metrics import roc_auc_score
 from sklearn.metrics import classification_report
 
 name = 'svm_linear_MMS'
+folder = '2_histologies'
 
 #load data
 
@@ -38,6 +39,16 @@ PA_data = df_test.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event
 public_labels = df_train.Histology
 PA_labels = df_test.Histology
 
+#select histologies
+df_train_LS = df_train[df_train['Histology'] != 'adenocarcinoma']
+df_test_LS = df_test[df_test['Histology'] != 'adenocarcinoma']
+
+
+public_data = df_train_LS.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event','Overall_Stage'], axis=1)
+PA_data = df_test_LS.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event','Overall_Stage'], axis=1)
+
+public_labels = df_train_LS.Histology
+PA_labels = df_test_LS.Histology
 
 #vettorizzare i label
 from sklearn.preprocessing import LabelEncoder
@@ -46,10 +57,8 @@ encoder = LabelEncoder()
 #tot_random_state = []
 tot_train_score = []
 tot_test_score = []
-#tot_macro_ovo = []
-#tot_weighted_ovo = []
-#tot_macro_ovr = []
-tot_weighted_ovr = []
+tot_macro = []
+tot_weighted = []
 
 n_comp_pca = 7
 C_value = 0.1875
@@ -86,15 +95,11 @@ for i in range(1,31):
 
     y_scores = pipeline.predict_proba(X_test)
 
-    #macro_ovo = roc_auc_score(test_labels_encoded, y_scores, average='macro',  multi_class='ovo')
-    #weighted_ovo = roc_auc_score(test_labels_encoded, y_scores, average='weighted',  multi_class='ovo')
-    #macro_ovr = roc_auc_score(test_labels_encoded, y_scores, average='macro',  multi_class='ovr')
-    weighted_ovr = roc_auc_score(test_labels_encoded, y_scores, average='weighted',  multi_class='ovr')
+    macro = roc_auc_score(test_labels_encoded, y_scores, average='macro')
+    weighted = roc_auc_score(test_labels_encoded, y_scores, average='weighted')
 
-    #tot_macro_ovo.append(macro_ovo)
-    #tot_weighted_ovo.append(weighted_ovo)
-    #tot_macro_ovr.append(macro_ovr)
-    tot_weighted_ovr.append(weighted_ovr)
+    tot_macro.append(macro)
+    tot_weighted.append(weighted)
 
     y_pred = pipeline.predict(X_test)
     
@@ -105,7 +110,7 @@ for i in range(1,31):
 
     outname = f'report_{i}.csv'
 
-    outdir = f'/home/users/ubaldi/TESI_PA/result_score/Public/3_histologies/report_{name}/'
+    outdir = f'/home/users/ubaldi/TESI_PA/result_score/Public/{folder}/report_{name}/'
     if not os.path.exists(outdir):
         os.makedirs(outdir)
 
@@ -118,11 +123,15 @@ for i in range(1,31):
 
 mean_train_score = np.mean(tot_train_score)
 mean_test_score = np.mean(tot_test_score)
-mean_weighted_ovr = np.mean(tot_weighted_ovr)
+mean_weighted = np.mean(tot_weighted)
+mean_macro = np.mean(tot_macro)
+
 
 std_train_score = np.std(tot_train_score)
 std_test_score = np.std(tot_test_score)
-std_weighted_ovr = np.std(tot_weighted_ovr)
+std_weighted = np.std(tot_weighted)
+std_macro = np.std(tot_macro)
+
 
 
 # pandas can convert a list of lists to a dataframe.
@@ -130,14 +139,17 @@ std_weighted_ovr = np.std(tot_weighted_ovr)
 # transpose is applied to get to the user's desired output. 
 df = pd.DataFrame([tot_train_score, [mean_train_score], [std_train_score], 
                    tot_test_score, [mean_test_score], [std_test_score], 
-                   tot_weighted_ovr, [mean_weighted_ovr], [std_weighted_ovr],
+                   tot_weighted, [mean_weighted], [std_weighted],
+                   tot_macro, [mean_macro], [std_macro],
                    [scaler], [n_comp_pca], [C_value]])
 df = df.transpose() 
 
 fieldnames = ['train_accuracy', 'train_accuracy_MEAN', 'train_accuracy_STD',
               'test_accuracy', 'test_accuracy_MEAN', 'test_accuracy_STD',
-              'roc_auc_score_weighted_ovr', 'roc_auc_score_weighted_ovr_MEAN', 'roc_auc_score_weighted_ovr_STD',
+              'roc_auc_score_weighted', 'roc_auc_score_weighted_MEAN', 'roc_auc_score_weighted_STD',
+              'roc_auc_score_macro', 'roc_auc_score_macro_MEAN', 'roc_auc_score_macro_STD',
               'SCALER', 'PCA__n_components', 'SVM__C']
+
 ## write the data to the specified output path: "output"/+file_name
 ## without adding the index of the dataframe to the output 
 ## and without adding a header to the output. 
@@ -151,7 +163,7 @@ import os
 
 outname = f'score_{name}.csv'
 
-outdir = f'/home/users/ubaldi/TESI_PA/result_score/Public/3_histologies/'
+outdir = f'/home/users/ubaldi/TESI_PA/result_score/Public/{folder}/'
 if not os.path.exists(outdir):
     os.makedirs(outdir)
 

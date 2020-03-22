@@ -16,6 +16,8 @@ from sklearn.metrics import roc_auc_score
 from sklearn.metrics import classification_report
 
 name = 'QDAClassifier'
+folder = '2_histologies'
+
 
 #load data
 
@@ -51,10 +53,8 @@ encoder = LabelEncoder()
 #tot_random_state = []
 tot_train_score = []
 tot_test_score = []
-#tot_macro_ovo = []
-#tot_weighted_ovo = []
-#tot_macro_ovr = []
-tot_weighted_ovr = []
+tot_macro = []
+tot_weighted = []
 
 for i in range(1,31):
 
@@ -87,15 +87,11 @@ for i in range(1,31):
 
     y_scores = pipeline.predict_proba(X_test)
 
-    #macro_ovo = roc_auc_score(test_labels_encoded, y_scores, average='macro',  multi_class='ovo')
-    #weighted_ovo = roc_auc_score(test_labels_encoded, y_scores, average='weighted',  multi_class='ovo')
-    #macro_ovr = roc_auc_score(test_labels_encoded, y_scores, average='macro',  multi_class='ovr')
-    weighted_ovr = roc_auc_score(test_labels_encoded, y_scores, average='weighted',  multi_class='ovr')
+    macro = roc_auc_score(test_labels_encoded, y_scores, average='macro')
+    weighted = roc_auc_score(test_labels_encoded, y_scores, average='weighted')
 
-    #tot_macro_ovo.append(macro_ovo)
-    #tot_weighted_ovo.append(weighted_ovo)
-    #tot_macro_ovr.append(macro_ovr)
-    tot_weighted_ovr.append(weighted_ovr)
+    tot_macro.append(macro)
+    tot_weighted.append(weighted)
 
     y_pred = pipeline.predict(X_test)
     
@@ -106,7 +102,7 @@ for i in range(1,31):
 
     outname = f'report_{i}.csv'
 
-    outdir = f'/home/users/ubaldi/TESI_PA/result_score/Public/2_histologies/report_{name}_2H/'
+    outdir = f'/home/users/ubaldi/TESI_PA/result_score/Public/{folder}/report_{name}_2H/'
     if not os.path.exists(outdir):
         os.makedirs(outdir)
 
@@ -119,11 +115,15 @@ for i in range(1,31):
 
 mean_train_score = np.mean(tot_train_score)
 mean_test_score = np.mean(tot_test_score)
-mean_weighted_ovr = np.mean(tot_weighted_ovr)
+mean_weighted = np.mean(tot_weighted)
+mean_macro = np.mean(tot_macro)
+
 
 std_train_score = np.std(tot_train_score)
 std_test_score = np.std(tot_test_score)
-std_weighted_ovr = np.std(tot_weighted_ovr)
+std_weighted = np.std(tot_weighted)
+std_macro = np.std(tot_macro)
+
 
 
 # pandas can convert a list of lists to a dataframe.
@@ -131,13 +131,15 @@ std_weighted_ovr = np.std(tot_weighted_ovr)
 # transpose is applied to get to the user's desired output. 
 df = pd.DataFrame([tot_train_score, [mean_train_score], [std_train_score], 
                    tot_test_score, [mean_test_score], [std_test_score], 
-                   tot_weighted_ovr, [mean_weighted_ovr], [std_weighted_ovr],
+                   tot_weighted, [mean_weighted], [std_weighted],
+                   tot_macro, [mean_macro], [std_macro],
                    [scaler]])
 df = df.transpose() 
 
 fieldnames = ['train_accuracy', 'train_accuracy_MEAN', 'train_accuracy_STD',
               'test_accuracy', 'test_accuracy_MEAN', 'test_accuracy_STD',
-              'roc_auc_score_weighted_ovr', 'roc_auc_score_weighted_ovr_MEAN', 'roc_auc_score_weighted_ovr_STD',
+              'roc_auc_score_weighted', 'roc_auc_score_weighted_MEAN', 'roc_auc_score_weighted_STD',
+              'roc_auc_score_macro', 'roc_auc_score_macro_MEAN', 'roc_auc_score_macro_STD',
               'SCALER']
 
 
@@ -154,7 +156,7 @@ import os
 
 outname = f'score_{name}_2H.csv'
 
-outdir = f'/home/users/ubaldi/TESI_PA/result_score/Public/2_histologies/'
+outdir = f'/home/users/ubaldi/TESI_PA/result_score/Public/{folder}/'
 if not os.path.exists(outdir):
     os.makedirs(outdir)
 
