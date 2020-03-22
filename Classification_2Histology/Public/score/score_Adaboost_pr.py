@@ -89,7 +89,7 @@ for i in range(1,31):
     score_test = pipeline.score(X_test, test_labels_encoded)
     tot_test_score.append(score_test)
 
-    y_scores = pipeline.predict_proba(X_test)[:,1]
+    y_scores = pipeline.decision_function(X_test)
 
     auc = roc_auc_score(test_labels_encoded, y_scores)
 
