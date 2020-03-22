@@ -55,7 +55,7 @@ tot_auc = []
 
 n_comp_pca = 5
 algorithm_ = 'auto'
-radius_ = 8.7
+radius_ = 9
 weights_ = 'uniform'
 
 for i in range(1,31):
