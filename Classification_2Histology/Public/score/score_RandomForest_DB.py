@@ -6,7 +6,6 @@ from sklearn.decomposition import PCA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.preprocessing import StandardScaler, RobustScaler, QuantileTransformer, MinMaxScaler
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.ensemble import AdaBoostClassifier
 from sklearn.model_selection import train_test_split
 import os
 from sklearn.pipeline import Pipeline
@@ -15,7 +14,7 @@ from sklearn.model_selection import cross_validate
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import classification_report
 
-name = 'Adaboost_DB'
+name = 'RandomForest_DF'
 folder = '2_histologies_auc_DF'
 
 #load data
@@ -54,10 +53,10 @@ tot_train_score = []
 tot_test_score = []
 tot_auc = []
 
-n_comp_pca = 7
-algorithm_ = 'SAMME.R'
-lr = 0.5
-n_estimators_ = 50
+n_comp_pca = 6
+n_estimators_ = 20
+criterion_ = 'gini'
+bootstrap_ = True
 
 for i in range(1,31):
 
@@ -73,7 +72,7 @@ for i in range(1,31):
 
     scaler = StandardScaler()
     pca = PCA(n_components=n_comp_pca)
-    clf = AdaBoostClassifier(algorithm=algorithm_, n_estimators = n_estimators_, learning_rate=lr)
+    clf = RandomForestClassifier(n_estimators = n_estimators_, criterion= criterion_, bootstrap=bootstrap_)
 
     steps = [('scaler', scaler), ('red_dim', pca), ('clf', clf)]    
 
@@ -125,19 +124,20 @@ std_test_score = np.std(tot_test_score)
 std_auc = np.std(tot_auc)
 
 
+
 # pandas can convert a list of lists to a dataframe.
 # each list is a row thus after constructing the dataframe
 # transpose is applied to get to the user's desired output. 
 df = pd.DataFrame([tot_train_score, [mean_train_score], [std_train_score], 
                    tot_test_score, [mean_test_score], [std_test_score], 
                    tot_auc, [mean_auc], [std_auc],
-                   [scaler], [n_comp_pca], [algorithm_], [lr], [n_estimators_]])
+                   [scaler], [n_comp_pca], [n_estimators_], [criterion_], [bootstrap_]])
 df = df.transpose() 
 
 fieldnames = ['train_accuracy', 'train_accuracy_MEAN', 'train_accuracy_STD',
               'test_accuracy', 'test_accuracy_MEAN', 'test_accuracy_STD',
               'roc_auc_score', 'roc_auc_score_MEAN', 'roc_auc_score_STD',
-              'SCALER', 'PCA__n_components', 'CLF__algorithm', 'CLF__lr', 'CLF__n_estimators']
+              'SCALER', 'PCA__n_components', 'CLF__n_estimators', 'CLF__criterion', 'CLF__bootstrap']
 
 
 ## write the data to the specified output path: "output"/+file_name

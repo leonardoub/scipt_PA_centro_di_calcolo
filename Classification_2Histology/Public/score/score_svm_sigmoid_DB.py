@@ -6,7 +6,7 @@ from sklearn.decomposition import PCA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.preprocessing import StandardScaler, RobustScaler, QuantileTransformer, MinMaxScaler
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.ensemble import AdaBoostClassifier
+from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
 import os
 from sklearn.pipeline import Pipeline
@@ -15,8 +15,8 @@ from sklearn.model_selection import cross_validate
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import classification_report
 
-name = 'Adaboost'
-folder = '2_histologies_auc_PP'
+name = 'svm_sigmoid_DF'
+folder = '2_histologies_auc_DF'
 
 #load data
 
@@ -29,9 +29,15 @@ df_test = pd.read_csv(test_dataset_path)
 df_train.rename(columns={'Survival.time (months)':'Surv_time_months'}, inplace=True)
 df_test.rename(columns={'Survival.time (months)':'Surv_time_months'}, inplace=True)
 
+
 df_train.rename(columns={'Overall.Stage':'Overall_Stage'}, inplace=True)
 df_test.rename(columns={'Overall.Stage':'Overall_Stage'}, inplace=True)
 
+public_data = df_train.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event', 'Overall_Stage'], axis=1)
+PA_data = df_test.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event', 'Overall_Stage'], axis=1)
+
+public_labels = df_train.Histology
+PA_labels = df_test.Histology
 
 #select histologies
 df_train_LS = df_train[df_train['Histology'] != 'adenocarcinoma']
@@ -44,7 +50,6 @@ PA_data = df_test_LS.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.ev
 public_labels = df_train_LS.Histology
 PA_labels = df_test_LS.Histology
 
-
 #vettorizzare i label
 from sklearn.preprocessing import LabelEncoder
 encoder = LabelEncoder()
@@ -54,10 +59,9 @@ tot_train_score = []
 tot_test_score = []
 tot_auc = []
 
-n_comp_pca = 7
-algorithm_ = 'SAMME.R'
-lr = 0.5
-n_estimators_ = 50
+n_comp_pca = 2
+C_value = 0.25
+gamma_value = 'scale'
 
 for i in range(1,31):
 
@@ -73,9 +77,9 @@ for i in range(1,31):
 
     scaler = StandardScaler()
     pca = PCA(n_components=n_comp_pca)
-    clf = AdaBoostClassifier(algorithm=algorithm_, n_estimators = n_estimators_, learning_rate=lr)
+    svm = SVC(kernel='sigmoid', C=C_value, gamma=gamma_value, probability=True)
 
-    steps = [('scaler', scaler), ('red_dim', pca), ('clf', clf)]    
+    steps = [('scaler', scaler), ('red_dim', pca), ('clf', svm)]    
 
     pipeline = Pipeline(steps)
 
@@ -89,7 +93,7 @@ for i in range(1,31):
     score_test = pipeline.score(X_test, test_labels_encoded)
     tot_test_score.append(score_test)
 
-    y_scores = pipeline.predict_proba(X_test)[:,1]
+    y_scores = pipeline.decision_function(X_test)
 
     auc = roc_auc_score(test_labels_encoded, y_scores)
 
@@ -104,7 +108,7 @@ for i in range(1,31):
 
     outname = f'report_{i}.csv'
 
-    outdir = f'/home/users/ubaldi/TESI_PA/result_score/Public/{folder}/report_{name}_2H/'
+    outdir = f'/home/users/ubaldi/TESI_PA/result_score/Public/{folder}/report_{name}/'
     if not os.path.exists(outdir):
         os.makedirs(outdir)
 
@@ -125,19 +129,20 @@ std_test_score = np.std(tot_test_score)
 std_auc = np.std(tot_auc)
 
 
+
 # pandas can convert a list of lists to a dataframe.
 # each list is a row thus after constructing the dataframe
 # transpose is applied to get to the user's desired output. 
 df = pd.DataFrame([tot_train_score, [mean_train_score], [std_train_score], 
                    tot_test_score, [mean_test_score], [std_test_score], 
                    tot_auc, [mean_auc], [std_auc],
-                   [scaler], [n_comp_pca], [algorithm_], [lr], [n_estimators_]])
+                   [scaler], [n_comp_pca], [C_value], [gamma_value]])
 df = df.transpose() 
 
 fieldnames = ['train_accuracy', 'train_accuracy_MEAN', 'train_accuracy_STD',
               'test_accuracy', 'test_accuracy_MEAN', 'test_accuracy_STD',
               'roc_auc_score', 'roc_auc_score_MEAN', 'roc_auc_score_STD',
-              'SCALER', 'PCA__n_components', 'CLF__algorithm', 'CLF__lr', 'CLF__n_estimators']
+              'SCALER', 'PCA__n_components', 'CLF__C', 'CLF__gamma']
 
 
 ## write the data to the specified output path: "output"/+file_name
@@ -151,7 +156,7 @@ fieldnames = ['train_accuracy', 'train_accuracy_MEAN', 'train_accuracy_STD',
 
 import os
 
-outname = f'score_{name}_2H.csv'
+outname = f'score_{name}.csv'
 
 outdir = f'/home/users/ubaldi/TESI_PA/result_score/Public/{folder}/'
 if not os.path.exists(outdir):
