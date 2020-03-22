@@ -55,7 +55,7 @@ tot_auc = []
 
 n_comp_pca = 5
 algorithm_ = 'auto'
-radius_ = 9
+radius_ = 8.7
 weights_ = 'uniform'
 
 for i in range(1,31):
@@ -72,7 +72,7 @@ for i in range(1,31):
 
     scaler = StandardScaler()
     pca = PCA(n_components=n_comp_pca)
-    clf = RadiusNeighborsClassifier(algorithm=algorithm_, radius = radius_, weights=weights_)
+    clf = RadiusNeighborsClassifier(algorithm=algorithm_, radius = radius_, weights=weights_, outlier_label='most_frequent')
 
     steps = [('scaler', scaler), ('red_dim', pca), ('clf', clf)]    
 
