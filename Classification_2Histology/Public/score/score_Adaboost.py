@@ -16,7 +16,7 @@ from sklearn.metrics import roc_auc_score
 from sklearn.metrics import classification_report
 
 name = 'Adaboost'
-folder = '2_histologies'
+folder = '2_histologies_auc_PP'
 
 #load data
 

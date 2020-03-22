@@ -15,8 +15,8 @@ from sklearn.model_selection import cross_validate
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import classification_report
 
-name = 'svm_rbf'
-folder = '2_histologies'
+name = 'svm_rbf_PP'
+folder = '2_histologies_auc_PP'
 
 #load data
 
@@ -57,8 +57,7 @@ encoder = LabelEncoder()
 #tot_random_state = []
 tot_train_score = []
 tot_test_score = []
-tot_macro = []
-tot_weighted = []
+tot_auc = []
 
 n_comp_pca = 4
 C_value = 2
@@ -94,13 +93,11 @@ for i in range(1,31):
     score_test = pipeline.score(X_test, test_labels_encoded)
     tot_test_score.append(score_test)
 
-    y_scores = pipeline.predict_proba(X_test)
+    y_scores = pipeline.predict_proba(X_test)[:, 1]
 
-    macro = roc_auc_score(test_labels_encoded, y_scores, average='macro')
-    weighted = roc_auc_score(test_labels_encoded, y_scores, average='weighted')
+    auc = roc_auc_score(test_labels_encoded, y_scores)
 
-    tot_macro.append(macro)
-    tot_weighted.append(weighted)
+    tot_auc.append(auc)
 
     y_pred = pipeline.predict(X_test)
     
@@ -140,15 +137,13 @@ std_macro = np.std(tot_macro)
 # transpose is applied to get to the user's desired output. 
 df = pd.DataFrame([tot_train_score, [mean_train_score], [std_train_score], 
                    tot_test_score, [mean_test_score], [std_test_score], 
-                   tot_weighted, [mean_weighted], [std_weighted],
-                   tot_macro, [mean_macro], [std_macro],
+                   tot_auc, [mean_auc], [std_auc],
                    [scaler], [n_comp_pca], [C_value], [gamma_value]])
 df = df.transpose() 
 
 fieldnames = ['train_accuracy', 'train_accuracy_MEAN', 'train_accuracy_STD',
               'test_accuracy', 'test_accuracy_MEAN', 'test_accuracy_STD',
-              'roc_auc_score_weighted', 'roc_auc_score_weighted_MEAN', 'roc_auc_score_weighted_STD',
-              'roc_auc_score_macro', 'roc_auc_score_macro_MEAN', 'roc_auc_score_macro_STD',
+              'roc_auc_score', 'roc_auc_score_MEAN', 'roc_auc_score_STD',
               'SCALER', 'PCA__n_components', 'CLF__C', 'CLF__gamma']
 
 
