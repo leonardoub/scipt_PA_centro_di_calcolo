@@ -6,7 +6,7 @@ from sklearn.decomposition import PCA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.preprocessing import StandardScaler, RobustScaler, QuantileTransformer, MinMaxScaler
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import AdaBoostClassifier
 from sklearn.model_selection import train_test_split
 import os
 from sklearn.pipeline import Pipeline
@@ -15,7 +15,7 @@ from sklearn.model_selection import cross_validate
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import classification_report
 
-name = 'KNeighbors'
+name = 'Adaboost'
 folder = 'score_NOprep_NOfeatRed'
 
 #load data
@@ -52,10 +52,10 @@ tot_test_score = []
 #tot_macro_ovr = []
 tot_weighted_ovr = []
 
-n_comp_pca = 2
-algorithm_ = 'auto'
-n_neighbors_ = 5
-weights_ = 'uniform'
+n_comp_pca = 3
+algorithm_ = 'SAMME.R'
+lr = 0.2
+n_estimators_ = 60
 
 for i in range(1,31):
 
@@ -67,11 +67,10 @@ for i in range(1,31):
     #vettorizzare i label
     train_labels_encoded = encoder.fit_transform(y_train)
     test_labels_encoded = encoder.transform(y_test)
-
-
+    
     scaler = None
     pca = PCA(n_components=n_comp_pca)
-    clf = KNeighborsClassifier()
+    clf = AdaBoostClassifier()
 
     steps = [('scaler', scaler), ('red_dim', None), ('clf', clf)]    
 
@@ -140,8 +139,7 @@ df = df.transpose()
 fieldnames = ['train_accuracy', 'train_accuracy_MEAN', 'train_accuracy_STD',
               'test_accuracy', 'test_accuracy_MEAN', 'test_accuracy_STD',
               'roc_auc_score_weighted_ovr', 'roc_auc_score_weighted_ovr_MEAN', 'roc_auc_score_weighted_ovr_STD',
-              'SCALER', 'PCA__n_components', 'CLF__algorithm', 'CLF__n_neighbors', 'CLF__weights']
-
+              'SCALER', 'PCA__n_components', 'CLF__algorithm', 'CLF__lr', 'CLF__n_estimators']
 
 ## write the data to the specified output path: "output"/+file_name
 ## without adding the index of the dataframe to the output 
@@ -154,7 +152,7 @@ fieldnames = ['train_accuracy', 'train_accuracy_MEAN', 'train_accuracy_STD',
 
 import os
 
-outname = f'score_{name}.csv'
+outname = f'score_{name}_NO_NO.csv'
 
 outdir = f'/home/users/ubaldi/TESI_PA/result_score/Public/{folder}/'
 if not os.path.exists(outdir):

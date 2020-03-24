@@ -6,7 +6,7 @@ from sklearn.decomposition import PCA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.preprocessing import StandardScaler, RobustScaler, QuantileTransformer, MinMaxScaler
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
 import os
 from sklearn.pipeline import Pipeline
@@ -15,7 +15,7 @@ from sklearn.model_selection import cross_validate
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import classification_report
 
-name = 'KNeighbors'
+name = 'svm_linear_STDS'
 folder = 'score_NOprep_NOfeatRed'
 
 #load data
@@ -52,10 +52,8 @@ tot_test_score = []
 #tot_macro_ovr = []
 tot_weighted_ovr = []
 
-n_comp_pca = 2
-algorithm_ = 'auto'
-n_neighbors_ = 5
-weights_ = 'uniform'
+n_comp_pca = 6
+C_value = 0.3988
 
 for i in range(1,31):
 
@@ -71,9 +69,9 @@ for i in range(1,31):
 
     scaler = None
     pca = PCA(n_components=n_comp_pca)
-    clf = KNeighborsClassifier()
+    svm = SVC(kernel='linear', probability=True)
 
-    steps = [('scaler', scaler), ('red_dim', None), ('clf', clf)]    
+    steps = [('scaler', scaler), ('red_dim', None), ('clf', svm)]    
 
     pipeline = Pipeline(steps)
 
@@ -134,15 +132,13 @@ std_weighted_ovr = np.std(tot_weighted_ovr)
 df = pd.DataFrame([tot_train_score, [mean_train_score], [std_train_score], 
                    tot_test_score, [mean_test_score], [std_test_score], 
                    tot_weighted_ovr, [mean_weighted_ovr], [std_weighted_ovr],
-                   [scaler], [None], ['default'], ['default'], ['default']])
+                   [scaler], [n_comp_pca], ['default']])
 df = df.transpose() 
 
 fieldnames = ['train_accuracy', 'train_accuracy_MEAN', 'train_accuracy_STD',
               'test_accuracy', 'test_accuracy_MEAN', 'test_accuracy_STD',
               'roc_auc_score_weighted_ovr', 'roc_auc_score_weighted_ovr_MEAN', 'roc_auc_score_weighted_ovr_STD',
-              'SCALER', 'PCA__n_components', 'CLF__algorithm', 'CLF__n_neighbors', 'CLF__weights']
-
-
+              'SCALER', 'PCA__n_components', 'SVM__C']
 ## write the data to the specified output path: "output"/+file_name
 ## without adding the index of the dataframe to the output 
 ## and without adding a header to the output. 
@@ -154,7 +150,7 @@ fieldnames = ['train_accuracy', 'train_accuracy_MEAN', 'train_accuracy_STD',
 
 import os
 
-outname = f'score_{name}.csv'
+outname = f'score_{name}_NO_NO.csv'
 
 outdir = f'/home/users/ubaldi/TESI_PA/result_score/Public/{folder}/'
 if not os.path.exists(outdir):
