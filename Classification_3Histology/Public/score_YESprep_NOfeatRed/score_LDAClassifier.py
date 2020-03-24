@@ -149,11 +149,12 @@ def create_csv_score_YES_NO(scaler_, abbr_scaler):
     #df.to_csv(f'/home/users/ubaldi/TESI_PA/result_score/Public/score_{name}.csv', index=False, header=fieldnames)
 
 
+
     #create folder and save
 
     import os
 
-    outname = f'score_{name}_YES_NO.csv'
+    outname = f'score_{name}_{str(abbr_scaler)}_YES_NO.csv'
 
     outdir = f'/home/users/ubaldi/TESI_PA/result_score/Public/{folder}/'
     if not os.path.exists(outdir):
@@ -162,7 +163,6 @@ def create_csv_score_YES_NO(scaler_, abbr_scaler):
     fullname = os.path.join(outdir, outname)    
 
     df.to_csv(fullname, index=False, header=fieldnames)
-
 
 
 create_csv_score_YES_NO(MinMaxScaler(), 'MMS')
