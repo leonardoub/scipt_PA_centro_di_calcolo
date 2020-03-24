@@ -16,7 +16,7 @@ from sklearn.metrics import roc_auc_score
 from sklearn.metrics import classification_report
 
 name = 'Adaboost'
-folder = 'score_NOprep_NOfeatRed'
+folder = 'score_YESprep_NOfeatRed'
 
 #load data
 
@@ -109,7 +109,7 @@ def create_csv_score_YES_NO(scaler_, abbr_scaler):
 
         outname = f'report_{i}.csv'
 
-        outdir = f'/home/users/ubaldi/TESI_PA/result_score/Public/{folder}/report_{name}_{str(abbr_scaler)}_NO_NO'
+        outdir = f'/home/users/ubaldi/TESI_PA/result_score/Public/{folder}/report_{name}_{str(abbr_scaler)}_YES_NO'
         if not os.path.exists(outdir):
             os.makedirs(outdir)
 
@@ -154,7 +154,7 @@ def create_csv_score_YES_NO(scaler_, abbr_scaler):
 
     import os
 
-    outname = f'score_{name}_{str(abbr_scaler)}_NO_NO.csv'
+    outname = f'score_{name}_{str(abbr_scaler)}_YES_NO.csv'
 
     outdir = f'/home/users/ubaldi/TESI_PA/result_score/Public/{folder}/'
     if not os.path.exists(outdir):
