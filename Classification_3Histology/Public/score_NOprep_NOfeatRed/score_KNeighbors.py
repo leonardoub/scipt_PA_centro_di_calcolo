@@ -154,7 +154,7 @@ fieldnames = ['train_accuracy', 'train_accuracy_MEAN', 'train_accuracy_STD',
 
 import os
 
-outname = f'score_{name}.csv'
+outname = f'score_{name}_NO_NO.csv'
 
 outdir = f'/home/users/ubaldi/TESI_PA/result_score/Public/{folder}/'
 if not os.path.exists(outdir):

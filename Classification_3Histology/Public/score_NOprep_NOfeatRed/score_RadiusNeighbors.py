@@ -71,7 +71,7 @@ for i in range(1,31):
 
     scaler = None
     pca = PCA(n_components=n_comp_pca)
-    clf = RadiusNeighborsClassifier()
+    clf = RadiusNeighborsClassifier(outlier_label='most_frequent')
 
     steps = [('scaler', scaler), ('red_dim', None), ('clf', clf)]    
 
