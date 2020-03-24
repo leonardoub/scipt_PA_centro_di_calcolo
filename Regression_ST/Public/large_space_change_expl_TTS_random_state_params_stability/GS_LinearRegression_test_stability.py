@@ -56,8 +56,7 @@ n_features_to_test = np.arange(1, 11)
 for i in range(1, 21):
 
     #Train test split
-    X_train, X_test, y_train, y_test = train_test_split(public_data, public_labels, test_size=0.3, 
-    stratify=public_labels, random_state=i*500)
+    X_train, X_test, y_train, y_test = train_test_split(public_data, public_labels, test_size=0.3, random_state=i*500)
 
     clf = TransformedTargetRegressor(regressor=LinearRegression(),
                                      transformer=MinMaxScaler())
