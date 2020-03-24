@@ -6,7 +6,7 @@ from sklearn.decomposition import PCA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.preprocessing import StandardScaler, RobustScaler, QuantileTransformer, MinMaxScaler
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.ensemble import AdaBoostClassifier
+from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
 import os
 from sklearn.pipeline import Pipeline
@@ -15,7 +15,7 @@ from sklearn.model_selection import cross_validate
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import classification_report
 
-name = 'LDAClassifier'
+name = 'svm_linear'
 folder = 'score_YESprep_NOfeatRed'
 
 #load data
@@ -54,8 +54,8 @@ def create_csv_score_YES_NO(scaler_, abbr_scaler):
     #tot_macro_ovr = []
     tot_weighted_ovr = []
 
-    solver_ = 'lsqr'
-    shrinkage_ = 'auto'
+    n_comp_pca = 7
+    C_value = 0.1875
 
     for i in range(1,31):
 
@@ -70,9 +70,10 @@ def create_csv_score_YES_NO(scaler_, abbr_scaler):
 
 
         scaler = scaler_
-        clf = LinearDiscriminantAnalysis()
+        pca = PCA(n_components=n_comp_pca)
+        svm = SVC(kernel='linear', probability=True)
 
-        steps = [('scaler', scaler), ('red_dim', None), ('clf', clf)]    
+        steps = [('scaler', scaler), ('red_dim', None), ('clf', svm)]    
 
         pipeline = Pipeline(steps)
 
@@ -133,15 +134,13 @@ def create_csv_score_YES_NO(scaler_, abbr_scaler):
     df = pd.DataFrame([tot_train_score, [mean_train_score], [std_train_score], 
                     tot_test_score, [mean_test_score], [std_test_score], 
                     tot_weighted_ovr, [mean_weighted_ovr], [std_weighted_ovr],
-                    [scaler], ['default'], ['default']])
+                    [scaler], [None], ['default']])
     df = df.transpose() 
 
     fieldnames = ['train_accuracy', 'train_accuracy_MEAN', 'train_accuracy_STD',
                 'test_accuracy', 'test_accuracy_MEAN', 'test_accuracy_STD',
                 'roc_auc_score_weighted_ovr', 'roc_auc_score_weighted_ovr_MEAN', 'roc_auc_score_weighted_ovr_STD',
-                'SCALER', 'CLF__solver', 'CLF__shrinkage']
-
-
+                'SCALER', 'PCA__n_components', 'SVM__C']
     ## write the data to the specified output path: "output"/+file_name
     ## without adding the index of the dataframe to the output 
     ## and without adding a header to the output. 
