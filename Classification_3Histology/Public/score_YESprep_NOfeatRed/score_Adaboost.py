@@ -107,15 +107,15 @@ def create_csv_score_YES_NO(scaler_, abbr_scaler):
         df_r = df_r.transpose()
         #df_r.to_csv(f'/home/users/ubaldi/TESI_PA/result_CV/report_{name}/report_{i}')
 
-        outname = f'report_{i}.csv'
+        #outname = f'report_{i}.csv'
 
-        outdir = f'/home/users/ubaldi/TESI_PA/result_score/Public/{folder}/report_{name}_{str(abbr_scaler)}_YES_NO'
-        if not os.path.exists(outdir):
-            os.makedirs(outdir)
+        #outdir = f'/home/users/ubaldi/TESI_PA/result_score/Public/{folder}/report_{name}_{str(abbr_scaler)}_YES_NO'
+        #if not os.path.exists(outdir):
+        #    os.makedirs(outdir)
 
-        fullname_r = os.path.join(outdir, outname)    
+        #fullname_r = os.path.join(outdir, outname)    
 
-        df_r.to_csv(fullname_r)
+        #df_r.to_csv(fullname_r)
 
 
     #mean value and std
