@@ -14,6 +14,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.ensemble import RandomForestClassifier
 
+name = 'RandomForest'
 
 #load data
 
@@ -66,11 +67,14 @@ for i in range(1, 21):
     pipeline = Pipeline(steps)
 
     parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 
-                    'clf__n_estimators':list(n_tree), 'clf__criterion':['gini', 'entropy'], 'clf__bootstrap':[True, False]},
+                    'clf__n_estimators':list(n_tree), 'clf__criterion':['gini', 'entropy'], 'clf__bootstrap':[True, False],
+                    'clf__oob_score':[True, False], 'clf__class_weight':[None, 'balanced']},
                    {'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 
-                    'clf__n_estimators':list(n_tree), 'clf__criterion':['gini', 'entropy'], 'clf__bootstrap':[True, False]},
+                    'clf__n_estimators':list(n_tree), 'clf__criterion':['gini', 'entropy'], 'clf__bootstrap':[True, False],
+                    'clf__oob_score':[True, False], 'clf__class_weight':[None, 'balanced']},
                    {'scaler':scalers_to_test, 'red_dim':[None],
-                    'clf__n_estimators':list(n_tree), 'clf__criterion':['gini', 'entropy'], 'clf__bootstrap':[True, False]}]
+                    'clf__n_estimators':list(n_tree), 'clf__criterion':['gini', 'entropy'], 'clf__bootstrap':[True, False],
+                    'clf__oob_score':[True, False], 'clf__class_weight':[None, 'balanced']}]
 
     grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)
 
@@ -93,7 +97,7 @@ for i in range(1, 21):
 
 import os
 
-outname = 'best_params_RandomForest.csv'
+outname = f'best_params_{name}.csv'
 
 outdir = '/home/users/ubaldi/TESI_PA/result_CV/3_classes_H/Public/large_space_change_expl_TTS_rand_state/RandomForest_stability'
 if not os.path.exists(outdir):

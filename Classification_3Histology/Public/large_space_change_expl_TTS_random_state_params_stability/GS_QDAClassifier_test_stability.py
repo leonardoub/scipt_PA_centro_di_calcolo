@@ -11,6 +11,8 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import GridSearchCV 
 from sklearn.model_selection import RandomizedSearchCV
 
+name = 'QDAClassifier'
+
 #load data
 
 train_dataset_path = '/home/users/ubaldi/TESI_PA/data/database_training2.csv'
@@ -81,7 +83,7 @@ for i in range(1, 21):
 
 import os
 
-outname = 'best_params_QDAClassifier.csv'
+outname = f'best_params_{name}.csv'
 
 outdir = '/home/users/ubaldi/TESI_PA/result_CV/Public/large_space_change_expl_TTS_rand_state/QDAClassifier_stability'
 if not os.path.exists(outdir):
