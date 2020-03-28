@@ -67,11 +67,11 @@ for i in range(1, 21):
 
        n_features_to_test = np.arange(1, 11)
 
-       parameteres = [{'scaler':RobustScaler(), 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 
+       parameteres = [{'scaler':[RobustScaler()], 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 
                        'clf__C':list(C_range), 'clf__class_weight':[None, 'balanced']},
-                      {'scaler':RobustScaler(), 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 
+                      {'scaler':[RobustScaler()], 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 
                        'clf__C':list(C_range), 'clf__class_weight':[None, 'balanced']},
-                      {'scaler':RobustScaler(), 'red_dim':[None], 
+                      {'scaler':[RobustScaler()], 'red_dim':[None], 
                        'clf__C':list(C_range), 'clf__class_weight':[None, 'balanced']}]
 
 
@@ -98,7 +98,7 @@ import os
 
 outname = f'best_params_{name}.csv'
 
-outdir = '/home/users/ubaldi/TESI_PA/result_CV/Public/large_space_change_expl_TTS_rand_state/lin_svm_stability'
+outdir = '/home/users/ubaldi/TESI_PA/result_CV/3_classes_H/Public/large_space_change_expl_TTS_rand_state/lin_svm_stability'
 if not os.path.exists(outdir):
     os.makedirs(outdir)
 
