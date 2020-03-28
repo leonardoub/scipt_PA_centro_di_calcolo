@@ -61,7 +61,7 @@ for i in range(1, 21):
        test_labels_encoded = encoder.transform(y_test)
 
        #SVM
-       steps = [('scaler', RobustScaler()), ('red_dim', PCA()), ('clf', LinearSVC(loss='hinge'))]
+       steps = [('scaler', RobustScaler()), ('red_dim', PCA()), ('clf', LinearSVC(loss='hinge', max_iter=-1))]
 
        pipeline = Pipeline(steps)
 
