@@ -49,7 +49,7 @@ df = pd.DataFrame()
 # Designate distributions to sample hyperparameters from 
 n_tree = np.arange(200, 2200, 200)
 n_features_to_test = np.arange(1, 11)
-depth = list(np.arange(10, 110, 10)).append(None)
+depth = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, None]
 
 for i in range(1, 21):
 
