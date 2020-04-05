@@ -47,9 +47,9 @@ scalers_to_test = [StandardScaler(), RobustScaler(), MinMaxScaler(), None]
 df = pd.DataFrame()
 
 # Designate distributions to sample hyperparameters from 
-n_tree = np.arange(10, 120, 10)
+n_tree = np.arange(200, 2200, 200)
 n_features_to_test = np.arange(1, 11)
-
+depth = np.arange(10, 110, 10)
 
 for i in range(1, 21):
 
@@ -67,14 +67,17 @@ for i in range(1, 21):
     pipeline = Pipeline(steps)
 
     parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 
-                    'clf__n_estimators':list(n_tree), 'clf__criterion':['gini', 'entropy'], 'clf__bootstrap':[True, False],
-                    'clf__oob_score':[True, False], 'clf__class_weight':[None, 'balanced']},
+                    'clf__n_estimators':list(n_tree), 'clf__criterion':['gini', 'entropy'], 
+                    'clf__max_depth':list(depth).append('None'), 'clf__min_samples_split':[2, 5, 10], 
+                    'clf__min_samples_leaf':[1, 2, 4], 'clf__class_weight':[None, 'balanced']},
                    {'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 
-                    'clf__n_estimators':list(n_tree), 'clf__criterion':['gini', 'entropy'], 'clf__bootstrap':[True, False],
-                    'clf__oob_score':[True, False], 'clf__class_weight':[None, 'balanced']},
+                    'clf__n_estimators':list(n_tree), 'clf__criterion':['gini', 'entropy'], 
+                    'clf__max_depth':list(depth).append('None'), 'clf__min_samples_split':[2, 5, 10], 
+                    'clf__min_samples_leaf':[1, 2, 4], 'clf__class_weight':[None, 'balanced']},
                    {'scaler':scalers_to_test, 'red_dim':[None],
-                    'clf__n_estimators':list(n_tree), 'clf__criterion':['gini', 'entropy'], 'clf__bootstrap':[True, False],
-                    'clf__oob_score':[True, False], 'clf__class_weight':[None, 'balanced']}]
+                    'clf__n_estimators':list(n_tree), 'clf__criterion':['gini', 'entropy'], 
+                    'clf__max_depth':list(depth).append('None'), 'clf__min_samples_split':[2, 5, 10], 
+                    'clf__min_samples_leaf':[1, 2, 4], 'clf__class_weight':[None, 'balanced']}]
 
     grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)
 
