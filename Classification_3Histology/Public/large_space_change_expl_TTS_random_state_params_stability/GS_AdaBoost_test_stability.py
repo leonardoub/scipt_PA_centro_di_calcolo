@@ -12,6 +12,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import GridSearchCV 
 from sklearn.model_selection import RandomizedSearchCV
+from sklearn.tree import DecisionTreeClassifier
 
 name = 'AdaBoost'
 
@@ -48,8 +49,7 @@ df = pd.DataFrame()
 # Designate distributions to sample hyperparameters from 
 n_estimators = np.arange(100, 2000, 100)
 n_features_to_test = np.arange(1, 11)
-lr = np.arange(0, 3, 0.5)
-depth = [1, 2, 5, 10, None]
+lr = [0.001, 0.01, 0.05, 0.1, 0.25, 0.50, 0.75, 1.0]
 
 
 
@@ -70,12 +70,15 @@ for i in range(1, 21):
 
 
        parameteres = [{'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 
+                       'clf__base_estimator': [DecisionTreeClassifier(max_depth = j) for j in range(1,6)],
                        'clf__n_estimators':n_estimators, 'base_estimator__max_depth':depth, 
                        'clf__learning_rate':lr, 'clf__algorithm':['SAMME', 'SAMME.R']},
                       {'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':n_features_to_test, 
+                       'clf__base_estimator': [DecisionTreeClassifier(max_depth = j) for j in range(1,6)],                     
                        'clf__n_estimators':n_estimators, 'base_estimator__max_depth':depth, 
                        'clf__learning_rate':lr, 'clf__algorithm':['SAMME', 'SAMME.R']},
                        {'scaler':scalers_to_test, 'red_dim':[None], 
+                       'clf__base_estimator': [DecisionTreeClassifier(max_depth = j) for j in range(1,6)],
                        'clf__n_estimators':n_estimators, 'base_estimator__max_depth':depth, 
                        'clf__learning_rate':lr, 'clf__algorithm':['SAMME', 'SAMME.R']}]
 
