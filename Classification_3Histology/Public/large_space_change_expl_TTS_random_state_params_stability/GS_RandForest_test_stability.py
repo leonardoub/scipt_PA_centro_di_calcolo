@@ -47,11 +47,12 @@ scalers_to_test = [StandardScaler(), RobustScaler(), MinMaxScaler(), None]
 df = pd.DataFrame()
 
 # Designate distributions to sample hyperparameters from 
-n_tree = np.arange(200, 2200, 200)
-n_features_to_test = np.arange(1, 11)
+#n_tree = np.arange(200, 2200, 200)
+n_tree = [10, 30, 50, 70, 100, 150, 200, 400, 600, 1000]
+n_features_to_test = np.arange(4, 11)
 depth = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, None]
 
-for i in range(1, 21):
+for i in range(1, 11):
 
     #Train test split
     X_train, X_test, y_train, y_test = train_test_split(public_data, public_labels, test_size=0.3, 
@@ -100,7 +101,7 @@ for i in range(1, 21):
 
 import os
 
-outname = f'best_params_{name}.csv'
+outname = f'best_params_{name}_1.csv'
 
 outdir = '/home/users/ubaldi/TESI_PA/result_CV/3_classes_H/Public/large_space_change_expl_TTS_rand_state/RandomForest_stability'
 if not os.path.exists(outdir):
