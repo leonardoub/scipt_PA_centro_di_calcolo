@@ -67,7 +67,7 @@ for i in range(1, 21):
 
        n_features_to_test = np.arange(1, 11)
 
-       parameteres = [{'scaler':[RobustScaler()], 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 
+       parameteres = [{'scaler':[RobustScaler()], 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 'red_dim__whiten':[False, True], 
                        'clf__C':list(C_range), 'clf__class_weight':[None, 'balanced']},
                       {'scaler':[RobustScaler()], 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 
                        'clf__C':list(C_range), 'clf__class_weight':[None, 'balanced']},
