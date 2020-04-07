@@ -65,7 +65,7 @@ for i in range(1, 21):
        pipeline = Pipeline(steps)
 
        parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':n_features_to_test, 
-                       'red_dim__whiten':[False, True], 'red_dim__solver':['auto', 'full', 'arpack', 'randomized'], 'clf__n_neighbors':k, 
+                       'red_dim__whiten':[False, True], clf__n_neighbors':k, 
                        'clf__weights':['uniform', 'distance'], 'clf__algorithm':['auto', 'ball_tree', 'kd_tree', 'brute']}]
 
 

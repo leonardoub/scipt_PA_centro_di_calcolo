@@ -69,7 +69,7 @@ for i in range(1, 21):
        pipeline = Pipeline(steps)
 
        parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':n_features_to_test,
-                       'red_dim__whiten':[False, True], 'red_dim__solver':['auto', 'full', 'arpack', 'randomized'],
+                       'red_dim__whiten':[False, True],
                        'clf__base_estimator': [DecisionTreeClassifier(max_depth = j) for j in range(1,6)],                     
                        'clf__n_estimators':n_estimators, 'clf__learning_rate':lr, 'clf__algorithm':['SAMME', 'SAMME.R']}]
 
