@@ -14,7 +14,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import RandomizedSearchCV
 
 
-name = 'svm_implemented_lin_RBTS'
+name = 'PCA_svm_implemented_lin_RBTS'
 
 #load data
 
@@ -61,17 +61,14 @@ for i in range(1, 21):
        test_labels_encoded = encoder.transform(y_test)
 
        #SVM
-       steps = [('scaler', RobustScaler()), ('red_dim', PCA()), ('clf', LinearSVC(loss='hinge'))]
+       steps = [('scaler', RobustScaler()), ('red_dim', PCA()), ('clf', LinearSVC(loss='hinge', random_state=i*503))]
 
        pipeline = Pipeline(steps)
 
        n_features_to_test = np.arange(1, 11)
 
-       parameteres = [{'scaler':[RobustScaler()], 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 'red_dim__whiten':[False, True], 
-                       'clf__C':list(C_range), 'clf__class_weight':[None, 'balanced']},
-                      {'scaler':[RobustScaler()], 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 
-                       'clf__C':list(C_range), 'clf__class_weight':[None, 'balanced']},
-                      {'scaler':[RobustScaler()], 'red_dim':[None], 
+       parameteres = [{'scaler':[RobustScaler()], 'red_dim':[PCA(random_state=i*42)], 'red_dim__n_components':list(n_features_to_test), 
+                       'red_dim__whiten':[False, True], 'red_dim__solver':['auto', 'full', 'arpack', 'randomized'],
                        'clf__C':list(C_range), 'clf__class_weight':[None, 'balanced']}]
 
 
@@ -87,10 +84,32 @@ for i in range(1, 21):
        bp['accuracy_train'] = score_train
        bp['accuracy_test'] = score_test
        bp['random_state'] = i*500
+       bp['random_state_pca'] = i*42
+       bp['random_state_clf'] = i*503
 
        df = df.append(bp, ignore_index=True)
 
 #df.to_csv('/home/users/ubaldi/TESI_PA/result_CV/large_space_NO_fixed_rand_state/lin_svm_stability/best_params_svm_lin.csv')
+
+
+#insert sccuracy mean and std
+
+acc_train_mean = df['accuracy_train'].mean()
+acc_test_mean = df['accuracy_test'].mean()
+
+acc_train_std = df['accuracy_train'].std()
+acc_test_std = df['accuracy_test'].std()
+
+
+df_train_acc_mean = pd.DataFrame([{'accuracy_train_mean':acc_train_mean}])
+df_train_acc_std = pd.DataFrame([{'accuracy_train_std':acc_train_std}])
+
+
+df_test_acc_mean = pd.DataFrame([{'accuracy_test_mean':acc_test_mean}])
+df_test_acc_std = pd.DataFrame([{'accuracy_test_std':acc_test_std}])
+
+
+df_tot = pd.concat([df, df_train_acc_mean, df_train_acc_std, df_test_acc_mean, df_test_acc_std], axis=1)
 
 #create folder and save
 
@@ -104,5 +123,5 @@ if not os.path.exists(outdir):
 
 fullname = os.path.join(outdir, outname)    
 
-df.to_csv(fullname)
+df_tot.to_csv(fullname)
 

@@ -48,7 +48,7 @@ df = pd.DataFrame()
 # Designate distributions to sample hyperparameters from 
 C_range = np.power(2, np.arange(-10, 11, dtype=float))
 gamma_range = np.power(2, np.arange(-10, 11, dtype=float))
-n_features_to_test = np.arange(4,10)
+n_features_to_test = np.arange(1,11)
 
 
 for i in range(1, 21):
@@ -62,14 +62,15 @@ for i in range(1, 21):
        test_labels_encoded = encoder.transform(y_test)
 
        #SVM
-       steps = [('scaler', StandardScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='sigmoid', random_state=i*503))]
+       steps = [('scaler', StandardScaler()), ('red_dim', PCA(random_state=i*42)), ('clf', SVC(kernel='sigmoid', random_state=i*503))]
 
        pipeline = Pipeline(steps)
 
        n_features_to_test = np.arange(1, 11)
 
        parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':n_features_to_test, 'red_dim__whiten':[False, True],
-                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range), 'clf__class_weight':[None, 'balanced']}]
+                       'red_dim__solver':['auto', 'full', 'arpack', 'randomized'],
+                       'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range), 'clf__class_weight':[None, 'balanced']}]
 
        grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)
 
@@ -83,6 +84,7 @@ for i in range(1, 21):
        bp['accuracy_train'] = score_train
        bp['accuracy_test'] = score_test
        bp['random_state'] = i*500
+       bp['random_state_pca'] = i*42
        bp['random_state_clf'] = i*503
 
        df = df.append(bp, ignore_index=True)

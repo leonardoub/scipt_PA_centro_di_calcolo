@@ -13,7 +13,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import GridSearchCV 
 from sklearn.model_selection import RandomizedSearchCV
 
-name = 'KNeighbors'
+name = 'PCA_KNeighbors'
 
 #load data
 
@@ -85,10 +85,32 @@ for i in range(1, 21):
        bp['accuracy_train'] = score_train
        bp['accuracy_test'] = score_test
        bp['random_state'] = i*500
+       bp['random_state_pca'] = i*42
+       bp['random_state_clf'] = i*503
 
        df = df.append(bp, ignore_index=True)
 
 #df.to_csv('/home/users/ubaldi/TESI_PA/result_CV/large_space_NO_fixed_rand_state/KNeighbors_stability/best_params_KNeighbors.csv')
+
+#insert sccuracy mean and std
+
+acc_train_mean = df['accuracy_train'].mean()
+acc_test_mean = df['accuracy_test'].mean()
+
+acc_train_std = df['accuracy_train'].std()
+acc_test_std = df['accuracy_test'].std()
+
+
+df_train_acc_mean = pd.DataFrame([{'accuracy_train_mean':acc_train_mean}])
+df_train_acc_std = pd.DataFrame([{'accuracy_train_std':acc_train_std}])
+
+
+df_test_acc_mean = pd.DataFrame([{'accuracy_test_mean':acc_test_mean}])
+df_test_acc_std = pd.DataFrame([{'accuracy_test_std':acc_test_std}])
+
+
+df_tot = pd.concat([df, df_train_acc_mean, df_train_acc_std, df_test_acc_mean, df_test_acc_std], axis=1)
+
 
 #create folder and save
 
@@ -102,4 +124,4 @@ if not os.path.exists(outdir):
 
 fullname = os.path.join(outdir, outname)    
 
-df.to_csv(fullname)
+df_tot.to_csv(fullname)
