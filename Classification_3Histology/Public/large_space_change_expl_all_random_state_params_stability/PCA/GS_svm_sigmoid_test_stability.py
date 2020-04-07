@@ -13,7 +13,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import GridSearchCV 
 from sklearn.model_selection import RandomizedSearchCV
 
-name = 'svm_sigmoid'
+name = 'PCA_svm_sigmoid'
 
 #load data
 
@@ -62,20 +62,14 @@ for i in range(1, 21):
        test_labels_encoded = encoder.transform(y_test)
 
        #SVM
-       steps = [('scaler', StandardScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='sigmoid'))]
+       steps = [('scaler', StandardScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='sigmoid', random_state=i*503))]
 
        pipeline = Pipeline(steps)
 
        n_features_to_test = np.arange(1, 11)
 
-       parameteres = [{'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2],
-                       'red_dim__solver':['svd','lsqr', 'eigen'], 'red_dim__shrinkage':['auto', None],
-                       'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range), 'clf__class_weight':[None, 'balanced']}, 
-                     {'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':n_features_to_test, 'red_dim__whiten':[False, True],
-                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range), 'clf__class_weight':[None, 'balanced']},
-                     {'scaler':scalers_to_test, 'red_dim':[None],
+       parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':n_features_to_test, 'red_dim__whiten':[False, True],
                      'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range), 'clf__class_weight':[None, 'balanced']}]
-
 
        grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)
 
@@ -89,10 +83,31 @@ for i in range(1, 21):
        bp['accuracy_train'] = score_train
        bp['accuracy_test'] = score_test
        bp['random_state'] = i*500
+       bp['random_state_clf'] = i*503
 
        df = df.append(bp, ignore_index=True)
 
 #df.to_csv('/home/users/ubaldi/TESI_PA/result_CV/large_space_NO_fixed_rand_state/sigmoid_svm_stability/best_params_svm_sigmoid.csv')
+
+
+#insert sccuracy mean and std
+
+acc_train_mean = df['accuracy_train'].mean()
+acc_test_mean = df['accuracy_test'].mean()
+
+acc_train_std = df['accuracy_train'].std()
+acc_test_std = df['accuracy_test'].std()
+
+
+df_train_acc_mean = pd.DataFrame([{'accuracy_train_mean':acc_train_mean}])
+df_train_acc_std = pd.DataFrame([{'accuracy_train_std':acc_train_std}])
+
+
+df_test_acc_mean = pd.DataFrame([{'accuracy_test_mean':acc_test_mean}])
+df_test_acc_std = pd.DataFrame([{'accuracy_test_std':acc_test_std}])
+
+
+df_tot = pd.concat([df, df_train_acc_mean, df_train_acc_std, df_test_acc_mean, df_test_acc_std], axis=1)
 
 
 
@@ -106,5 +121,5 @@ if not os.path.exists(outdir):
 
 fullname = os.path.join(outdir, outname)    
 
-df.to_csv(fullname)
+df_tot.to_csv(fullname)
 

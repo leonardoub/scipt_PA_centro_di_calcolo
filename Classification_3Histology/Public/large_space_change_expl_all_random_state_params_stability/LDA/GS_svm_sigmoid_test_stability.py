@@ -126,5 +126,5 @@ if not os.path.exists(outdir):
 
 fullname = os.path.join(outdir, outname)    
 
-df.to_csv(fullname)
+df_tot.to_csv(fullname)
 
