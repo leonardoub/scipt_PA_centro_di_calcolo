@@ -60,7 +60,7 @@ for i in range(1, 21):
        test_labels_encoded = encoder.transform(y_test)
 
        #SVM
-       steps = [('scaler', RobustScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='linear'))]
+       steps = [('scaler', RobustScaler()), ('red_dim', LinearDiscriminantAnalysis()), ('clf', SVC(kernel='linear', random_state=i*503))]
 
        pipeline = Pipeline(steps)
 
@@ -86,7 +86,6 @@ for i in range(1, 21):
        bp['accuracy_train'] = score_train
        bp['accuracy_test'] = score_test
        bp['random_state'] = i*500
-       bp['random_state_pca'] = i*42
        bp['random_state_clf'] = i*503
 
        df = df.append(bp, ignore_index=True)
@@ -121,7 +120,7 @@ import os
 
 outname = f'best_params_{name}.csv'
 
-outdir = '/home/users/ubaldi/TESI_PA/result_CV/3_classes_H/Public/large_space_change_expl_TTS_rand_state/lin_svm_stability'
+outdir = '/home/users/ubaldi/TESI_PA/result_CV/3_classes_H/Public/large_space_change_expl_all_rand_state/lin_svm_stability'
 if not os.path.exists(outdir):
     os.makedirs(outdir)
 

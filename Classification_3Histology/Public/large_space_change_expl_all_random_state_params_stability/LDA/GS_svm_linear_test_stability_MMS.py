@@ -62,7 +62,7 @@ for i in range(1, 21):
        test_labels_encoded = encoder.transform(y_test)
 
        #SVM
-       steps = [('scaler', MinMaxScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='linear'))]
+       steps = [('scaler', MinMaxScaler()), ('red_dim', LinearDiscriminantAnalysis()), ('clf', SVC(kernel='linear', random_state=i*503))]
 
        pipeline = Pipeline(steps)
 
@@ -88,7 +88,6 @@ for i in range(1, 21):
        bp['accuracy_train'] = score_train
        bp['accuracy_test'] = score_test
        bp['random_state'] = i*500
-       bp['random_state_pca'] = i*42
        bp['random_state_clf'] = i*503
 
        df = df.append(bp, ignore_index=True)

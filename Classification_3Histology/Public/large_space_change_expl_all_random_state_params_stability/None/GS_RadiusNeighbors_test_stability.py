@@ -13,7 +13,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import GridSearchCV 
 from sklearn.model_selection import RandomizedSearchCV
 
-name ='RadiusNeighbors'
+name ='NONE_RadiusNeighbors'
 
 #load data
 
@@ -61,16 +61,12 @@ for i in range(1, 21):
        test_labels_encoded = encoder.transform(y_test)
 
        #RadiusNeighbors
-       steps = [('scaler', MinMaxScaler()), ('red_dim', PCA()), ('clf', RadiusNeighborsClassifier(outlier_label='most_frequent'))]
+       steps = [('scaler', MinMaxScaler()), ('clf', RadiusNeighborsClassifier(outlier_label='most_frequent'))]
 
        pipeline = Pipeline(steps)
 
 
-       parameteres = [{'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 'clf__radius':R, 
-                       'clf__weights':['uniform', 'distance'], 'clf__algorithm':['auto', 'ball_tree', 'kd_tree', 'brute']},
-                      {'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':n_features_to_test, 'red_dim__whiten':[False, True], 'clf__radius':R, 
-                       'clf__weights':['uniform', 'distance'], 'clf__algorithm':['auto', 'ball_tree', 'kd_tree', 'brute']},
-                      {'scaler':scalers_to_test, 'red_dim':[None], 'clf__radius':R, 
+       parameteres = [{'scaler':scalers_to_test, 'clf__radius':R, 
                        'clf__weights':['uniform', 'distance'], 'clf__algorithm':['auto', 'ball_tree', 'kd_tree', 'brute']}]
 
 
@@ -86,8 +82,6 @@ for i in range(1, 21):
        bp['accuracy_train'] = score_train
        bp['accuracy_test'] = score_test
        bp['random_state'] = i*500
-       bp['random_state_pca'] = i*42
-       bp['random_state_clf'] = i*503
 
        df = df.append(bp, ignore_index=True)
 
@@ -121,7 +115,7 @@ import os
 
 outname = f'best_params_{name}.csv'
 
-outdir = '/home/users/ubaldi/TESI_PA/result_CV/Public/large_space_change_expl_TTS_rand_state/RadiusNeighbors_stability'
+outdir = '/home/users/ubaldi/TESI_PA/result_CV/3_classes_H/Public/large_space_change_expl_all_rand_state/RadiusNeighbors_stability'
 if not os.path.exists(outdir):
     os.makedirs(outdir)
 

@@ -61,19 +61,18 @@ for i in range(1, 21):
        test_labels_encoded = encoder.transform(y_test)
 
        #SVM
-       steps = [('scaler', StandardScaler()), ('red_dim', PCA()), ('clf', LinearSVC(loss='hinge'))]
+       steps = [('scaler', StandardScaler()), ('red_dim', LinearDiscriminantAnalysis()), ('clf', LinearSVC(loss='hinge', random_state=i*503))]
 
        pipeline = Pipeline(steps)
 
        n_features_to_test = np.arange(1, 11)
 
-       parameteres = [{'scaler':[StandardScaler()], 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 'red_dim__whiten':[False, True],
+       parameteres = [{'scaler':[StandardScaler()], 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2],
+                       'red_dim__solver':['svd'],
                        'clf__C':list(C_range), 'clf__class_weight':[None, 'balanced']},
-                      {'scaler':[StandardScaler()], 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 
-                       'clf__C':list(C_range), 'clf__class_weight':[None, 'balanced']},
-                      {'scaler':[StandardScaler()], 'red_dim':[None], 
+                       {'scaler':[StandardScaler()], 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2],
+                        'red_dim__solver':['lsqr', 'eigen'], 'red_dim__shrinkage':['auto', None],
                        'clf__C':list(C_range), 'clf__class_weight':[None, 'balanced']}]
-
 
        grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)
 
@@ -87,7 +86,6 @@ for i in range(1, 21):
        bp['accuracy_train'] = score_train
        bp['accuracy_test'] = score_test
        bp['random_state'] = i*500
-       bp['random_state_pca'] = i*42
        bp['random_state_clf'] = i*503
 
        df = df.append(bp, ignore_index=True)
@@ -122,7 +120,7 @@ import os
 
 outname = f'best_params_{name}.csv'
 
-outdir = '/home/users/ubaldi/TESI_PA/result_CV/3_classes_H/Public/large_space_change_expl_TTS_rand_state/lin_svm_stability'
+outdir = '/home/users/ubaldi/TESI_PA/result_CV/3_classes_H/Public/large_space_change_expl_all_rand_state/lin_svm_stability'
 if not os.path.exists(outdir):
     os.makedirs(outdir)
 

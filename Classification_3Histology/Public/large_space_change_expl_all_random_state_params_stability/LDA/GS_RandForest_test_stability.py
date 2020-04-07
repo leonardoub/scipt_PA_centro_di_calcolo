@@ -63,19 +63,17 @@ for i in range(1, 11):
     test_labels_encoded = encoder.transform(y_test)
 
     #RandomForestClassifier
-    steps = [('scaler', StandardScaler()), ('red_dim', PCA()), ('clf', RandomForestClassifier())]
+    steps = [('scaler', StandardScaler()), ('red_dim', LinearDiscriminantAnalysis()), ('clf', RandomForestClassifier(random_state=i*503))]
 
     pipeline = Pipeline(steps)
 
-    parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 'red_dim__whiten':[False, True],
+    parameteres = [{'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 
+                    'red_dim__solver':['svd'],
                     'clf__n_estimators':list(n_tree), 'clf__criterion':['gini', 'entropy'], 
                     'clf__max_depth':depth, 'clf__min_samples_split':[2, 5, 10], 
                     'clf__min_samples_leaf':[1, 2, 4], 'clf__class_weight':[None, 'balanced']},
-                   {'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 
-                    'clf__n_estimators':list(n_tree), 'clf__criterion':['gini', 'entropy'], 
-                    'clf__max_depth':depth, 'clf__min_samples_split':[2, 5, 10], 
-                    'clf__min_samples_leaf':[1, 2, 4], 'clf__class_weight':[None, 'balanced']},
-                   {'scaler':scalers_to_test, 'red_dim':[None],
+                    {'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 
+                    'red_dim__solver':['lsqr', 'eigen'], 'red_dim__shrinkage':['auto', None],                   
                     'clf__n_estimators':list(n_tree), 'clf__criterion':['gini', 'entropy'], 
                     'clf__max_depth':depth, 'clf__min_samples_split':[2, 5, 10], 
                     'clf__min_samples_leaf':[1, 2, 4], 'clf__class_weight':[None, 'balanced']}]
@@ -92,7 +90,6 @@ for i in range(1, 11):
        bp['accuracy_train'] = score_train
        bp['accuracy_test'] = score_test
        bp['random_state'] = i*500
-       bp['random_state_pca'] = i*42
        bp['random_state_clf'] = i*503
 
     df = df.append(bp, ignore_index=True)
@@ -127,7 +124,7 @@ import os
 
 outname = f'best_params_{name}_1.csv'
 
-outdir = '/home/users/ubaldi/TESI_PA/result_CV/3_classes_H/Public/large_space_change_expl_TTS_rand_state/RandomForest_stability'
+outdir = '/home/users/ubaldi/TESI_PA/result_CV/3_classes_H/Public/large_space_change_expl_all_rand_state/RandomForest_stability'
 if not os.path.exists(outdir):
     os.makedirs(outdir)
 
