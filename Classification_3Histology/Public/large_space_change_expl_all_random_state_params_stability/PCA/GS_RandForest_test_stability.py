@@ -118,7 +118,7 @@ df_tot = pd.concat([df, df_train_acc_mean, df_train_acc_std, df_test_acc_mean, d
 
 import os
 
-outname = f'best_params_{name}_1.csv'
+outname = f'best_params_{name}.csv'
 
 outdir = '/home/users/ubaldi/TESI_PA/result_CV/3_classes_H/Public/large_space_change_expl_all_rand_state/RandomForest_stability'
 if not os.path.exists(outdir):
