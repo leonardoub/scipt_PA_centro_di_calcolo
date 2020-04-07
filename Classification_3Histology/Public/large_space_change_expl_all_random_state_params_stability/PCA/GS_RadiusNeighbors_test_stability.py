@@ -67,7 +67,7 @@ for i in range(1, 21):
 
 
        parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':n_features_to_test, 
-                       'red_dim__whiten':[False, True], 'red_dim__solver':['auto'], 'clf__radius':R, 
+                       'red_dim__whiten':[False, True], 'clf__radius':R, 
                        'clf__weights':['uniform', 'distance'], 'clf__algorithm':['auto', 'ball_tree', 'kd_tree', 'brute']}]
 
 
