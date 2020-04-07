@@ -13,7 +13,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import GridSearchCV 
 from sklearn.model_selection import RandomizedSearchCV
 
-name = 'svm_lin_RBTS'
+name = 'LDA_svm_lin_RBTS'
 
 #load data
 
@@ -66,12 +66,12 @@ for i in range(1, 21):
 
        n_features_to_test = np.arange(1, 11)
 
-       parameteres = [{'scaler':[RobustScaler()], 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 'red_dim__whiten':[False, True],
-                       'clf__C':list(C_range), 'clf__class_weight':[None, 'balanced']},
+       parameteres = [{'scaler':[RobustScaler()], 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 
+                       'red_dim__solver':['svd'], 
+                       'clf__C':list(C_range), 'clf__class_weight':[None, 'balanced']}, 
                       {'scaler':[RobustScaler()], 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 
-                       'clf__C':list(C_range), 'clf__class_weight':[None, 'balanced']},
-                      {'scaler':[RobustScaler()], 'red_dim':[None], 
-                       'clf__C':list(C_range), 'clf__class_weight':[None, 'balanced']}]
+                      'red_dim__solver':['lsqr', 'eigen'], 'red_dim__shrinkage':['auto', None],
+                      'clf__C':list(C_range), 'clf__class_weight':[None, 'balanced']}]
 
 
        grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)
@@ -121,7 +121,7 @@ import os
 
 outname = f'best_params_{name}.csv'
 
-outdir = '/home/users/ubaldi/TESI_PA/result_CV/Public/large_space_change_expl_TTS_rand_state/lin_svm_stability'
+outdir = '/home/users/ubaldi/TESI_PA/result_CV/3_classes_H/Public/large_space_change_expl_TTS_rand_state/lin_svm_stability'
 if not os.path.exists(outdir):
     os.makedirs(outdir)
 

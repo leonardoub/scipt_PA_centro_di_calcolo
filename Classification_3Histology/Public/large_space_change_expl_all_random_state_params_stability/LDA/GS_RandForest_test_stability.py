@@ -14,7 +14,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.ensemble import RandomForestClassifier
 
-name = 'RandomForest'
+name = 'LDA_RandomForest'
 
 #load data
 

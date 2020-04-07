@@ -14,7 +14,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import RandomizedSearchCV
 
 
-name = 'svm_implemented_lin_MMS'
+name = 'LDA_svm_implemented_lin_MMS'
 
 #load data
 

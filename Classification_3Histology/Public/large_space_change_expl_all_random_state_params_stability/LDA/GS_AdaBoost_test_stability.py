@@ -124,7 +124,7 @@ import os
 
 outname = f'best_params_{name}.csv'
 
-outdir = '/home/users/ubaldi/TESI_PA/result_CV/Public/large_space_change_expl_TTS_rand_state/AdaBoost_stability'
+outdir = '/home/users/ubaldi/TESI_PA/result_CV/3_classes_H/Public/large_space_change_expl_TTS_rand_state/AdaBoost_stability'
 if not os.path.exists(outdir):
     os.makedirs(outdir)
 

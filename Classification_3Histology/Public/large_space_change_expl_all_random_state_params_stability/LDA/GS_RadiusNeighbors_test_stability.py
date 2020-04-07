@@ -13,7 +13,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import GridSearchCV 
 from sklearn.model_selection import RandomizedSearchCV
 
-name ='RadiusNeighbors'
+name ='LDA_RadiusNeighbors'
 
 #load data
 
@@ -121,7 +121,7 @@ import os
 
 outname = f'best_params_{name}.csv'
 
-outdir = '/home/users/ubaldi/TESI_PA/result_CV/Public/large_space_change_expl_TTS_rand_state/RadiusNeighbors_stability'
+outdir = '/home/users/ubaldi/TESI_PA/result_CV/3_classes_H/Public/large_space_change_expl_TTS_rand_state/RadiusNeighbors_stability'
 if not os.path.exists(outdir):
     os.makedirs(outdir)
 

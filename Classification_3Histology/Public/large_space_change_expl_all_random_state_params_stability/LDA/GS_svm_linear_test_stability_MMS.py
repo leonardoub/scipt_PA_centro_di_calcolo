@@ -14,7 +14,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import RandomizedSearchCV
 
 
-name = 'svm_lin_MMS'
+name = 'LDA_svm_lin_MMS'
 
 
 #load data
@@ -68,11 +68,11 @@ for i in range(1, 21):
 
        n_features_to_test = np.arange(1, 11)
 
-       parameteres = [{'scaler':[MinMaxScaler()], 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 'red_dim__whiten':[False, True],
+       parameteres = [{'scaler':[MinMaxScaler()], 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 
+                       'red_dim__solver':['svd'],
                        'clf__C':list(C_range), 'clf__class_weight':[None, 'balanced']},
-                      {'scaler':[MinMaxScaler()], 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 
-                       'clf__C':list(C_range), 'clf__class_weight':[None, 'balanced']},
-                      {'scaler':[MinMaxScaler()], 'red_dim':[None], 
+                       {'scaler':[MinMaxScaler()], 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 
+                       'red_dim__solver':['lsqr', 'eigen'], 'red_dim__shrinkage':['auto', None],
                        'clf__C':list(C_range), 'clf__class_weight':[None, 'balanced']}]
 
 
