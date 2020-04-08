@@ -69,7 +69,7 @@ for i in range(1, 21):
        parameteres = [{'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 
                        'red_dim__solver':['svd'], 'clf__radius':R, 
                        'clf__weights':['uniform', 'distance'], 'clf__algorithm':['auto', 'ball_tree', 'kd_tree', 'brute']},
-                       [{'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 
+                       {'scaler':scalers_to_test, 'red_dim':[LinearDiscriminantAnalysis()], 'red_dim__n_components':[2], 
                        'red_dim__solver':['lsqr', 'eigen'], 'red_dim__shrinkage':['auto', None], 'clf__radius':R, 
                        'clf__weights':['uniform', 'distance'], 'clf__algorithm':['auto', 'ball_tree', 'kd_tree', 'brute']}]
 
