@@ -63,14 +63,16 @@ for i in range(1, 21):
        test_labels_encoded = encoder.transform(y_test)
 
        #SVM
-       steps = [('scaler', StandardScaler()), ('red_dim', KernelPCA(random_state=i*42)), ('clf', SVC(kernel='sigmoid', random_state=i*503))]
+       steps = [('scaler', StandardScaler()), ('red_dim', KernelPCA()), ('clf', SVC(kernel='sigmoid', random_state=i*503))]
 
        pipeline = Pipeline(steps)
 
        n_features_to_test = np.arange(1, 11)
 
-       parameteres = [{'scaler':scalers_to_test, 'red_dim':[KernelPCA()], 'red_dim__n_components':n_features_to_test, 'red_dim__whiten':[False, True],
-                       'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range), 'clf__class_weight':[None, 'balanced']}]
+       parameteres = [{'scaler':scalers_to_test, 'red_dim':[KernelPCA(random_state=i*42)], 
+                       'red_dim__n_components':n_features_to_test, 'red_dim__kernel':['linear', 'poly', 'rbf', 'sigmoid', 'cosine'],
+                       'red_dim__whiten':[False, True], 'clf__C': list(C_range), 
+                       'clf__gamma':['auto', 'scale']+list(gamma_range), 'clf__class_weight':[None, 'balanced']}]
 
        grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)
 

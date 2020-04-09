@@ -62,13 +62,14 @@ for i in range(1, 21):
        test_labels_encoded = encoder.transform(y_test)
 
        #SVM
-       steps = [('scaler', StandardScaler()), ('red_dim', KernelPCA(random_state=i*42)), ('clf', LinearSVC(loss='hinge', random_state=i*503))]
+       steps = [('scaler', StandardScaler()), ('red_dim', KernelPCA()), ('clf', LinearSVC(loss='hinge', random_state=i*503))]
 
        pipeline = Pipeline(steps)
 
        n_features_to_test = np.arange(1, 11)
 
-       parameteres = [{'scaler':[StandardScaler()], 'red_dim':[KernelPCA()], 'red_dim__n_components':list(n_features_to_test), 
+       parameteres = [{'scaler':[StandardScaler()], 'red_dim':[KernelPCA(random_state=i*42)], 
+                       'red_dim__n_components':list(n_features_to_test), 'red_dim__kernel':['linear', 'poly', 'rbf', 'sigmoid', 'cosine'],
                        'red_dim__whiten':[False, True], 
                        'clf__C':list(C_range), 'clf__class_weight':[None, 'balanced']}]
 

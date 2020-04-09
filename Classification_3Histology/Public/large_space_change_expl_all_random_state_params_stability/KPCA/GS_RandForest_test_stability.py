@@ -64,11 +64,12 @@ for i in range(1, 11):
     test_labels_encoded = encoder.transform(y_test)
 
     #RandomForestClassifier
-    steps = [('scaler', StandardScaler()), ('red_dim', KernelPCA(random_state=i*42)), ('clf', RandomForestClassifier(random_state=i*503))]
+    steps = [('scaler', StandardScaler()), ('red_dim', KernelPCA()), ('clf', RandomForestClassifier(random_state=i*503))]
 
     pipeline = Pipeline(steps)
 
-    parameteres = [{'scaler':scalers_to_test, 'red_dim':[KernelPCA()], 'red_dim__n_components':list(n_features_to_test),
+    parameteres = [{'scaler':scalers_to_test, 'red_dim':[KernelPCA(random_state=i*42)],
+                    'red_dim__n_components':list(n_features_to_test), 'red_dim__kernel':['linear', 'poly', 'rbf', 'sigmoid', 'cosine'],
                     'red_dim__whiten':[False, True], 
                     'clf__n_estimators':list(n_tree), 'clf__criterion':['gini', 'entropy'], 
                     'clf__max_depth':depth, 'clf__min_samples_split':[2, 5, 10], 

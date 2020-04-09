@@ -48,13 +48,13 @@ scalers_to_test = [StandardScaler(), RobustScaler(), MinMaxScaler(), None]
 df = pd.DataFrame()
 
 # Designate distributions to sample hyperparameters from 
-n_estimators = np.arange(100, 2000, 100)
+n_estimators = [10, 30, 50, 70, 100, 150, 200, 400, 600, 1000]
 n_features_to_test = np.arange(1, 11)
 lr = [0.001, 0.01, 0.05, 0.1, 0.25, 0.50, 0.75, 1.0]
 
 
 
-for i in range(1, 21):
+for i in range(1, 11):
 
        #Train test split
        X_train, X_test, y_train, y_test = train_test_split(public_data, public_labels, test_size=0.3, 
@@ -65,12 +65,12 @@ for i in range(1, 21):
        test_labels_encoded = encoder.transform(y_test)
 
        #RadiusNeighbors
-       steps = [('scaler', MinMaxScaler()), ('red_dim', KernelPCA(random_state=i*42)), ('clf', AdaBoostClassifier(random_state=i*503))]
+       steps = [('scaler', MinMaxScaler()), ('red_dim', KernelPCA()), ('clf', AdaBoostClassifier(random_state=i*503))]
 
        pipeline = Pipeline(steps)
 
-       parameteres = [{'scaler':scalers_to_test, 'red_dim':[KernelPCA()], 'red_dim__n_components':n_features_to_test,
-                       'red_dim__whiten':[False, True],
+       parameteres = [{'scaler':scalers_to_test, 'red_dim':[KernelPCA(random_state=i*42)], 
+                       'red_dim__n_components':n_features_to_test, 'red_dim__kernel':['linear', 'poly', 'rbf', 'sigmoid', 'cosine'],
                        'clf__base_estimator': [DecisionTreeClassifier(max_depth = j) for j in range(1,6)],                     
                        'clf__n_estimators':n_estimators, 'clf__learning_rate':lr, 'clf__algorithm':['SAMME', 'SAMME.R']}]
 

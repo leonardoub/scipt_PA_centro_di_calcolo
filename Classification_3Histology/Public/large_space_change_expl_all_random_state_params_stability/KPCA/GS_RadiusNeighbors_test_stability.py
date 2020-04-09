@@ -62,12 +62,13 @@ for i in range(1, 21):
        test_labels_encoded = encoder.transform(y_test)
 
        #RadiusNeighbors
-       steps = [('scaler', MinMaxScaler()), ('red_dim', KernelPCA(random_state=i*42)), ('clf', RadiusNeighborsClassifier(outlier_label='most_frequent'))]
+       steps = [('scaler', MinMaxScaler()), ('red_dim', KernelPCA()), ('clf', RadiusNeighborsClassifier(outlier_label='most_frequent'))]
 
        pipeline = Pipeline(steps)
 
 
-       parameteres = [{'scaler':scalers_to_test, 'red_dim':[KernelPCA()], 'red_dim__n_components':n_features_to_test, 
+       parameteres = [{'scaler':scalers_to_test, 'red_dim':[KernelPCA(random_state=i*42)], 
+                       'red_dim__n_components':n_features_to_test, 'red_dim__kernel':['linear', 'poly', 'rbf', 'sigmoid', 'cosine'], 
                        'red_dim__whiten':[False, True], 'clf__radius':R, 
                        'clf__weights':['uniform', 'distance'], 'clf__algorithm':['auto', 'ball_tree', 'kd_tree', 'brute']}]
 
