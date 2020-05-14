@@ -9,8 +9,7 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
-from sklearn.model_selection import GridSearchCV 
-from sklearn.model_selection import RandomizedSearchCV
+from sklearn.model_selection import GridSearchCV, KFold, cross_val_predict, cross_val_score, StratifiedKFold
 import load_data_2_class
 import save_output
 
@@ -38,6 +37,8 @@ lr = [0.001, 0.01, 0.1, 0.50, 1.0]
 
 for i in range(1, 6):
 
+       inner_kf = StratifiedKFold(n_splits=5, shuffle=True, random_state=i*42)
+
 
        #RadiusNeighbors
        steps = [('scaler', MinMaxScaler()), ('red_dim', PCA()), ('clf', AdaBoostClassifier())]
@@ -50,7 +51,7 @@ for i in range(1, 6):
                        {'scaler':scalers_to_test, 'red_dim':[None], 
                        'clf__n_estimators':n_estimators, 'clf__learning_rate':lr, 'clf__algorithm':['SAMME', 'SAMME.R']}]
 
-       grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)
+       grid = GridSearchCV(pipeline, param_grid=parameteres, cv=inner_kf, n_jobs=-1, verbose=1)
 
        grid.fit(X_train, y_train)
 

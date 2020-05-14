@@ -10,8 +10,7 @@ from sklearn.svm import SVC
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
-from sklearn.model_selection import GridSearchCV 
-from sklearn.model_selection import RandomizedSearchCV
+from sklearn.model_selection import GridSearchCV, KFold, cross_val_predict, cross_val_score, StratifiedKFold
 import load_data_2_class
 import save_output
 
@@ -37,6 +36,8 @@ n_features_to_test = [0.85, 0.9, 0.95]
 
 for i in range(1, 11):
 
+       inner_kf = StratifiedKFold(n_splits=5, shuffle=True, random_state=i*42)
+
 
        #SVM
        steps = [('scaler', MinMaxScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='rbf'))]
@@ -50,7 +51,7 @@ for i in range(1, 11):
                      'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range), 'clf__degree':[2, 3]}]
 
 
-       grid = GridSearchCV(pipeline, param_grid=parameteres, cv=5, n_jobs=-1, verbose=1)
+       grid = GridSearchCV(pipeline, param_grid=parameteres, cv=inner_kf, n_jobs=-1, verbose=1)
 
        grid.fit(X_train, y_train)
 
