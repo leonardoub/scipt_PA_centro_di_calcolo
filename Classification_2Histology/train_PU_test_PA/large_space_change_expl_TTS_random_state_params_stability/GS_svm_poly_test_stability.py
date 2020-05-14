@@ -40,7 +40,7 @@ for i in range(1, 11):
 
 
        #SVM
-       steps = [('scaler', MinMaxScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='rbf'))]
+       steps = [('scaler', MinMaxScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='poly'))]
 
        pipeline = Pipeline(steps)
 
