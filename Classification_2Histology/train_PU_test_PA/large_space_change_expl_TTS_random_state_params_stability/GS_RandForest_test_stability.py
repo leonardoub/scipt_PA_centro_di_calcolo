@@ -60,6 +60,7 @@ for i in range(1, 6):
     bp = pd.DataFrame(best_p, index=[i])
     bp['accuracy_train'] = score_train
     bp['accuracy_test'] = score_test
+    bp['random_state_k_fold'] = i*42
 
     df = df.append(bp, ignore_index=True)
 
