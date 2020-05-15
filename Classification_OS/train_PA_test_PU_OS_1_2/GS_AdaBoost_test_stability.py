@@ -35,7 +35,7 @@ lr = [0.001, 0.01, 0.1, 0.50, 1.0]
 
 
 
-for i in range(1, 6):
+for i in range(1, 11):
 
        inner_kf = StratifiedKFold(n_splits=5, shuffle=True, random_state=i*42)
 

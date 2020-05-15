@@ -34,7 +34,7 @@ n_features_to_test = [0.85, 0.9, 0.95]
 n_tree = [10, 30, 50, 70, 100]
 depth = [10, 25, 50, 75, None]
 
-for i in range(1, 6):
+for i in range(1, 11):
 
     inner_kf = StratifiedKFold(n_splits=5, shuffle=True, random_state=i*42)
 
