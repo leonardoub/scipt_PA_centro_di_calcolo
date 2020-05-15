@@ -7,6 +7,8 @@ import pandas as pd
 
 def function_GSCV(X_train, y_train, X_test, y_test, pipel, grid_params):
 
+    df = pd.DataFrame()
+
 
     for i in range(1, 11):
         

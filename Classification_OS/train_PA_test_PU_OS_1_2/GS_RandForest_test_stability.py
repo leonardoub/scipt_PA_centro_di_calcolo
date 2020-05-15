@@ -14,6 +14,7 @@ from sklearn.model_selection import GridSearchCV, KFold, cross_val_predict, cros
 from sklearn.ensemble import RandomForestClassifier
 import load_data_2_class
 import save_output
+import GSCV
 
 name_clf = 'RandomForestClassifier'
 
@@ -34,40 +35,24 @@ n_features_to_test = [0.85, 0.9, 0.95]
 n_tree = [10, 30, 50, 70, 100]
 depth = [10, 25, 50, 75, None]
 
-for i in range(1, 11):
-
-    inner_kf = StratifiedKFold(n_splits=5, shuffle=True, random_state=i*42)
 
 
-    #RandomForestClassifier
-    steps = [('scaler', StandardScaler()), ('red_dim', PCA()), ('clf', RandomForestClassifier())]
 
-    pipeline = Pipeline(steps)
+#RandomForestClassifier
+steps = [('scaler', StandardScaler()), ('red_dim', PCA()), ('clf', RandomForestClassifier())]
 
-    parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 
-                    'clf__n_estimators':list(n_tree), 'clf__max_depth':depth},
-                   {'scaler':scalers_to_test, 'red_dim':[None], 'clf__n_estimators':list(n_tree), 'clf__max_depth':depth}]
+pipeline = Pipeline(steps)
 
-    grid = GridSearchCV(pipeline, param_grid=parameteres, cv=inner_kf, n_jobs=-1, verbose=1)
+parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test), 
+                'clf__n_estimators':list(n_tree), 'clf__max_depth':depth, 'clf__class_weight':[None, 'balanced']},
+                {'scaler':scalers_to_test, 'red_dim':[None], 'clf__n_estimators':list(n_tree), 'clf__max_depth':depth,
+                'clf__class_weight':[None, 'balanced']}]
 
-    grid.fit(X_train, y_train)
-
-    score_train = grid.score(X_train, y_train)
-    score_test = grid.score(X_test, y_test)
-    best_p = grid.best_params_
-
-    bp = pd.DataFrame(best_p, index=[i])
-    bp['accuracy_train'] = score_train
-    bp['accuracy_test'] = score_test
-    bp['random_state_k_fold'] = i*42
-
-    df = df.append(bp, ignore_index=True)
-
+results = GSCV.function_GSCV(X_train, y_train, X_test, y_test, pipeline, parameteres)
 
 #create folder and save
 
-save_output.function_save_output(df, name_clf)
-
+save_output.function_save_output(results, name_clf)
 
 
 
