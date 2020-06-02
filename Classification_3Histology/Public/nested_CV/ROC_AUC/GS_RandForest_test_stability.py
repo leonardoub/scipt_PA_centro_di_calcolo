@@ -11,6 +11,8 @@ from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import GridSearchCV, KFold, cross_val_predict, cross_val_score, StratifiedKFold
+from sklearn.feature_selection import SelectKBest, SelectPercentile
+from sklearn.feature_selection import f_classif, mutual_info_classif
 from sklearn.ensemble import RandomForestClassifier
 import load_data_3_class
 import save_output
@@ -32,8 +34,8 @@ df = pd.DataFrame()
 
 # Designate distributions to sample hyperparameters from 
 n_features_to_test = [0.85, 0.9, 0.95]
-n_tree = [10, 30, 50, 70, 100]
-depth = [10, 25, 50, 75, None]
+n_tree = [10, 30, 50, 100]
+depth = [10, 30, 50, None]
 
 
 
@@ -44,6 +46,10 @@ steps = [('scaler', StandardScaler()), ('red_dim', PCA()), ('clf', RandomForestC
 pipeline = Pipeline(steps)
 
 parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA(random_state=42)], 'red_dim__n_components':list(n_features_to_test), 
+                'clf__n_estimators':list(n_tree), 'clf__max_depth':depth, 'clf__class_weight':[None, 'balanced']},
+                {'scaler':scalers_to_test, 'red_dim':[SelectPercentile(f_classif, percentile=10)],
+                'clf__n_estimators':list(n_tree), 'clf__max_depth':depth, 'clf__class_weight':[None, 'balanced']},
+                {'scaler':scalers_to_test, 'red_dim':[SelectPercentile(mutual_info_classif, percentile=10)],
                 'clf__n_estimators':list(n_tree), 'clf__max_depth':depth, 'clf__class_weight':[None, 'balanced']},
                 {'scaler':scalers_to_test, 'red_dim':[None], 'clf__n_estimators':list(n_tree), 'clf__max_depth':depth,
                 'clf__class_weight':[None, 'balanced']}]

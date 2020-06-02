@@ -1,5 +1,18 @@
 #Cross Validation on SVM for classification
 
+
+
+
+
+
+
+
+
+
+
+
+#Cross Validation on SVM for classification
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -11,64 +24,55 @@ from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import GridSearchCV, KFold, cross_val_predict, cross_val_score, StratifiedKFold
+from sklearn.feature_selection import SelectKBest, SelectPercentile
+from sklearn.feature_selection import f_classif, mutual_info_classif
 import load_data_3_class
 import save_output
+import nested_cv_3_classes
 
-name_clf = 'SVM_poly_MMS'
+name_clf = 'SVM_poly'
 
 
 #load data
 
-X_train, y_train, X_test, y_test = load_data_3_class.function_load_data_3_class()
+data, labels = load_data_3_class.function_load_data_3_class()
 
 #Scalers
 
 from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
-scalers_to_test = [StandardScaler(), RobustScaler(), MinMaxScaler(), None]
+scalers_to_test = [StandardScaler(), RobustScaler(), MinMaxScaler()]
 
 df = pd.DataFrame()
 
 # Designate distributions to sample hyperparameters from 
-C_range = np.power(2, np.arange(-10, 11, dtype=float))
-gamma_range = np.power(2, np.arange(-10, 11, dtype=float))
+C_range = np.power(2, np.arange(-10, 9, dtype=float))
+gamma_range = np.power(2, np.arange(-10, 9, dtype=float))
 n_features_to_test = [0.85, 0.9, 0.95]
 
 
-for i in range(1, 11):
-
-       inner_kf = StratifiedKFold(n_splits=5, shuffle=True, random_state=i*42)
 
 
-       #SVM
-       steps = [('scaler', MinMaxScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='poly'))]
+#SVM
+steps = [('scaler', StandardScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='poly', probability=True))]
 
-       pipeline = Pipeline(steps)
-
-
-       parameteres = [{'scaler':[MinMaxScaler()], 'red_dim':[PCA()], 'red_dim__n_components':list(n_features_to_test),
-                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range), 'clf__degree':[2, 3]},
-                      {'scaler':[MinMaxScaler()], 'red_dim':[None],
-                     'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range), 'clf__degree':[2, 3]}]
+pipeline = Pipeline(steps)
 
 
-       grid = GridSearchCV(pipeline, param_grid=parameteres, cv=inner_kf, n_jobs=-1, verbose=1)
-
-       grid.fit(X_train, y_train)
-
-       score_train = grid.score(X_train, y_train)
-       score_test = grid.score(X_test, y_test)
-       best_p = grid.best_params_
-
-       bp = pd.DataFrame(best_p, index=[i])
-       bp['accuracy_train'] = score_train
-       bp['accuracy_test'] = score_test
-       bp['random_state_k_fold'] = i*42
+parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA(random_state=42)], 'red_dim__n_components':list(n_features_to_test),
+              'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range), 'clf__degree':[2, 3]},
+              {'scaler':scalers_to_test, 'red_dim':[SelectPercentile(f_classif, percentile=10)],
+              'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range), 'clf__degree':[2, 3]},
+              {'scaler':scalers_to_test, 'red_dim':[SelectPercentile(mutual_info_classif, percentile=10)],
+              'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range), 'clf__degree':[2, 3]},
+              {'scaler':scalers_to_test, 'red_dim':[None],
+              'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range), 'clf__degree':[2, 3]}]
 
 
-       df = df.append(bp, ignore_index=True)
-
+results = nested_cv_3_classes.function_nested_cv_3_classes(data, labels, pipeline, parameteres)
 
 #create folder and save
 
-save_output.function_save_output(df, name_clf)
+save_output.function_save_output(results, name_clf)
+
+
 
