@@ -11,6 +11,8 @@ from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import GridSearchCV, KFold, cross_val_predict, cross_val_score, StratifiedKFold
+from sklearn.feature_selection import SelectKBest, SelectPercentile
+from sklearn.feature_selection import f_classif, mutual_info_classif
 import load_data_2_class
 import save_output
 import GSCV
@@ -40,10 +42,14 @@ steps = [('scaler', MinMaxScaler()), ('red_dim', PCA()), ('clf', KNeighborsClass
 
 pipeline = Pipeline(steps)
 
-parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':n_features_to_test, 'clf__n_neighbors':k, 
-                     'clf__weights':['uniform', 'distance'], 'clf__algorithm':['auto', 'ball_tree', 'kd_tree', 'brute']},
-                     {'scaler':scalers_to_test, 'red_dim':[None], 'clf__n_neighbors':k, 
-                     'clf__weights':['uniform', 'distance'], 'clf__algorithm':['auto', 'ball_tree', 'kd_tree', 'brute']}]
+parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA(random_state=42)], 'red_dim__n_components':n_features_to_test, 'clf__n_neighbors':k, 
+                'clf__weights':['uniform', 'distance'], 'clf__algorithm':['auto', 'ball_tree', 'kd_tree', 'brute']},
+                {'scaler':scalers_to_test, 'red_dim':[SelectPercentile(f_classif, percentile=10)], 'clf__n_neighbors':k, 
+                'clf__weights':['uniform', 'distance'], 'clf__algorithm':['auto', 'ball_tree', 'kd_tree', 'brute']},
+                {'scaler':scalers_to_test, 'red_dim':[SelectPercentile(mutual_info_classif, percentile=10)], 'clf__n_neighbors':k, 
+                'clf__weights':['uniform', 'distance'], 'clf__algorithm':['auto', 'ball_tree', 'kd_tree', 'brute']},
+               {'scaler':scalers_to_test, 'red_dim':[None], 'clf__n_neighbors':k, 
+                'clf__weights':['uniform', 'distance'], 'clf__algorithm':['auto', 'ball_tree', 'kd_tree', 'brute']}]
 
 
 
