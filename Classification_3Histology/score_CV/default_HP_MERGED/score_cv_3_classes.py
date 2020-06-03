@@ -38,8 +38,8 @@ def function_score_cv(data, labels, pipel, RS_o_KF):
         pred_test = pipel.predict(data.iloc[test_index, :])
         
 
-        pred_proba_train = pipel.predict_proba(data.iloc[train_index, :])[:, 1]        
-        pred_proba_test = pipel.predict_proba(data.iloc[test_index, :])[:, 1]
+        pred_proba_train = pipel.predict_proba(data.iloc[train_index, :])       
+        pred_proba_test = pipel.predict_proba(data.iloc[test_index, :])
 
         #compute scoring
 
