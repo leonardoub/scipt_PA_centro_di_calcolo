@@ -14,17 +14,17 @@ from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import cross_validate
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import classification_report
-import score_cv
+import score_cv_3_classes
 
 name = 'svm_sigmoid'
 dim_reduction = 'NONE'
 
 
 #load data
-import load_data 
+import load_data_3_class 
 import save_output
 
-public_data, public_labels = load_data.function_load_data()
+public_data, public_labels = load_data_3_class.function_load_data_3_class()
 
 def create_score_csv_default_HP(scaler_, RS_outer_KF):
 
@@ -56,14 +56,14 @@ def create_score_csv_default_HP(scaler_, RS_outer_KF):
     pipeline = Pipeline(steps)
 
 
-    df_score_value, df_mean_std = score_cv.function_score_cv(public_data, public_labels, pipeline, RS_outer_KF)
+    df_score_value, df_mean_std = score_cv_3_classes.function_score_cv(public_data, public_labels, pipeline, RS_outer_KF)
     df_tot=pd.concat([df_best_params, df_score_value, df_mean_std], axis=1, ignore_index=False)
 
 
     return df_tot
 
 
-for j in range(1,6):
+for j in range(1,2):
 
     df_MMS = create_score_csv_default_HP(MinMaxScaler(), 2*j)
     save_output.function_save_output(df_MMS, 'MMS', name, 2*j)

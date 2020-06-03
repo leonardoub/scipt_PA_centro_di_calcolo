@@ -38,8 +38,8 @@ def function_score_cv(data, labels, pipel, RS_o_KF):
         pred_test = pipel.predict(data.iloc[test_index, :])
         
 
-        pred_proba_train = pipel.predict_proba(data.iloc[train_index, :])[:, 1]        
-        pred_proba_test = pipel.predict_proba(data.iloc[test_index, :])[:, 1]
+        pred_proba_train = pipel.predict_proba(data.iloc[train_index, :])       
+        pred_proba_test = pipel.predict_proba(data.iloc[test_index, :])
 
         #compute scoring
 
@@ -49,9 +49,10 @@ def function_score_cv(data, labels, pipel, RS_o_KF):
         train_bal_acc = balanced_accuracy_score(labels_encoded[train_index], pred_train)
         test_bal_acc = balanced_accuracy_score(labels_encoded[test_index], pred_test)
 
-        train_ROC_AUC = roc_auc_score(labels_encoded[train_index], pred_proba_train)
-        test_ROC_AUC = roc_auc_score(labels_encoded[test_index], pred_proba_test)
-
+        train_ROC_AUC = roc_auc_score(labels_encoded[train_index], pred_proba_train, average='weighted',  multi_class='ovr')
+        test_ROC_AUC = roc_auc_score(labels_encoded[test_index], pred_proba_test, average='weighted',  multi_class='ovr')
+        #DOVREI CAMBIARE I NOMI IN train_roc_auc_ovr_weigthed_scores_predict_proba E test_roc_auc_ovr_weigthed_scores_predict_proba
+        #ma non li cambio per praticità
        
         # Appending the "winning" hyper parameters and their associated accuracy score
         
