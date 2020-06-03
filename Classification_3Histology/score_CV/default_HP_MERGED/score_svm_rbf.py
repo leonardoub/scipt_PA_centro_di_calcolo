@@ -24,7 +24,7 @@ dim_reduction = 'NONE'
 import load_data_3_class 
 import save_output
 
-public_data, public_labels = load_data_3_class.function_load_data()
+public_data, public_labels = load_data_3_class.function_load_data_3_class()
 
 def create_score_csv_default_HP(scaler_, RS_outer_KF):
 
