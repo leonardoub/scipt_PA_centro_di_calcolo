@@ -42,13 +42,13 @@ steps = [('scaler', MinMaxScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='lin
 
 pipeline = Pipeline(steps)
 
-parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA(random_state=42)], 'red_dim__n_components':list(n_features_to_test), 
+parameteres = [{'scaler':[MinMaxScaler()], 'red_dim':[PCA(random_state=42)], 'red_dim__n_components':list(n_features_to_test), 
                 'clf__C':list(C_range), 'clf__class_weight':[None, 'balanced']},
-                {'scaler':scalers_to_test, 'red_dim':[SelectPercentile(f_classif, percentile=10)],
+                {'scaler':[MinMaxScaler()], 'red_dim':[SelectPercentile(f_classif, percentile=10)],
                 'clf__C':list(C_range), 'clf__class_weight':[None, 'balanced']},
-                {'scaler':scalers_to_test, 'red_dim':[SelectPercentile(mutual_info_classif, percentile=10)], 
+                {'scaler':[MinMaxScaler()], 'red_dim':[SelectPercentile(mutual_info_classif, percentile=10)], 
                 'clf__C':list(C_range), 'clf__class_weight':[None, 'balanced']},
-              {'scaler':scalers_to_test, 'red_dim':[None], 'clf__C':list(C_range), 'clf__class_weight':[None, 'balanced']}]
+              {'scaler':[MinMaxScaler()], 'red_dim':[None], 'clf__C':list(C_range), 'clf__class_weight':[None, 'balanced']}]
 
 
 results = GSCV.function_GSCV(X_train, y_train, X_test, y_test, pipeline, parameteres)

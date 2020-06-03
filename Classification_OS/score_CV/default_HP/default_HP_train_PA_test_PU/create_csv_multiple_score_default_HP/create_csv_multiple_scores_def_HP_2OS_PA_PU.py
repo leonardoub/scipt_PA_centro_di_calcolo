@@ -14,11 +14,10 @@ import pandas as pd
 
 
 
-dataset='Public'
-#for i in ['MERGED', 'merged_consider_only_OS_1_and_2', 'Public']:
+dataset='train_PA_test_PU'
 
     
-path_score_default_HP = f'/home/leonardo/Scrivania/result_PA/06_03/score_ROC_AUC_default_HP/3H/{dataset}/*.csv'
+path_score_default_HP = f'/home/leonardo/Scrivania/result_PA/06_03/score_ROC_AUC_default_HP/2OS/{dataset}/*.csv'
 
 
 my_dict = {'SCALER':[],
@@ -67,9 +66,9 @@ for name in sorted(glob.glob(path_score_default_HP)):
 df = pd.DataFrame(my_dict, index=clf_list)
 
 
-outname = f'summary_scores_default_HP_3H_{dataset}.csv'
+outname = f'summary_scores_default_HP_2OS_{dataset}.csv'
 
-outdir = f'/home/leonardo/Scrivania/result_PA/06_03/score_ROC_AUC_default_HP/3H/'
+outdir = f'/home/leonardo/Scrivania/result_PA/06_03/score_ROC_AUC_default_HP/2OS/'
 if not os.path.exists(outdir):
     os.makedirs(outdir)
 
