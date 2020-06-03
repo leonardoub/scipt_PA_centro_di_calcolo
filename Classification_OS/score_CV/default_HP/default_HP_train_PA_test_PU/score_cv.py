@@ -18,12 +18,12 @@ def function_score_cv(X_train, y_train, X_test, y_test, pipel):
     pipel.fit(X_train, y_train)
     
 
-    pred_train = pipel.predict(X_train, y_train)       
-    pred_test = pipel.predict(X_test, y_test)
+    pred_train = pipel.predict(X_train)       
+    pred_test = pipel.predict(X_test)
     
 
-    pred_proba_train = pipel.predict_proba(X_train, y_train)[:, 1]        
-    pred_proba_test = pipel.predict_proba(X_test, y_test)[:, 1]
+    pred_proba_train = pipel.predict_proba(X_train)[:, 1]        
+    pred_proba_test = pipel.predict_proba(X_test)[:, 1]
 
     #compute scoring
 
