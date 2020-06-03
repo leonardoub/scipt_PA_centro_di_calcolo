@@ -14,19 +14,19 @@ from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import cross_validate
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import classification_report
-import score_cv_3_classes
+import score_cv
 
 name = 'svm_rbf'
 dim_reduction = 'NONE'
 
 
 #load data
-import load_data_3_class 
+import load_data_2_class 
 import save_output
 
-public_data, public_labels = load_data_3_class.function_load_data_3_class()
+X_train, y_train, X_test, y_test = load_data_2_class.function_load_data_2_class()
 
-def create_score_csv_default_HP(scaler_, RS_outer_KF):
+def create_score_csv_default_HP(scaler_):
 
 
     n_comp_pca = None
@@ -41,7 +41,7 @@ def create_score_csv_default_HP(scaler_, RS_outer_KF):
 
     dict_best_params = {'SCALER':[scaler_], 'PCA__n_components':[n_comp_pca],
                         'CLF__C':[C_], 'CLF__class_weight':[class_weight_], 'CLF__gamma':[gamma_], 
-                        'CLF__random_state':[random_state_clf], 'random_state_outer_kf':[RS_outer_KF]}
+                        'CLF__random_state':[random_state_clf]}
 
 
     df_best_params = pd.DataFrame.from_dict(dict_best_params)
@@ -56,23 +56,21 @@ def create_score_csv_default_HP(scaler_, RS_outer_KF):
     pipeline = Pipeline(steps)
 
 
-    df_score_value, df_mean_std = score_cv_3_classes.function_score_cv(public_data, public_labels, pipeline, RS_outer_KF)
+    df_score_value, df_mean_std = score_cv.function_score_cv(X_train, y_train, X_test, y_test, pipeline)
     df_tot=pd.concat([df_best_params, df_score_value, df_mean_std], axis=1, ignore_index=False)
 
 
     return df_tot
 
 
-for j in range(1,2):
+df_MMS = create_score_csv_default_HP(MinMaxScaler())
+save_output.function_save_output(df_MMS, 'MMS', name)
 
-    df_MMS = create_score_csv_default_HP(MinMaxScaler(), 2*j)
-    save_output.function_save_output(df_MMS, 'MMS', name, 2*j)
+df_STDS = create_score_csv_default_HP(StandardScaler())
+save_output.function_save_output(df_STDS, 'STDS', name)
 
-    df_STDS = create_score_csv_default_HP(StandardScaler(), 2*j)
-    save_output.function_save_output(df_STDS, 'STDS', name, 2*j)
+df_RBT = create_score_csv_default_HP(RobustScaler())
+save_output.function_save_output(df_RBT, 'RBT', name)
 
-    df_RBT = create_score_csv_default_HP(RobustScaler(), 2*j)
-    save_output.function_save_output(df_RBT, 'RBT', name, 2*j)
-
-    df_NONE = create_score_csv_default_HP(None, 2*j)
-    save_output.function_save_output(df_NONE, 'NONE', name, 2*j)
+df_NONE = create_score_csv_default_HP(None)
+save_output.function_save_output(df_NONE, 'NONE', name)
