@@ -14,7 +14,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
 import os
 from sklearn.pipeline import Pipeline
-import score_cv
+import score_cv_3_classes
 
 name = 'Adaboost'
 dim_reduction = 'NONE'

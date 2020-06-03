@@ -13,7 +13,7 @@ from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import cross_validate
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import classification_report
-import score_cv
+import score_cv_3_classes
 
 name = 'RandomForest'
 dim_reduction = 'NONE'
