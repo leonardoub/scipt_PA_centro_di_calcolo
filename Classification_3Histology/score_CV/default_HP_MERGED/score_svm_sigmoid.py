@@ -56,7 +56,7 @@ def create_score_csv_default_HP(scaler_, RS_outer_KF):
     pipeline = Pipeline(steps)
 
 
-    df_score_value, df_mean_std = score_cv.function_score_cv(public_data, public_labels, pipeline, RS_outer_KF)
+    df_score_value, df_mean_std = score_cv_3_classes.function_score_cv(public_data, public_labels, pipeline, RS_outer_KF)
     df_tot=pd.concat([df_best_params, df_score_value, df_mean_std], axis=1, ignore_index=False)
 
 
