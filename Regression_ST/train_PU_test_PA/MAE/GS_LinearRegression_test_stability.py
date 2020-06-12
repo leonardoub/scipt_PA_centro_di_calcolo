@@ -17,13 +17,13 @@ from sklearn.compose import TransformedTargetRegressor
 from sklearn.linear_model import LinearRegression
 import load_data_ST
 import save_output
-import nested_cv_ST
+import GSCV
 
 name_clf = 'LinearRegression'
 
 #load data
 
-data, labels = load_data_ST.function_load_data_ST()
+data_train, labels_train, data_test, labels_test  = load_data_ST.function_load_data_ST()
 
 #Scalers
 
@@ -37,7 +37,7 @@ n_features_to_test = [0.85, 0.9, 0.95]
 
 
 
-clf = TransformedTargetRegressor(regressor=LinearRegression(),
+clf = TransformedTargetRegressor(regressor=LinearRegression(criterion='mae'),
                                      transformer=MinMaxScaler())
 
 
@@ -49,7 +49,7 @@ pipeline = Pipeline(steps)
 parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA(random_state=42)], 'red_dim__n_components':list(n_features_to_test)},
                {'scaler':scalers_to_test, 'red_dim':[None]}]
 
-results = nested_cv_ST.function_nested_cv_ST(data, labels, pipeline, parameteres)
+results = GSCV.function_GSCV(data_train, labels_train, data_test, labels_test, pipeline, parameteres)
 
 #create folder and save
 

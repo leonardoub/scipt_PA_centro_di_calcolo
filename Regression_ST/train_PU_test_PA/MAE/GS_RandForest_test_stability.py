@@ -17,14 +17,14 @@ from sklearn.compose import TransformedTargetRegressor
 from sklearn.ensemble import RandomForestRegressor
 import load_data_ST
 import save_output
-import nested_cv_ST
+import GSCV
 
 name_clf = 'RandomForestRegressor'
 
 
 #load data
 
-data, labels = load_data_ST.function_load_data_ST()
+data_train, labels_train, data_test, labels_test  = load_data_ST.function_load_data_ST()
 
 #Scalers
 
@@ -52,7 +52,7 @@ parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA(random_state=42)], 'red
                 'clf__regressor__n_estimators':list(n_tree), 'clf__regressor__max_depth':depth},
                 {'scaler':scalers_to_test, 'red_dim':[None], 'clf__regressor__n_estimators':list(n_tree), 'clf__regressor__max_depth':depth}]
 
-results = nested_cv_ST.function_nested_cv_ST(data, labels, pipeline, parameteres)
+results = GSCV.function_GSCV(data_train, labels_train, data_test, labels_test, pipeline, parameteres)
 
 #create folder and save
 

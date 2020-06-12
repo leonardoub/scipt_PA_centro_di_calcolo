@@ -49,8 +49,8 @@ steps = [('scaler', StandardScaler()), ('red_dim', PCA()), ('clf', clf)]
 pipeline = Pipeline(steps)
 
 parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA(random_state=42)], 'red_dim__n_components':list(n_features_to_test), 
-                'clf__n_estimators':list(n_tree), 'clf__max_depth':depth},
-                {'scaler':scalers_to_test, 'red_dim':[None], 'clf__n_estimators':list(n_tree), 'clf__max_depth':depth}]
+                'clf__regressor__n_estimators':list(n_tree), 'clf__regressor__max_depth':depth},
+                {'scaler':scalers_to_test, 'red_dim':[None], 'clf__regressor__n_estimators':list(n_tree), 'clf__regressor__max_depth':depth}]
 
 results = nested_cv_ST.function_nested_cv_ST(data, labels, pipeline, parameteres)
 
