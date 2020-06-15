@@ -25,7 +25,7 @@ def function_GSCV(X_train, y_train, X_test, y_test, pipel, grid_params):
         
         best_p = GSCV.best_params_
 
-        score_train = GSCV.score((X_train, y_train)
+        score_train = GSCV.score(X_train, y_train)
         score_test = GSCV.score(X_test, y_test)
 
 
