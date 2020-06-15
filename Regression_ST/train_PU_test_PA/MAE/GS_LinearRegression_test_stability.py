@@ -37,7 +37,7 @@ n_features_to_test = [0.85, 0.9, 0.95]
 
 
 
-clf = TransformedTargetRegressor(regressor=LinearRegression(criterion='mae'),
+clf = TransformedTargetRegressor(regressor=LinearRegression(),
                                      transformer=MinMaxScaler())
 
 
