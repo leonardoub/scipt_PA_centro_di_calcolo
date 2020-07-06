@@ -30,16 +30,16 @@ def function_load_data_3_class():
     PA_labels = df_test.Overall_Stage
 
 
+    tot_data = pd.concat([public_data, PA_data], axis=0)
+    tot_label = pd.concat([public_labels, PA_labels], axis=0)
+
     #Vettorizzare i label
 
     encoder = LabelEncoder()
 
 
-    public_labels_encoded = encoder.fit_transform(public_labels)
-    PA_labels_encoded = encoder.transform(PA_labels)
-
-    tot_data = pd.concat([public_data, PA_data], axis=0)
-    tot_label = pd.concat([public_labels_encoded, PA_labels_encoded], axis=0)
+    tot_label_encoded = encoder.fit_transform(tot_label)
 
 
-    return tot_data, tot_label
+
+    return tot_data, tot_label_encoded
