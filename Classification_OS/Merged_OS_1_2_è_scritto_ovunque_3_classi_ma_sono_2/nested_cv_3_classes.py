@@ -53,12 +53,16 @@ def function_nested_cv_3_classes(data, labels, pipel, grid_params):
         best_p = GSCV.best_params_
 
         bp = pd.DataFrame(best_p, index=[i])
-        bp['inner_loop_roc_auc_ovr_weigthed_scores'] = GSCV.best_score_
+        bp['inner_loop_roc_auc_scores'] = GSCV.best_score_
         
         
-        #ROC AUC OVR WEIGHTED WITH PREDICT PROBA
-        bp['train_roc_auc_ovr_weigthed_scores_predict_proba'] = roc_auc_score(labels_encoded[train_index], pred_proba_train, average='weighted',  multi_class='ovr')
-        bp['outer_loop_roc_auc_ovr_weigthed_scores_predict_proba'] = roc_auc_score(labels_encoded[test_index], pred_proba_test, average='weighted',  multi_class='ovr')
+        #ROC AUC WITHOUT predict proba: WRONG WAY
+        bp['train_roc_auc_scores'] = roc_auc_score(labels_encoded[train_index], pred_train)
+        bp['outer_loop_roc_auc_scores'] = roc_auc_score(labels_encoded[test_index], pred_test)
+        
+        #ROC AUC WITH PREDICT PROBA
+        bp['train_roc_auc_scores_predict_proba'] = roc_auc_score(labels_encoded[train_index], pred_proba_train)
+        bp['outer_loop_roc_auc_scores_predict_proba'] = roc_auc_score(labels_encoded[test_index], pred_proba_test)
        
         bp['train_accuracy_scores'] = accuracy_score(labels_encoded[train_index], pred_train)
         bp['outer_loop_accuracy_scores'] = accuracy_score(labels_encoded[test_index], pred_test)
