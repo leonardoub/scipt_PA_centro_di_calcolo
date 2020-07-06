@@ -11,27 +11,29 @@ from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import GridSearchCV, KFold, cross_val_predict, cross_val_score, StratifiedKFold
-import load_data_2_class
+from sklearn.feature_selection import SelectKBest, SelectPercentile
+from sklearn.feature_selection import f_classif, mutual_info_classif
+import load_data_3_class
 import save_output
-import GSCV
+import nested_cv_3_classes
 
 name_clf = 'SVM_sigmoid'
 
 
 #load data
 
-X_train, y_train, X_test, y_test = load_data_2_class.function_load_data_2_class()
+data, labels = load_data_3_class.function_load_data_3_class()
 
 #Scalers
 
 from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
-scalers_to_test = [StandardScaler(), RobustScaler(), MinMaxScaler(), None]
+scalers_to_test = [StandardScaler(), RobustScaler(), MinMaxScaler()]
 
 df = pd.DataFrame()
 
 # Designate distributions to sample hyperparameters from 
-C_range = np.power(2, np.arange(-10, 11, dtype=float))
-gamma_range = np.power(2, np.arange(-10, 11, dtype=float))
+C_range = np.power(2, np.arange(-10, 9, dtype=float))
+gamma_range = np.power(2, np.arange(-10, 9, dtype=float))
 n_features_to_test = [0.85, 0.9, 0.95]
 
 
@@ -41,12 +43,16 @@ steps = [('scaler', StandardScaler()), ('red_dim', PCA()), ('clf', SVC(kernel='s
 pipeline = Pipeline(steps)
 
 
-parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA()], 'red_dim__n_components':n_features_to_test,
+parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA(random_state=42)], 'red_dim__n_components':list(n_features_to_test),
+              'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range)},
+              {'scaler':scalers_to_test, 'red_dim':[SelectPercentile(f_classif, percentile=10)],
+              'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range)},
+              {'scaler':scalers_to_test, 'red_dim':[SelectPercentile(mutual_info_classif, percentile=10)],
               'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range)},
               {'scaler':scalers_to_test, 'red_dim':[None],
               'clf__C': list(C_range), 'clf__gamma':['auto', 'scale']+list(gamma_range)}]
 
-results = GSCV.function_GSCV(X_train, y_train, X_test, y_test, pipeline, parameteres)
+results = nested_cv_3_classes.function_nested_cv_3_classes(data, labels, pipeline, parameteres)
 
 #create folder and save
 

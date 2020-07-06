@@ -2,7 +2,7 @@ import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 
 
-def function_load_data_2_class():
+def function_load_data_3_class():
 
     #load data
 
