@@ -38,5 +38,8 @@ def function_load_data_3_class():
     public_labels_encoded = encoder.fit_transform(public_labels)
     PA_labels_encoded = encoder.transform(PA_labels)
 
+    tot_data = pd.concat([public_data, PA_data], axis=0)
+    tot_label = pd.concat([public_labels_encoded, PA_labels_encoded], axis=0)
 
-    return public_data, public_labels_encoded, PA_data, PA_labels_encoded
+
+    return tot_data, tot_label
