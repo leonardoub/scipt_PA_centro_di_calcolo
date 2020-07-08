@@ -1,14 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Wed Jul  1 19:44:51 2020
-
-@author: leonardo
-"""
-
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
 Created on Wed Jul  1 18:14:58 2020
 
 @author: leonardo
@@ -32,7 +24,13 @@ for name_bis in name_clf:
     if name_bis.endswith('Classifier'):
         name_bis = name_bis[:-10]
 
+    if name_bis.endswith('MMS'):
+        name_bis = name_bis[:-4]        
+    
+
     name_clf_bis.append(name_bis)
+    
+    
 
 
 yticks=np.arange(0, 1.1, 0.1)
