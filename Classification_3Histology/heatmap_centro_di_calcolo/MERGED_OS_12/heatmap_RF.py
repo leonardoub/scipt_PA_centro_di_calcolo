@@ -55,7 +55,7 @@ parameteres = [{'clf__n_estimators':n_tree, 'clf__max_depth':depth}]
 
 outer_kf = KFold(n_splits=5, shuffle=True, random_state=2)
 
-rf_gridsearch = GridSearchCV(estimator=pipeline, param_grid=parameteres, n_jobs=-1, scoring=['roc_auc_ovr_weighted'], refit='roc_auc_ovr_weighted', 
+rf_gridsearch = GridSearchCV(estimator=pipeline, param_grid=parameteres, n_jobs=-1, scoring='roc_auc_ovr_weighted', refit='roc_auc_ovr_weighted', 
                              verbose=1, cv=outer_kf, return_train_score=True)
 
 rf_gridsearch.fit(data, labels)
