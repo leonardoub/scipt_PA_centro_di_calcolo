@@ -46,10 +46,9 @@ pca = PCA(random_state=42, n_components=0.85)
 
 #clf 
 
-clf=TransformedTargetRegressor(regressor=regr_RF,
-                                     transformer=MinMaxScaler())
+#clf=TransformedTargetRegressor(regressor=regr_RF, transformer=MinMaxScaler())
 
-steps = [('scaler', MinMaxScaler()), ('red_dim', pca), ('clf', clf)]
+steps = [('scaler', MinMaxScaler()), ('red_dim', pca), ('clf', regr_RF)]
 
 pipeline = Pipeline(steps)
 
