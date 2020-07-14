@@ -96,7 +96,7 @@ sns_plot.figure.set_size_inches(7,5)
 sns_plot.figure.tight_layout()
 
 sns_plot.figure.savefig(fullname)
-
+plt.close()
 
 #TEST
 
@@ -118,3 +118,4 @@ sns_plot.figure.set_size_inches(7,5)
 sns_plot.figure.tight_layout()
 
 sns_plot.figure.savefig(fullname)
+plt.close()
