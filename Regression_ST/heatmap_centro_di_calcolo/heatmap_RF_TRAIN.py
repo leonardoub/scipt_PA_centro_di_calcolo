@@ -70,8 +70,8 @@ df_gridsearch = pd.DataFrame(rf_gridsearch.cv_results_)
 
 max_scores = df_gridsearch.groupby(['param_clf__regressor__n_estimators', 
                                     'param_clf__regressor__max_depth']).max()
-max_scores = max_scores.unstack()[['mean_test_score', 'mean_train_score']]
-sns_plot = sns.heatmap(max_scores.mean_test_score, annot=True, fmt='.4g')
+max_scores = max_scores.unstack()[['mean_train_score']]
+sns_plot = sns.heatmap(max_scores.mean_train_score, annot=True, fmt='.4g')
 
 
 
@@ -80,7 +80,7 @@ sns_plot = sns.heatmap(max_scores.mean_test_score, annot=True, fmt='.4g')
 #create folder and save
 
 
-outname = f'best_params_{name_clf}_PU_PA_regression_ST.pdf'
+outname = f'heatmap_{name_clf}_PU_PA_regression_ST_TRAIN.pdf'
 outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap/ST_regression/train_PU_test_PA/{name_clf}'
 
 if not os.path.exists(outdir):
