@@ -100,7 +100,6 @@ sns_plot.figure.savefig(fullname)
 
 #TEST
 
-max_scores = max_scores.unstack()[['mean_test_score']]
 sns_plot = sns.heatmap(-max_scores.mean_test_score, annot=True, fmt='.4g')
 
 
