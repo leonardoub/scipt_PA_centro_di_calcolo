@@ -2,7 +2,7 @@ import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 
 
-def function_load_data_ST():
+def function_load_data():
 
 
     train_dataset_path = '/home/leonardo/Scrivania/TESI_PA/data/database_training2.csv'
@@ -26,8 +26,5 @@ def function_load_data_ST():
     public_labels = public_labels.astype('float')
     PA_labels = PA_labels.astype('float')
 
-    tot_data = pd.concat([public_data, PA_data], axis=0)
-    tot_label = pd.concat([public_labels, PA_labels], axis=0)
 
-
-    return tot_data, tot_label
+    return public_data, public_labels

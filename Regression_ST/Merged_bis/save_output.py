@@ -3,7 +3,7 @@ import pandas as pd
 
 def function_save_output(final_data, name_clf):
     outname = f'best_params_{name_clf}_MERGED_regression_ST.csv'
-    outdir = f'/home/users/ubaldi/TESI_PA/result_CV_bis/ST_regression/MERGED/nested_cv/MAE/{name_clf}_test_stability'
+    outdir = f'/home/leonardo/Scrivania/result_CV_tris/ST_regression/PUBLIC/nested_cv/MAE/{name_clf}_test_stability'
     if not os.path.exists(outdir):
         os.makedirs(outdir)
 
