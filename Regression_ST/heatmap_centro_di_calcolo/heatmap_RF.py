@@ -88,5 +88,5 @@ if not os.path.exists(outdir):
 
 fullname = os.path.join(outdir, outname)    
 
-sns_plot.savefig(fullname)
+sns_plot.figure.savefig(fullname)
 
