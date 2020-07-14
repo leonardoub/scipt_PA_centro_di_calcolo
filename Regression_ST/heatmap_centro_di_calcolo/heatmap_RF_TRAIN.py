@@ -36,8 +36,9 @@ pu_data, pu_labels, PA_data, PA_labels = load_data_ST.function_load_data_ST()
 
 # Designate distributions to sample hyperparameters from 
 n_features_to_test = [0.85, 0.9, 0.95]
-n_tree = [10, 13, 18, 25, 33, 45, 60, 81, 100]
+n_tree = [15, 30, 45, 60, 75, 90, 105, 120, 135, 150]
 depth = [5, 10, 15, 20, 30, 45, 60, 75]
+
 
 
 regr_RF = RandomForestRegressor(criterion='mae', random_state=503)
