@@ -80,7 +80,7 @@ sns_plot = sns.heatmap(max_scores.mean_test_score, annot=True, fmt='.4g')
 #create folder and save
 
 
-outname = f'best_params_{name_clf}_PU_PA_regression_ST.csv'
+outname = f'best_params_{name_clf}_PU_PA_regression_ST.pdf'
 outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap/ST_regression/train_PU_test_PA/{name_clf}'
 
 if not os.path.exists(outdir):
