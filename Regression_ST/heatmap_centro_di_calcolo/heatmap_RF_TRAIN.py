@@ -71,7 +71,7 @@ df_gridsearch = pd.DataFrame(rf_gridsearch.cv_results_)
 max_scores = df_gridsearch.groupby(['param_clf__regressor__n_estimators', 
                                     'param_clf__regressor__max_depth']).max()
 max_scores = max_scores.unstack()[['mean_train_score']]
-sns_plot = sns.heatmap(max_scores.mean_train_score, annot=True, fmt='.4g')
+sns_plot = sns.heatmap(-max_scores.mean_train_score, annot=True, fmt='.4g')
 
 
 
