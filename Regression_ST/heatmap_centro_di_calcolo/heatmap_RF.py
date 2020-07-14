@@ -46,9 +46,10 @@ pca = PCA(random_state=42, n_components=0.85)
 
 #clf 
 
-#clf=TransformedTargetRegressor(regressor=regr_RF, transformer=MinMaxScaler())
+clf=TransformedTargetRegressor(regressor=regr_RF,
+                                     transformer=MinMaxScaler())
 
-steps = [('scaler', MinMaxScaler()), ('red_dim', pca), ('clf', regr_RF)]
+steps = [('scaler', MinMaxScaler()), ('red_dim', pca), ('clf', clf)]
 
 pipeline = Pipeline(steps)
 
@@ -58,7 +59,7 @@ parameteres = [{'clf__regressor__n_estimators':n_tree, 'clf__regressor__max_dept
 
 outer_kf = KFold(n_splits=5, shuffle=True, random_state=2)
 
-rf_gridsearch = GridSearchCV(estimator=clf, param_grid=parameteres, n_jobs=4, 
+rf_gridsearch = GridSearchCV(estimator=pipeline, param_grid=parameteres, n_jobs=4, 
                              cv=outer_kf, return_train_score=True)
 
 rf_gridsearch.fit(pu_data, pu_labels)
