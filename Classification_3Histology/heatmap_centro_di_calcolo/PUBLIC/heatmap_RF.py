@@ -55,7 +55,7 @@ parameteres = [{'clf__n_estimators':n_tree, 'clf__max_depth':depth}]
 
 outer_kf = KFold(n_splits=5, shuffle=True, random_state=2)
 
-rf_gridsearch = GridSearchCV(estimator=pipeline, param_grid=parameteres, n_jobs=-1, scoring='roc_auc_ovr_weighted', refit='roc_auc_ovr_weighted', 
+rf_gridsearch = GridSearchCV(estimator=pipeline, param_grid=parameteres, n_jobs=-1, scoring=['roc_auc_ovr_weighted'], refit='roc_auc_ovr_weighted', 
                              verbose=1, cv=outer_kf, return_train_score=True)
 
 rf_gridsearch.fit(data, labels)
@@ -78,8 +78,8 @@ sns_plot = sns.heatmap(max_scores.mean_train_score, annot=True, fmt='.4g')
 #create folder and save
 
 
-outname = f'heatmap_{name_clf}_3H_MERGED_TRAIN.pdf'
-outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap/PA/3H/MERGED/{name_clf}'
+outname = f'heatmap_{name_clf}_3H_PUBLIC_TRAIN.pdf'
+outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap/PA/3H/PUBLIC/{name_clf}'
 
 if not os.path.exists(outdir):
     os.makedirs(outdir)
@@ -102,8 +102,8 @@ sns_plot = sns.heatmap(max_scores.mean_test_score, annot=True, fmt='.4g')
 
 
 
-outname = f'heatmap_{name_clf}_3H_MERGED_TEST.pdf'
-outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap/PA/3H/MERGED/{name_clf}'
+outname = f'heatmap_{name_clf}_3H_PUBLIC_TEST.pdf'
+outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap/PA/3H/PUBLIC/{name_clf}'
 
 if not os.path.exists(outdir):
     os.makedirs(outdir)
