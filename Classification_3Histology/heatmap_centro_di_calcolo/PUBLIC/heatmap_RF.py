@@ -78,7 +78,7 @@ sns_plot = sns.heatmap(max_scores.mean_train_score, annot=True, fmt='.4g')
 #create folder and save
 
 
-outname = f'heatmap_{name_clf}_3H_PUBLIC_TRAIN.pdf'
+outname = f'heatmap_{name_clf}_3H_PUBLIC_TRAIN.png'
 outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap/PA/3H/PUBLIC/{name_clf}'
 
 if not os.path.exists(outdir):
@@ -102,7 +102,7 @@ sns_plot = sns.heatmap(max_scores.mean_test_score, annot=True, fmt='.4g')
 
 
 
-outname = f'heatmap_{name_clf}_3H_PUBLIC_TEST.pdf'
+outname = f'heatmap_{name_clf}_3H_PUBLIC_TEST.png'
 outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap/PA/3H/PUBLIC/{name_clf}'
 
 if not os.path.exists(outdir):
