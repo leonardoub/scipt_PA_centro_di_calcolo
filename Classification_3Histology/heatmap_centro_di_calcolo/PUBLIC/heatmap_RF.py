@@ -95,7 +95,7 @@ plt.close()
 
 #TEST
 
-sns_plot = sns.heatmap(max_scores.mean_test_score, annot=True, fmt='.4g')
+sns_plot = sns.heatmap(max_scores.mean_test_score, annot=True, fmt='.2g')
 
 
 #create folder and save
