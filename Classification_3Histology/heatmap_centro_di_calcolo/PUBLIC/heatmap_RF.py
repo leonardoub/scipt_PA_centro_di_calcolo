@@ -87,7 +87,7 @@ if not os.path.exists(outdir):
 fullname = os.path.join(outdir, outname)    
 
 
-sns_plot.figure.set_size_inches(7,5)
+sns_plot.figure.set_size_inches(9,9)
 sns_plot.figure.tight_layout()
 
 sns_plot.figure.savefig(fullname)
@@ -110,7 +110,7 @@ if not os.path.exists(outdir):
 
 fullname = os.path.join(outdir, outname)    
 
-sns_plot.figure.set_size_inches(7,5)
+sns_plot.figure.set_size_inches(9,9)
 sns_plot.figure.tight_layout()
 
 sns_plot.figure.savefig(fullname)
