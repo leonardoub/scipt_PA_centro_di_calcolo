@@ -35,8 +35,8 @@ data, labels = load_data_3_class.function_load_data_3_class()
 
 # Designate distributions to sample hyperparameters from 
 n_features_to_test = [0.85, 0.9, 0.95]
-n_tree = [15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180]
-depth = [ 2, 5, 10, 15, 20, 30, 45, 60, 75]
+n_tree = [15, 30, 45, 60, 75, 90, 105, 120, 140, 160, 180, 200, 220, 240]
+depth = [ 2, 5, 10, 15, 20, 30, 45, 60, 80, 100, 120, 140, 160, 180]
 
 
 
@@ -69,7 +69,7 @@ max_scores = df_gridsearch.groupby(['param_clf__n_estimators',
 
 #TRAIN
 max_scores = max_scores.unstack()[['mean_test_score', 'mean_train_score']]
-sns_plot = sns.heatmap(max_scores.mean_train_score, annot=True, fmt='.4g')
+sns_plot = sns.heatmap(max_scores.mean_train_score, annot=True, fmt='.2g')
 
 
 
@@ -95,7 +95,7 @@ plt.close()
 
 #TEST
 
-sns_plot = sns.heatmap(max_scores.mean_test_score, annot=True, fmt='.4g')
+sns_plot = sns.heatmap(max_scores.mean_test_score, annot=True, fmt='.2g')
 
 
 #create folder and save

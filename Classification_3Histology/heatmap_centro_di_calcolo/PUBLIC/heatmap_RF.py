@@ -69,7 +69,7 @@ max_scores = df_gridsearch.groupby(['param_clf__n_estimators',
 
 #TRAIN
 max_scores = max_scores.unstack()[['mean_test_score', 'mean_train_score']]
-sns_plot = sns.heatmap(max_scores.mean_train_score, annot=True, fmt='.4g')
+sns_plot = sns.heatmap(max_scores.mean_train_score, annot=True, fmt='.2g')
 
 
 
