@@ -86,7 +86,7 @@ for i in range(1,6):
     
     
     outname = f'heatmap_{name_clf}_3H_MERGED_OS12_TRAIN_rsokf_{2*i}.png'
-    outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap/PA/3H/MERGED_OS12/{name_clf}'
+    outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap/PA/3H/MERGED_OS12/{name_clf}/config_5'
     
     if not os.path.exists(outdir):
         os.makedirs(outdir)
@@ -110,7 +110,7 @@ for i in range(1,6):
     
     
     outname = f'heatmap_{name_clf}_3H_MERGED_OS12_TEST_rsokf_{2*i}.png'
-    outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap/PA/3H/MERGED_OS12/{name_clf}'
+    outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap/PA/3H/MERGED_OS12/{name_clf}/config_5'
     
     if not os.path.exists(outdir):
         os.makedirs(outdir)
