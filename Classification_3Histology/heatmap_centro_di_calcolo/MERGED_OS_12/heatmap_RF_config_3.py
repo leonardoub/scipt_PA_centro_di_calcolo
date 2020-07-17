@@ -41,10 +41,10 @@ depth = [ 2, 5, 10, 15, 20, 30, 45, 60, 80, 100, 120, 140, 160, 180]
 
 clf = RandomForestClassifier(class_weight='balanced', random_state=503)
 
-pca = PCA(random_state=42, n_components=0.85)
+pca = PCA(random_state=42, n_components=0.95)
 
 
-steps = [('scaler', StandardScaler()), ('red_dim', pca), ('clf', clf)]
+steps = [('scaler', StandardScaler()), ('red_dim', None), ('clf', clf)]
 
 pipeline = Pipeline(steps)
     
@@ -85,7 +85,7 @@ for i in range(1,6):
     
     
     outname = f'heatmap_{name_clf}_3H_MERGED_OS12_TRAIN_rsokf_{2*i}.png'
-    outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap/PA/3H/MERGED_OS12/{name_clf}'
+    outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap/PA/3H/MERGED_OS12/{name_clf}/config_3/'
     
     if not os.path.exists(outdir):
         os.makedirs(outdir)
@@ -109,7 +109,7 @@ for i in range(1,6):
     
     
     outname = f'heatmap_{name_clf}_3H_MERGED_OS12_TEST_rsokf_{2*i}.png'
-    outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap/PA/3H/MERGED_OS12/{name_clf}'
+    outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap/PA/3H/MERGED_OS12/{name_clf}/config_3/'
     
     if not os.path.exists(outdir):
         os.makedirs(outdir)
