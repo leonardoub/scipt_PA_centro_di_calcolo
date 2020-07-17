@@ -15,6 +15,8 @@ path = '/home/leonardo/Scrivania/result_PA/06_03/score_ROC_AUC_optimization_usin
 
 df = pd.read_csv(path, index_col = 'Unnamed: 0')
 
+df.drop('SVM_sigmoid_OS_1_2_TRAIN_PA_TEST_PU', inplace=True)
+
 
 name_clf=[name[:-24] for name in df.index]
 name_clf_bis=[]
@@ -64,15 +66,16 @@ ax.axhline(y=0.5, color='r', linestyle='dashed')
 
 ax.set_yticks(yticks)
 
-ax.set_xticklabels(name_clf_bis, rotation=65)
+ax.set_xticklabels(name_clf_bis, rotation=65, size='x-large')
 
-ax.set_xlabel('Classifiers')
-ax.set_ylabel('ROC AUC score')
+ax.set_xlabel('Classifiers', size='large')
+ax.set_ylabel('ROC AUC score', size='large')
+
 
 #create folder and save
 
 
-outname = f'2OS_AUC_PAPU.pdf'
+outname = f'2OS_AUC_PAPU.png'
 
 outdir = '/home/leonardo/Scrivania/Presentazione/img/original_create_da_me_python/PA/2OS/'
 
@@ -83,7 +86,7 @@ fullname = os.path.join(outdir, outname)
 
 
 
-ax.figure.set_size_inches(7,5)
+ax.figure.set_size_inches(7,6)
 ax.figure.tight_layout()
 
 ax.figure.savefig(fullname)
