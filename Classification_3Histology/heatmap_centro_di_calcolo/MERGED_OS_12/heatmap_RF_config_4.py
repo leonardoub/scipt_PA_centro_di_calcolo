@@ -36,8 +36,8 @@ data, labels = load_data_3_class.function_load_data_3_class()
 
 # Designate distributions to sample hyperparameters from 
 n_features_to_test = [0.85, 0.9, 0.95]
-n_tree = [5, 10, 15, 30, 45, 60, 75, 90, 105, 120, 140, 160, 180, 200, 220, 240]
-depth = [ 2, 5, 10, 15, 20, 30, 45, 60, 80, 100, 120, 140, 160, 180]
+n_tree = [5, 10, 15, 30, 45, 60, 75, 90, 105, 120, 140, 160, 180, 200, 500, 1000]
+depth = [ 2, 5, 10, 15, 20, 30, 45, 60, 80, 100, 120, 140, 160, 500, 1000]
 
 clf = RandomForestClassifier(random_state=503)
 
