@@ -44,7 +44,11 @@ steps = [('scaler', StandardScaler()), ('red_dim', PCA()), ('clf', RandomForestC
 
 pipeline = Pipeline(steps)
 
-parameteres = [{'scaler':scalers_to_test, 'red_dim':[None], 'clf__n_estimators':list(n_tree), 'clf__max_depth':depth,
+parameteres = [{'scaler':scalers_to_test, 'red_dim':[PCA(random_state=42)], 'red_dim__n_components':list(n_features_to_test), 
+                'clf__n_estimators':list(n_tree), 'clf__max_depth':depth, 'clf__class_weight':[None, 'balanced']},
+                {'scaler':scalers_to_test, 'red_dim':[SelectPercentile(f_classif, percentile=10)],
+                'clf__n_estimators':list(n_tree), 'clf__max_depth':depth, 'clf__class_weight':[None, 'balanced']},
+                {'scaler':scalers_to_test, 'red_dim':[None], 'clf__n_estimators':list(n_tree), 'clf__max_depth':depth,
                 'clf__class_weight':[None, 'balanced']}]
 
 results = nested_cv_3_classes_heatmap.function_nested_cv_3_classes(data, labels, pipeline, parameteres)

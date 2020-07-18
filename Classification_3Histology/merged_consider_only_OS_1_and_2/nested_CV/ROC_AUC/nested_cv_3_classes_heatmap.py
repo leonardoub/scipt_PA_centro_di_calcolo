@@ -53,7 +53,7 @@ def function_nested_cv_3_classes(data, labels, pipel, grid_params):
         
         
         outname = f'heatmap_RF_3H_MERGED_OS12_TRAIN_{i}.png'
-        outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap_bis/PA/3H/MERGED_OS12/RF'
+        outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap_bis/PA/3H/MERGED_OS12/RF_LARGE_SPACE'
         
         if not os.path.exists(outdir):
             os.makedirs(outdir)
@@ -77,7 +77,7 @@ def function_nested_cv_3_classes(data, labels, pipel, grid_params):
         
         
         outname = f'heatmap_RF_3H_MERGED_OS12_TEST_{i}.png'
-        outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap_bis/PA/3H/MERGED_OS12/RF'
+        outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap_bis/PA/3H/MERGED_OS12/RF_LARGE_SPACE'
         
         if not os.path.exists(outdir):
             os.makedirs(outdir)
