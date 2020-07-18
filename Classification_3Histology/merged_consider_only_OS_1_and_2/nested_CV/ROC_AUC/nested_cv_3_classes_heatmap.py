@@ -3,7 +3,7 @@ from sklearn.metrics import roc_auc_score, classification_report, accuracy_score
 from sklearn.preprocessing import LabelEncoder
 import pandas as pd
 import seaborn as sns
-
+import os
 
 def function_nested_cv_3_classes(data, labels, pipel, grid_params):
 
@@ -28,7 +28,7 @@ def function_nested_cv_3_classes(data, labels, pipel, grid_params):
         
         i+=1
 
-        GSCV = GridSearchCV(pipel, param_grid=grid_params, cv=inner_kf, n_jobs=-1, scoring=['roc_auc_ovr_weighted'], 
+        GSCV = GridSearchCV(pipel, param_grid=grid_params, cv=inner_kf, n_jobs=-1, scoring='roc_auc_ovr_weighted', 
                refit='roc_auc_ovr_weighted', verbose=1, return_train_score=True)
         
         # GSCV is looping through the training data to find the best parameters. This is the inner loop
