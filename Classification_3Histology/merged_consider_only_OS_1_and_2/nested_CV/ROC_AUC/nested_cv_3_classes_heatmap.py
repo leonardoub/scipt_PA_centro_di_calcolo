@@ -4,6 +4,7 @@ from sklearn.preprocessing import LabelEncoder
 import pandas as pd
 import seaborn as sns
 import os
+import matplotlib.pyplot as plt
 
 def function_nested_cv_3_classes(data, labels, pipel, grid_params):
 
