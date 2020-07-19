@@ -39,7 +39,7 @@ n_features_to_test = [0.85, 0.9, 0.95]
 n_tree = [1, 2, 3, 4, 5, 10, 15, 30, 45, 60, 75, 90, 105, 120, 140, 160, 250, 500, 1000]
 depth = [1, 2, 3, 4, 5, 10, 15, 20, 30, 45, 60]
 
-clf = RandomForestClassifier(class_weight='balanced', random_state=503)
+clf = RandomForestClassifier(class_weight='balanced', random_state=503, min_samples_leaf=4, min_sample_split=10)
 
 pca = PCA(random_state=42, n_components=0.85)
 
