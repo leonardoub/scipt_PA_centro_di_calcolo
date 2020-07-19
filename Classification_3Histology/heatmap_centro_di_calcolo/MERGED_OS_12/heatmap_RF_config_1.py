@@ -36,8 +36,8 @@ data, labels = load_data_3_class.function_load_data_3_class()
 
 # Designate distributions to sample hyperparameters from 
 n_features_to_test = [0.85, 0.9, 0.95]
-n_tree = [5, 10, 15, 30, 45, 60, 75, 90, 105, 120, 140, 160, 180, 200, 500, 1000]
-depth = [1, 2, 5, 10, 15, 20, 30, 45, 60, 80, 100, 120, 140, 160, 500, 1000]
+n_tree = [1, 2, 3, 4, 5, 10, 15, 30, 45, 60, 75, 90, 105, 120, 140, 160, 250, 500, 1000]
+depth = [1, 2, 3, 4, 5, 10, 15, 20, 30, 45, 60]
 
 clf = RandomForestClassifier(class_weight='balanced', random_state=503)
 
@@ -85,7 +85,7 @@ for i in range(1,6):
     
     
     outname = f'heatmap_{name_clf}_3H_MERGED_OS12_TRAIN_rsokf_{2*i}.png'
-    outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap/PA/3H/MERGED_OS12/{name_clf}/config_1/'
+    outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap_conf_bis/PA/3H/MERGED_OS12/{name_clf}/config_1/'
     
     if not os.path.exists(outdir):
         os.makedirs(outdir)
@@ -109,7 +109,7 @@ for i in range(1,6):
     
     
     outname = f'heatmap_{name_clf}_3H_MERGED_OS12_TEST_rsokf_{2*i}.png'
-    outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap/PA/3H/MERGED_OS12/{name_clf}/config_1/'
+    outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap_conf_bis/PA/3H/MERGED_OS12/{name_clf}/config_1/'
     
     if not os.path.exists(outdir):
         os.makedirs(outdir)
