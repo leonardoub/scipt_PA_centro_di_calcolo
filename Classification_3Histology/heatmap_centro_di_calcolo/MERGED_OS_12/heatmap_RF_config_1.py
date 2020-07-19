@@ -39,7 +39,7 @@ n_features_to_test = [0.85, 0.9, 0.95]
 n_tree = [1, 2, 3, 4, 5, 10, 15, 30, 45, 60, 75, 90, 105, 120, 140, 160, 250, 500, 1000]
 depth = [1, 2, 3, 4, 5, 10, 15, 20, 30, 45, 60]
 
-clf = RandomForestClassifier(class_weight='balanced', random_state=503, min_samples_leaf=4, min_sample_split=10)
+clf = RandomForestClassifier(class_weight='balanced', random_state=503, min_samples_leaf=4, min_samples_split=10)
 
 pca = PCA(random_state=42, n_components=0.85)
 
@@ -85,7 +85,7 @@ for i in range(1,6):
     
     
     outname = f'heatmap_{name_clf}_3H_MERGED_OS12_TRAIN_rsokf_{2*i}.png'
-    outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap_conf_bis/PA/3H/MERGED_OS12/{name_clf}/config_1/'
+    outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap_conf_bis_regolarizzato/PA/3H/MERGED_OS12/{name_clf}/config_1/'
     
     if not os.path.exists(outdir):
         os.makedirs(outdir)
@@ -109,7 +109,7 @@ for i in range(1,6):
     
     
     outname = f'heatmap_{name_clf}_3H_MERGED_OS12_TEST_rsokf_{2*i}.png'
-    outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap_conf_bis/PA/3H/MERGED_OS12/{name_clf}/config_1/'
+    outdir = f'/home/users/ubaldi/TESI_PA/fig_heatmap_conf_bis_regolarizzato/PA/3H/MERGED_OS12/{name_clf}/config_1/'
     
     if not os.path.exists(outdir):
         os.makedirs(outdir)
