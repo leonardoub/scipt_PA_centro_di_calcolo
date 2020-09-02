@@ -23,7 +23,7 @@ def function_load_data_2_class():
     PA_data = df_test.drop(['Histology', 'Surv_time_months', 'OS', 'deadstatus.event','Overall_Stage'], axis=1)
 
     public_labels = df_train.Surv_time_months
-    PA_labels = df_test.Overall_StSurv_time_monthsage
+    PA_labels = df_test.Surv_time_months
 
 
     #Vettorizzare i label
